@@ -51,19 +51,19 @@
             </a>
         </li>
 
-        <li class="nav-item" id="li-group">
+        <!-- <li class="nav-item" id="li-group">
             <a class="nav-link" href="<?php echo base_url('backend_admin/group_master/groups'); ?>" id="link-group">
                 <i class="fa fa-users menu-icon"></i>
                 <span class="menu-title">Groups</span>
             </a>
-        </li>
+        </li> -->
 
-        <li class="nav-item" id="li-vc">
+        <!-- <li class="nav-item" id="li-vc">
             <a class="nav-link" href="<?php echo base_url('backend_admin/vc_master/Vc_master'); ?>" id="link-vc">
                 <i class="fa fa-bandcamp menu-icon"></i>
                 <span class="menu-title">Loan Master</span>
             </a>
-        </li>
+        </li> -->
 
         <li class="nav-item" id="li-coll">
             <a class="nav-link" href="<?php echo base_url('backend_admin/collection_master/collection'); ?>"

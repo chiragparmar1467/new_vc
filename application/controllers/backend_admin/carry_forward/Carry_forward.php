@@ -49,7 +49,7 @@ class Carry_forward extends Admin_Controller
     {
 
         $this->data['page_title'] = 'Loan Master';
-        $table_data = $this->db->query('SELECT * FROM vc_master where status = 1 AND deleted=0 AND is_carry_forward =1 AND fk_financial_year_id ='.$id)->result_array();
+        // $table_data = $this->db->query('SELECT * FROM vc_master where status = 1 AND deleted=0 AND is_carry_forward =1 AND fk_financial_year_id ='.$id)->result_array();
         // $table_data = $this->db->query('SELECT  * FROM loan_master where status = 1 AND deleted=0 AND fk_financial_year_id = '.$_SESSION['year'].' AND fk_party_id ='.$id)->result_array();
        
         // $table_data = $this->db->query('SELECT carry.fk_loan_id, carry.fk_financial_year_id, loan.account_no, loan.month,loan.loan_amount,loan.interest_amount,loan.fk_party_id ,loan.fk_loan_category_id,loan.acc_opening_date,loan.acc_closing_date,loan.per_month_interest,loan.total_interest_amount,loan.final_amount,carry.total_collection,loan.bank_name,loan.cheque_no FROM loan_master as loan inner join carry_forward as carry on loan.id = carry.fk_loan_id where loan.status = 1 AND loan.deleted=0 AND carry.fk_financial_year_id ='.$_SESSION['year'].' ')->result_array();
@@ -79,7 +79,7 @@ class Carry_forward extends Admin_Controller
             // exit();
             // $fk_loan_id = $this->input->post('fk_loan_id');
 
-            $get_data = $this->db->query('SELECT * FROM vc_master WHERE status = 1 AND fk_financial_year_id = '.$closing_year.'')->result_array();
+            // $get_data = $this->db->query('SELECT * FROM vc_master WHERE status = 1 AND fk_financial_year_id = '.$closing_year.'')->result_array();
             //     print_r('<pre>');
             // print_r($get_data);
             // print_r($this->db->last_query());
@@ -134,7 +134,7 @@ class Carry_forward extends Admin_Controller
             //     exit();
             $create = $this->Crud_model->save($this->tableName, $data);
             // $affectedRows = $this->Crud_model->update($this->tableName, array('id' => $get['id']), array('deleted' => 1));
-            $carry_forward = $this->Crud_model->update('vc_master',array('status' => 1 , 'id' => $get['id']), array('is_carry_forward' => 1));
+            // $carry_forward = $this->Crud_model->update('vc_master',array('status' => 1 , 'id' => $get['id']), array('is_carry_forward' => 1));
             // print_r('<pre>');
             //     print_r($data);
             //     print_r($this->db->last_query());
@@ -300,7 +300,7 @@ class Carry_forward extends Admin_Controller
      }
         public function form_view($id){
         $this->db->where('id', $id);
-		$data['vc_master'] = $this->db->get('vc_master')->row_array();
+		// $data['vc_master'] = $this->db->get('vc_master')->row_array();
 
         $this->render_template($this->viewPath . 'form_view',$data);
      }
@@ -310,7 +310,7 @@ class Carry_forward extends Admin_Controller
 	{
         //CERTIFICATE DATA
 		$this->db->where('id', $id);
-		$data['vc_master'] = $this->db->get('vc_master')->row_array();
+		// $data['vc_master'] = $this->db->get('vc_master')->row_array();
         $slider_data = $this->Crud_model->get_where_data($this->tableName, array('id' =>$id));
         $this->data['edit_data'] = $slider_data;
 		$mpdf = new \Mpdf\Mpdf([

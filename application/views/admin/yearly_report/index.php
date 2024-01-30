@@ -85,7 +85,7 @@
                                     value="dd-mm-yyyy" autocomplete="off">
                             </div> -->
 
-                            <div class="form-group col-md-3">
+                            <!-- <div class="form-group col-md-3">
                                 <label>Group Name</label>
                                 <select class="js-example-basic-single w-100" name="group_name" id="group_name"
                                     onchange="get_vc()">
@@ -95,16 +95,20 @@
                                         <?php echo $v['name'] ?></option>
                                     <?php endforeach ?>
                                 </select>
-                            </div>
+                            </div> -->
 
                             <div class="form-group col-md-3">
                                 <label>Select VC </label>
                                 <select class="js-example-basic-single w-100" name="vc_name" id="vc_name">
                                     <option selected disabled hidden>Select VC</option>
-                                    <?php $q = $this->db->get_where('vc_master',array('deleted'=>'0','status'=>'1','fk_financial_year_id'=>$_SESSION['year']));foreach ($q->result_array() as $k => $v): ?>
+                                    <?php
+                                    //  $q = $this->db->get_where('vc_master',array('deleted'=>'0','status'=>'1','fk_financial_year_id'=>$_SESSION['year']));foreach ($q->result_array() as $k => $v): 
+                                     ?>
                                     <option value="<?php echo $v['id'] ?>">
                                         <?php echo $v['name'] ?></option>
-                                    <?php endforeach ?>
+                                    <?php 
+                                    // endforeach
+                                     ?>
                                 </select>
                             </div>
 

@@ -1,9 +1,9 @@
 <?php
 
-class Account extends Admin_Controller
+class Cash_management extends Admin_Controller
 {
     // Specify the primary table name for whole controller
-    public $tableName = 'account_master';
+    public $tableName = 'cash_management';
     public $controllerPath = '';
     public $viewPath = '';
     public $uploadFolder = '';
@@ -15,39 +15,38 @@ class Account extends Admin_Controller
 
         // $this->data['page_title'] = 'Sliders';
         $this->load->model('Crud_model');
-        $this->controllerPath = 'backend_admin/account_master/Account';
-        $this->viewPath = 'admin/account_master/';
+        $this->controllerPath = 'backend_admin/cash_management/Cash_management';
+        $this->viewPath = 'admin/cash_management/';
         $this->uploadFolder = '';
         $this->data['company_data'] = $this->db->get('company')->row_array();
-        $this->data['name'] = 'Account';
+        $this->data['name'] = 'Cash';
         // $this->tablename = 'party_master';
     }
 
     public function index()
     {
         // $this->data['js'] = 'application/views/groups/index-js.php';
-        $this->data['page_title'] = 'Account';
+        $this->data['page_title'] = 'Cash';
 
 
 
-        // $table_data = $this->db->query('select *,member_master.status as member_status from member_master 
-        // INNER JOIN account_master ON member_master.id=account_master.fk_member_id where account_master.deleted = 0 AND member_master.deleted = 0 order by account_master.id ASC;')->result_array();
+        $table_data = $this->db->query('select * from cash_management where deleted = 0 AND status = 1')->result_array();
 
-        $table_data = $this->db->query('select * from account_master;')->result_array();
+        $table_data = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
 
         // if($table_data[$party]){
 
         // }
         $this->data['table_data'] = $table_data;
 
-        $this->render_template($this->viewPath . 'index', $this->data);
+        $this->render_template($this->viewPath . 'create', $this->data);
     }
 
     public function create($acc_no = NULL)
     {
 
 
-        $this->data['page_title'] = 'Add Account';
+        $this->data['page_title'] = 'Add Cash';
 
         $this->form_validation->set_rules('member_name', 'Member Name', 'required');
 
@@ -83,7 +82,7 @@ class Account extends Admin_Controller
     {
 
 
-        $this->data['page_title'] = 'Edit Account Details';
+        $this->data['page_title'] = 'Edit Cash';
 
 
         if ($acc_no) {

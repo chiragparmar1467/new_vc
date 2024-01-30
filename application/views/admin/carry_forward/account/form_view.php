@@ -109,7 +109,7 @@
                               <select class="js-example-basic-single w-100" name="group" id="group" selected disabled> 
                                   <option selected disabled hidden>Select Group</option>
                                   <?php
-                                     $member = $this->db->get_where('group_master',array('status' =>1,'deleted' =>0,'fk_financial_year_id'=>$_SESSION['year']));
+                                     $member = $this->db->get_where('account_master',array('status' =>1,'deleted' =>0,'fk_financial_year_id'=>$_SESSION['year']));
                                         foreach ($member->result_array() as $row) { ?>
                                   <option value="<?= $row['id'] ?>" 
                                       <?php if($vc_master['group_id'] == $row['id']){echo "selected"; }?>>

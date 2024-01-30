@@ -44,9 +44,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="small-box card card-tale">
                     <div class="inner" style="padding:20px">
                         <p class="fs-30 mb-2">
-                            <?php 
-                            //  echo count($account_data); 
-                              ?>
+                            <?php  echo count($account_data);  ?>
                         </p>
                         <p>Total Accounts</p>
                     </div>
@@ -60,14 +58,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="inner" style="padding:20px">
 
                         <p class="fs-30 mb-2">
-                            <?php 
-                            //  echo count($collection_data); 
+                            <?php  echo count($collection_data); 
                                 $total_coll = 0;
                                 foreach($collection_data as $total){
                                     $total_coll = $total_coll + $total['amount'];
                                 }
                             
-                                // echo '(₹'.$total_coll.')';
+                                echo '(₹'.$total_coll.')';
                                 ?>
                         </p>
                         <p>Total Collection</p>
@@ -120,8 +117,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         <td><?php $total_coll =0; foreach($groups_coll as $total){ 
                                                 if($total['fk_group_id'] == $grp['id']){
                                          $total_coll = $total_coll + $total['amount'];
-                                            } }
-                                            // echo '(₹'.$total_coll .')'; ?></td>
+                                            } }echo '(₹'.$total_coll .')'; ?></td>
                                     </tr>
                                 <?php }?>
 

@@ -58,9 +58,10 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>Sr. No.</th>
-                                    <th>Member Name</th>
                                     <th>Account Number </th>
+                                    <th>Member Name</th>
                                     <th>Mobile Number</th>
+                                    <th>Email</th>
                                     <th>Opening Balance</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -73,14 +74,16 @@
                                 <tr>
                                     <td><?php echo $i; ?>
                                     </td>
+                                    <td class="text-center"><?php echo $v['account_no']; ?>
+                                </td>
                                     <td class="text-center"><?php 
                                             echo  $v['member_name'];       
                                             ?>
                                     </td>
-                                    <td class="text-center"><?php echo $v['account_no']; ?>
-                                    </td>
 
                                     <td class="text-center"><?php echo $v['mobile_number']; ?>
+                                    </td>
+                                    <td class="text-center"><?php echo $v['email']; ?>
                                     </td>
 
                                     <td class="text-center"><?php echo $v['opening_balance']; ?>
@@ -109,8 +112,11 @@
                                          }
                                         ?>
                                         <a href="<?php echo base_url() . $this->controllerPath ?>/edit/<?php echo $v['account_no'];  ?>"
-                                            title="Edit" class="btn btn-warning" <?php echo $hide; ?>><i
+                                            title="Edit" class="btn btn-warning"><i
                                                 class="fa fa-edit"></i></a>
+                                        <!-- <a href="<?php echo base_url() . $this->controllerPath ?>/edit/<?php echo $v['account_no'];  ?>"
+                                            title="Edit" class="btn btn-warning" <?php echo $hide; ?>><i
+                                                class="fa fa-edit"></i></a> -->
 
 
                                         <a onclick="return confirm('Are you sure want to delete this data?');"

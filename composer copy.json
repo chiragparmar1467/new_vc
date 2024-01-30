@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mpdf/mpdf": "^8.0",
+        "minishlink/web-push": "^6.0"
+    }
+}
