@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'https://kushenterprise.in/loan/';
-$config['base_url'] = 'http://localhost/new_vc/';
+$config['base_url'] = 'http://localhost/DigiFarm/new_vc/';
 
 /*
 |--------------------------------------------------------------------------
