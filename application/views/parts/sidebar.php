@@ -64,9 +64,9 @@
                             <span class="menu-title">Cash</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="<?php echo base_url('backend_admin/closed_accounts/Monthly_accounts/'); ?>"
-                            class="nav-link" id="close_monthly">
+                    <li class="nav-item" id="purchase_management">
+                        <a href="<?php echo base_url('backend_admin/purchase_management/Purchase_management/'); ?>"
+                            class="nav-link" id="purchase_management">
                             <i class="fa fa-book menu-icon"></i>
                             <span class="menu-title">Purchase Payment</span>
                         </a>
