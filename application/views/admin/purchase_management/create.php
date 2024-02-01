@@ -54,8 +54,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Select Member Name</label>
-                                <select class="js-example-basic-single w-100" name="member_name" id="member_name"
-                                    onchange="get_amount()">
+                                <select class="js-example-basic-single w-100" name="member_name" id="member_name">
                                     <option disabled selected hidden>Select Members</option>
                                     <?php
                                     $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
