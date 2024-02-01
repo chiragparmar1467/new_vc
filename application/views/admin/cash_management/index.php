@@ -22,15 +22,17 @@
     <div class="row">
         <div class="col-12">
             <?php if ($this->session->flashdata('success')) { ?>
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <?php echo $this->session->flashdata('success'); ?>
-                </div>
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <?php echo $this->session->flashdata('success'); ?>
+            </div>
             <?php } elseif ($this->session->flashdata('error')) { ?>
-                <div class="alert alert-error alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <?php echo $this->session->flashdata('error'); ?>
-                </div>
+            <div class="alert alert-error alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <?php echo $this->session->flashdata('error'); ?>
+            </div>
             <?php } ?>
 
             <!-- /.box -->
@@ -44,7 +46,8 @@
             <div class="card">
                 <div class="card-header">
 
-                    <a href="<?php echo base_url() . $this->controllerPath ?>/create/" class="btn btn-primary float-right">Add
+                    <a href="<?php echo base_url() . $this->controllerPath ?>/create/"
+                        class="btn btn-primary float-right">Add
                         <?php echo $this->data['name']; ?></a>
                 </div>
 
@@ -67,59 +70,63 @@
                             <tbody>
                                 <?php $i = 1; ?>
                                 <?php if ($table_data) : ?>
-                                    <?php foreach ($table_data as $k => $v) : ?>
-                                        <tr>
-                                            <td><?php echo $i; ?>
-                                            </td>
-                                            <td class="text-center"><?php echo $v['account_no']; ?>
-                                            </td>
-                                            <td class="text-center"><?php
+                                <?php foreach ($table_data as $k => $v) : ?>
+                                <tr>
+                                    <td><?php echo $i; ?>
+                                    </td>
+                                    <td class="text-center"><?php echo $v['account_no']; ?>
+                                    </td>
+                                    <td class="text-center"><?php
                                                                     echo  $v['member_name'];
                                                                     ?>
-                                            </td>
+                                    </td>
 
-                                            <td class="text-center"><?php echo $v['mobile_number']; ?>
-                                            </td>
-                                            <td class="text-center"><?php echo $v['email']; ?>
-                                            </td>
+                                    <td class="text-center"><?php echo $v['mobile_number']; ?>
+                                    </td>
+                                    <td class="text-center"><?php echo $v['email']; ?>
+                                    </td>
 
-                                            <td class="text-center"><?php echo $v['opening_balance']; ?>
-                                            </td>
+                                    <td class="text-center"><?php echo $v['opening_balance']; ?>
+                                    </td>
 
-                                            <td>
-                                                <?php
+                                    <td>
+                                        <?php
                                                 $hide = '';
                                                 if ($v['member_status'] == 0) {
 
                                                     $hide = "style='color:red;pointer-events: none; opacity: 0.5;'";
                                                 }
                                                 ?>
-                                                <?php if ($v['status'] == 1) { ?>
-                                                    <a href="#" style="color:#009100">Active</a>
+                                        <?php if ($v['status'] == 1) { ?>
+                                        <a href="#" style="color:#009100">Active</a>
 
-                                                <?php   } else { ?>
-                                                    <a href="#" class="text-danger" <?php echo $hide; ?>>Inactive</a>
-                                                <?php       } ?>
-                                            </td>
-                                            <td>
-                                                <?php
+                                        <?php   } else { ?>
+                                        <a href="#" class="text-danger" <?php echo $hide; ?>>Inactive</a>
+                                        <?php       } ?>
+                                    </td>
+                                    <td>
+                                        <?php
                                                 $hide = '';
                                                 if ($v['member_status'] == 0) {
                                                     $hide = "style='pointer-events: none; opacity: 0.5;'";
                                                 }
                                                 ?>
-                                                <a href="<?php echo base_url() . $this->controllerPath ?>/edit/<?php echo $v['account_no'];  ?>" title="Edit" class="btn btn-warning"><i class="fa fa-edit"></i></a>
-                                                <!-- <a href="<?php echo base_url() . $this->controllerPath ?>/edit/<?php echo $v['account_no'];  ?>"
+                                        <a href="<?php echo base_url() . $this->controllerPath ?>/edit/<?php echo $v['account_no'];  ?>"
+                                            title="Edit" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                                        <!-- <a href="<?php echo base_url() . $this->controllerPath ?>/edit/<?php echo $v['account_no'];  ?>"
                                             title="Edit" class="btn btn-warning" <?php echo $hide; ?>><i
                                                 class="fa fa-edit"></i></a> -->
 
 
-                                                <a onclick="return confirm('Are you sure want to delete this data?');" title="Delete" href="<?php echo base_url() . $this->controllerPath ?>delete/<?php echo $v['id']; ?>" class="btn btn-danger"><i class="fa fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <?php $i++; ?>
-                                    <?php endforeach ?>
+                                        <a onclick="return confirm('Are you sure want to delete this data?');"
+                                            title="Delete"
+                                            href="<?php echo base_url() . $this->controllerPath ?>delete/<?php echo $v['id']; ?>"
+                                            class="btn btn-danger"><i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php $i++; ?>
+                                <?php endforeach ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>
@@ -135,10 +142,12 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#li-Transaction").addClass('menu-open');
-        $("#link-Transaction").addClass('active');
-        $("#Cash_management").addClass('active');
+$(document).ready(function() {
+    // $("#ui-basic").addClass('menu-open');
+    $("#link-Transaction").removeClass('collapsed');
+    $("#link-Transaction").attr("aria-expanded", true);
+    $("#ui-basic").addClass('show');
+    $("#Cash_management").addClass('active');
 
-    });
+});
 </script>

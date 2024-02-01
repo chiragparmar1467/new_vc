@@ -1,117 +1,104 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <ul class="nav">
-        
-         <?php 
-        //   $financial_year = $this->session->userdata('year');
-       $financial_year = $this->db->query("SELECT * FROM financial_year_master WHERE status = 1")->row();
-       
-          ?>
-
-          <select class="js-example-basic-single w-100" id="fk_financial_year_id" name="fk_financial_year_id">
-              <!-- <option value="">Select Fiancial Year</option> -->
-              <?php  $q = $this->db->get('financial_year_master');foreach ($q->result_array() as $k => $v): ?>
-              <option value="<?php echo $v['id'] ?>" <?php if($financial_year->id == $v['id']) { echo "selected"; } ?>>
-                  <?php echo $v['title'] ?></option>
-              <?php endforeach ?>
-          </select>
-
-          <hr style="color: white;">
-
-          <script>
-          $(document).ready(function() {
-
-              $('#fk_financial_year_id').change(function() {
-                  var financial_year_id = $('#fk_financial_year_id').val();
-
-                  window.location.href =
-                      "<?php echo base_url('Auth/change_financial_year/'); ?>" +
-                      financial_year_id;
-              });
-          });
-          </script>
-        
-        <li class="nav-item" id="li-dashboard">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/dashboard'); ?>" id="link-dashboard">
-                <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Dashboard</span>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
             </a>
-        </li>
-
-        <li class="nav-item" id="li-member">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/member_master/member'); ?>" id="link-member">
-                <i class="fa fa-user menu-icon"></i>
-                <span class="menu-title">Members</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="icon-layout menu-icon"></i>
+              <span class="menu-title">UI Elements</span>
+              <i class="menu-arrow"></i>
             </a>
-        </li>
-
-        <li class="nav-item" id="li-account">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/account_master/Account'); ?>" id="link-account">
-                <i class="fa fa-book menu-icon"></i>
-                <span class="menu-title">Accounts</span>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+              <i class="icon-columns menu-icon"></i>
+              <span class="menu-title">Form elements</span>
+              <i class="menu-arrow"></i>
             </a>
-        </li>
-
-        <!-- <li class="nav-item" id="li-group">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/group_master/groups'); ?>" id="link-group">
-                <i class="fa fa-users menu-icon"></i>
-                <span class="menu-title">Groups</span>
+            <div class="collapse" id="form-elements">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+              <i class="icon-bar-graph menu-icon"></i>
+              <span class="menu-title">Charts</span>
+              <i class="menu-arrow"></i>
             </a>
-        </li> -->
-
-        <!-- <li class="nav-item" id="li-vc">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/vc_master/Vc_master'); ?>" id="link-vc">
-                <i class="fa fa-bandcamp menu-icon"></i>
-                <span class="menu-title">Loan Master</span>
+            <div class="collapse" id="charts">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">ChartJs</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+              <i class="icon-grid-2 menu-icon"></i>
+              <span class="menu-title">Tables</span>
+              <i class="menu-arrow"></i>
             </a>
-        </li> -->
-
-        <li class="nav-item" id="li-coll">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/collection_master/collection'); ?>"
-                id="link-coll">
-                <i class="fa fa-archive menu-icon"></i>
-                <span class="menu-title">Collections</span>
+            <div class="collapse" id="tables">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
+              <i class="icon-contract menu-icon"></i>
+              <span class="menu-title">Icons</span>
+              <i class="menu-arrow"></i>
             </a>
-        </li>
-
-        <li class="nav-item" id="li-vc-re">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/vc_return_master/Vc_return_master'); ?>"
-                id="link-coll">
-                <i class="fa fa-bandcamp menu-icon"></i>
-                <span class="menu-title">Loan Return Master</span>
+            <div class="collapse" id="icons">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">Mdi icons</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <i class="icon-head menu-icon"></i>
+              <span class="menu-title">User Pages</span>
+              <i class="menu-arrow"></i>
             </a>
-        </li>
-        
-          <li class="nav-item" id="financial_year_master">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/financial_year_master/Financial_year_master'); ?>" id="link-report">
-                <i class="fa fa-file menu-icon"></i>
-                <span class="menu-title">Financial Year</span>
+            <div class="collapse" id="auth">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
+              <i class="icon-ban menu-icon"></i>
+              <span class="menu-title">Error pages</span>
+              <i class="menu-arrow"></i>
             </a>
-        </li>
-        
-        <li class="nav-item" id="change_pass">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/change_pass/'); ?>" id="link-coll">
-                <i class="fa fa-key menu-icon"></i>
-                <span class="menu-title">Change Password</span>
+            <div class="collapse" id="error">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pages/documentation/documentation.html">
+              <i class="icon-paper menu-icon"></i>
+              <span class="menu-title">Documentation</span>
             </a>
-        </li>
-
-         <li class="nav-item" id="li-report">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/report_master/report'); ?>" id="link-report">
-                <i class="fa fa-file menu-icon"></i>
-                <span class="menu-title">Report</span>
-            </a>
-        </li>
-
-       <!-- <li class="nav-item" id="li-pay">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/payment_mode/Payment_mode'); ?>"
-                id="link-coll">
-                <i class="fa fa-credit-card  menu-icon"></i>
-                <span class="menu-title">Payment Mode</span>
-            </a>
-        </li> -->
-
-    </ul>
-</nav>
-
-<div class="main-panel">
-    <div class="content-wrapper">
+          </li>
+        </ul>
+      </nav>
