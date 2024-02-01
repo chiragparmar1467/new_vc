@@ -53,10 +53,10 @@
                             <input type="number" class="form-control" id="mobile_no" name="mobile_no" value="" placeholder="Enter member number">
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <!-- <div class="form-group col-md-6">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="" placeholder="Enter member email">
-                        </div>
+                        </div> -->
                         <div class="form-group col-md-6">
                             <label for="opening_balance">Enter Opening Balance</label>
 

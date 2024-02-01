@@ -106,9 +106,11 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-    $("#li-account").addClass('active');
-
-
+    // $("#li-account").addClass('active');
+    $("#link-Transaction").removeClass('collapsed');
+    $("#link-Transaction").attr("aria-expanded", true);
+    $("#ui-basic").addClass('show');
+    $("#Cash_management").addClass('active');
 });
 
 function selectAllRecord(params) {

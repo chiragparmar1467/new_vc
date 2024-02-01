@@ -62,11 +62,11 @@
                                   <label for="mobile_no">Mobile No.</label>
                                   <input type="number" class="form-control" id="mobile_no" name="mobile_no" value="<?= $edit_data['mobile_number'] ?>" placeholder="Enter member number">
                               </div>
-
+<!-- 
                               <div class="form-group col-md-6">
                                   <label for="email">Email</label>
                                   <input type="email" class="form-control" id="email" name="email" value="<?= $edit_data['email'] ?>" placeholder="Enter member email">
-                              </div>
+                              </div> -->
 
                               <div class="form-group col-md-6">
                                   <label for="opening_balance">Enter Opening Balance</label>

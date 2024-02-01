@@ -61,7 +61,7 @@
                                     <th>Account Number </th>
                                     <th>Member Name</th>
                                     <th>Mobile Number</th>
-                                    <th>Email</th>
+                                    <!-- <th>Email</th> -->
                                     <th>Opening Balance</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -76,15 +76,15 @@
                                     </td>
                                     <td class="text-center"><?php echo $v['account_no']; ?>
                                 </td>
-                                    <td class="text-center"><?php 
+                                <td class="text-center"><?php 
                                             echo  $v['member_name'];       
                                             ?>
                                     </td>
 
                                     <td class="text-center"><?php echo $v['mobile_number']; ?>
                                     </td>
-                                    <td class="text-center"><?php echo $v['email']; ?>
-                                    </td>
+                                    <!-- <td class="text-center"><?php echo $v['email']; ?>
+                                    </td> -->
 
                                     <td class="text-center"><?php echo $v['opening_balance']; ?>
                                     </td>

@@ -11,26 +11,26 @@
             <!-- <option value="">Select Fiancial Year</option> -->
             <?php $q = $this->db->get('financial_year_master');
             foreach ($q->result_array() as $k => $v) : ?>
-                <option value="<?php echo $v['id'] ?>" <?php if ($financial_year->id == $v['id']) {
+            <option value="<?php echo $v['id'] ?>" <?php if ($financial_year->id == $v['id']) {
                                                             echo "selected";
                                                         } ?>>
-                    <?php echo $v['title'] ?></option>
+                <?php echo $v['title'] ?></option>
             <?php endforeach ?>
         </select>
 
         <hr style="color: white;">
 
         <script>
-            $(document).ready(function() {
+        $(document).ready(function() {
 
-                $('#fk_financial_year_id').change(function() {
-                    var financial_year_id = $('#fk_financial_year_id').val();
+            $('#fk_financial_year_id').change(function() {
+                var financial_year_id = $('#fk_financial_year_id').val();
 
-                    window.location.href =
-                        "<?php echo base_url('Auth/change_financial_year/'); ?>" +
-                        financial_year_id;
-                });
+                window.location.href =
+                    "<?php echo base_url('Auth/change_financial_year/'); ?>" +
+                    financial_year_id;
             });
+        });
         </script>
 
         <li class="nav-item" id="li-dashboard">
@@ -40,57 +40,91 @@
             </a>
         </li>
 
-        <!-- <li class="nav-item" id="li-member">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/member_master/member'); ?>" id="link-member">
-                <i class="fa fa-user menu-icon"></i>
-                <span class="menu-title">Members</span>
-            </a>
-        </li> -->
 
         <li class="nav-item" id="li-account">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/account_master/Account'); ?>" id="link-account">
+            <a class="nav-link" href="<?php echo base_url('backend_admin/account_master/Account'); ?>"
+                id="link-account">
                 <i class="fa fa-book menu-icon"></i>
                 <span class="menu-title">Accounts</span>
             </a>
         </li>
 
         <li class="nav-item has-treeview" id="li-Transaction">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" id="link-Transaction" aria-expanded="false" aria-controls="ui-basic">
+                <i class="icon-layout menu-icon"></i>
+                <span class="menu-title">Transaction</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item" id="Cash_management">
+                        <a href="<?php echo base_url('backend_admin/cash_management/Cash_management/'); ?>"
+                            class="nav-link" id="Cash_management">
+                            <i class="fa fa-book menu-icon"></i>
+                            <span class="menu-title">Cash</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo base_url('backend_admin/closed_accounts/Monthly_accounts/'); ?>"
+                            class="nav-link" id="close_monthly">
+                            <i class="fa fa-book menu-icon"></i>
+                            <span class="menu-title">Purchase Payment</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo base_url('backend_admin/closed_accounts/Loan_accounts/'); ?>"
+                            class="nav-link" id="close_loan">
+                            <i class="fa fa-book menu-icon"></i>
+                            <span class="menu-title">Sell</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo base_url('backend_admin/closed_accounts/Loan_accounts/'); ?>"
+                            class="nav-link" id="close_loan">
+                            <i class="fa fa-book menu-icon"></i>
+                            <span class="menu-title">Bank</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- <li class="nav-item has-treeview" id="li-Transaction">
             <a href="#" class="nav-link bg-red" id="link-Transaction">
                 <i class="fa fa-archive menu-icon"></i>
-                <p>
-                    Transaction
-                </p>
+                <span class="menu-title"> Transaction </span>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item" id="Cash_management">
-                    <a href="<?php echo base_url('backend_admin/cash_management/Cash_management/'); ?>" class="nav-link" id="Cash_management">
+                    <a href="<?php echo base_url('backend_admin/cash_management/Cash_management/'); ?>" class="nav-link"
+                        id="Cash_management">
                         <i class="fa fa-book menu-icon"></i>
                         <span class="menu-title">Cash</span>
-
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('backend_admin/closed_accounts/Monthly_accounts/'); ?>" class="nav-link" id="close_monthly">
+                    <a href="<?php echo base_url('backend_admin/closed_accounts/Monthly_accounts/'); ?>"
+                        class="nav-link" id="close_monthly">
                         <i class="fa fa-book menu-icon"></i>
                         <span class="menu-title">Purchase Payment</span>
-
-
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('backend_admin/closed_accounts/Loan_accounts/'); ?>" class="nav-link" id="close_loan">
+                    <a href="<?php echo base_url('backend_admin/closed_accounts/Loan_accounts/'); ?>" class="nav-link"
+                        id="close_loan">
                         <i class="fa fa-book menu-icon"></i>
                         <span class="menu-title">Sell</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('backend_admin/closed_accounts/Loan_accounts/'); ?>" class="nav-link" id="close_loan">
+                    <a href="<?php echo base_url('backend_admin/closed_accounts/Loan_accounts/'); ?>" class="nav-link"
+                        id="close_loan">
                         <i class="fa fa-book menu-icon"></i>
                         <span class="menu-title">Bank</span>
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> -->
 
 
         <!-- <li class="nav-item" id="li-coll">
@@ -142,7 +176,9 @@
         </li> -->
 
         <li class="nav-item" id="financial_year_master">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/financial_year_master/Financial_year_master'); ?>" id="link-report">
+            <a class="nav-link"
+                href="<?php echo base_url('backend_admin/financial_year_master/Financial_year_master'); ?>"
+                id="link-report">
                 <i class="fa fa-calendar menu-icon"></i>
                 <span class="menu-title">Financial Year</span>
             </a>
@@ -150,7 +186,8 @@
 
 
         <li class="nav-item" id="carry_forward">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/carry_forward/Carry_forward'); ?>" id="link-report">
+            <a class="nav-link" href="<?php echo base_url('backend_admin/carry_forward/Carry_forward'); ?>"
+                id="link-report">
                 <i class="fa fa-forward menu-icon"></i>
                 <!-- <i class="fa-solid fa-bring-forward"></i> -->
                 <span class="menu-title">Carry froward</span>
@@ -178,11 +215,11 @@
 <div class="main-panel">
     <div class="content-wrapper">
         <script>
-            const hasTree = $('.has-treeview');
+        const hasTree = $('.has-treeview');
 
-            $.each(hasTree, function() {
-                $(this).click(function() {
-                    $(this).children('.nav-treeview').slideToggle();
-                });
+        $.each(hasTree, function() {
+            $(this).click(function() {
+                $(this).children('.nav-treeview').slideToggle();
             });
+        });
         </script>
