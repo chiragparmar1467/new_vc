@@ -61,6 +61,7 @@ class Account extends Admin_Controller
                 'opening_balance' => $this->input->post('opening_balance'),
                 'fk_financial_year_id' => $_SESSION['year'],
                 'account_no' =>  $acc_no,
+                'status' => 1
             );
 
             $create = $this->Crud_model->save($this->tableName, $data);
