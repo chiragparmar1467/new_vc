@@ -67,7 +67,7 @@
                     <li class="nav-item" id="purchase_management">
                         <a href="<?php echo base_url('backend_admin/purchase_management/Purchase_management/'); ?>"
                             class="nav-link" id="purchase_management">
-                            <i class="fa fa-book menu-icon"></i>
+                            <i class="fa fa-shopping-cart menu-icon" aria-hidden="true"></i>
                             <span class="menu-title">Purchase Payment</span>
                         </a>
                     </li>
