@@ -35,26 +35,27 @@
             <div class="card card-primary" style="margin: 20px;">
 
                 <form role="form" id="cash_form"
-                    action="<?php echo base_url() . $this->controllerPath ?>/create/<?php echo $this->data['table_data']['voucher_no'] + 1  ?>"
+                    action="<?php echo base_url() . $this->controllerPath ?>/create/<?php $lastVoucherNumber = end($this->data['table_data'])['bill_no'] + 1; echo $lastVoucherNumber;  ?>"
                     method="post" enctype="multipart/form-data">
                     <div class="field_wrapper1">
                         <div class="card-body row">
                             <div class="form-group col-md-2">
-                                <label for="voucher_number">Voucher No.</label>
-                                <input type="text" class="form-control" id="voucher_no" name="voucher_no"
-                                    value="<?php echo $this->data['table_data']['voucher_no'] + 1  ?>"
-                                    placeholder="Enter Voucher Number">
+                                <label for="voucher_number">Bill No.</label>
+                                <input type="text" class="form-control bill_no" id="bill_no" name="bill_no[]"
+                                    value="<?php  $lastVoucherNumber = end($this->data['table_data'])['bill_no'] + 1; echo $lastVoucherNumber;   ?>"
+                                    placeholder="Enter Voucher Number" required>
                             </div>
 
                             <div class="form-group col-md-3">
-                                <label for="cash_date">Cash Date</label>
-                                <input type="text" class="form-control" name="cash_date" id="datepicker"
+                                <label for="cash_date">Date</label>
+                                <input type="text" class="form-control" name="cash_date[]" id="datepicker"
                                     value="<?= date('d-m-Y') ?>" autocomplete="off" required>
 
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Select Member Name</label>
-                                <select class="js-example-basic-single w-100" name="member_name" id="member_name">
+                                <select class="js-example-basic-single w-100" name="member_name[]" id="member_name"
+                                    required>
                                     <option disabled selected hidden>Select Members</option>
                                     <?php
                                     $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
@@ -70,7 +71,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="amount">Amount</label>
-                                <input type="number" class="form-control" id="amount" name="amount"
+                                <input type="number" class="form-control" id="amount" name="amount[]"
                                     placeholder="Enter Amount">
                             </div>
 
@@ -82,8 +83,8 @@
                                     style="margin-left:10px; border-radius: 10px;"><i
                                         class="fa fa-plus ms-2 fs-2"></i></a>
                             </div>
-                            <div class="added_fields_container"></div>
                         </div>
+                        <div class="added_fields_container"></div>
                     </div>
 
                     <div class="card-footer">
@@ -133,20 +134,32 @@ $(document).ready(function() {
     var addButton1 = $('.add_button1'); // Add button selector
     var wrapper1 = $('.field_wrapper1'); // Input field wrapper
     var addedFieldsContainer = $('.added_fields_container'); // Container for dynamically added fields
+    
+    var x = 1; // Initial field counter is 1
+    
 
-    var fieldHTML1 = '<div class="card-body row">' +
-        '<div class="added_fields">' +
+
+
+    // Once add button is clicked
+    $(addButton1).click(function() {
+        var bill_no = $('.bill_no').val();
+     
+        var fieldHTML1 = '<div class="added_fields">' +
+        '<div class="card-body row">' +
+
         '<div class="form-group col-md-2">' +
         '<label for="voucher_number">Voucher No.</label>' +
-        '<input type="text" class="form-control" id="voucher_no" name="voucher_no[]" placeholder="Enter Voucher Number">' +
+        '<input type="text" class="form-control bill_no" id="bill_no" value="'+(x + 1) +'" name="bill_no[]" placeholder="Enter Voucher Number" required>' +
         '</div>' +
+
         '<div class="form-group col-md-3">' +
         '<label for="cash_date">Cash Date</label>' +
         '<input type="text" class="form-control" name="cash_date[]" id="datepicker" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
         '</div>' +
+
         '<div class="form-group col-md-3">' +
         '<label>Select Member Name</label>' +
-        '<select class="js-example-basic-single w-100" name="member_name[]" id="member_name" onchange="get_amount()">' +
+        '<select class="js-example-basic-single w-100 member_name"  name="member_name[]" id="member_name_'+ x +'" required>' +
         '<option disabled selected hidden>Select Members</option>' +
         '<?php foreach ($member as $row) { ?>' +
         '<option value="<?= $row["id"] ?>">' +
@@ -155,33 +168,62 @@ $(document).ready(function() {
         '<?php } ?>' +
         '</select>' +
         '</div>' +
-        '<div class="form-group col-md-2">' +
+
+        '<div class="form-group col-md-3">' +
         '<label for="amount">Amount</label>' +
-        '<input type="number" class="form-control" id="amount" name="amount[]" placeholder="Enter Amount">' +
+        '<input type="number" class="form-control" id="amount" name="amount[]" placeholder="Enter Amount" required>' +
         '</div>' +
-        '<div class="form-group col-md-2">' +
-        '<label for="amount"></label>' +
+
+
+        '<div class="form-group col-md-1">' +
+        '<label for=""></label>' +
         '<a href="javascript:void(0);" class="remove_button1 btn btn-danger btn-md" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-times ms-2 fs-1"></i></a>' +
         '</div>' +
         '</div>' +
-        '</div>'; // New input field html
 
-    var x = 1; // Initial field counter is 1
+        '</div>';
 
-    // Once add button is clicked
-    $(addButton1).click(function() {
         // Check maximum number of input fields
         if (x < maxField) {
-            x++; // Increment field counter
-            $(addedFieldsContainer).append(fieldHTML1); // Add field html
+        //    alert(x);
+            var newField = fieldHTML1;
+            $(addedFieldsContainer).append(newField);
+            // if ($(".js-example-basic-single").length) {
+                //     $(".js-example-basic-single").select2();
+                // }
+                if ($("#member_name_" + x).length) {
+                    $("#member_name_" + x).select2();
+                }
+                x++; // Increment field counter
         }
+      
     });
+
+    function updateOrder() {
+        $('.bill_no').each(function(index) {
+            $(this).val(index + 1);
+        });
+        // $(".member_name").select2();
+        $('.member_name').each(function(ele) {
+            console.log(ele);
+            $(this).val(index + 1);
+            $(this).prop('id', 'newId');
+            // if ($("#member_name_" + x).length) {
+                    // $("#member_name_" + x).select2();
+                // }
+        });
+    }
 
     // Once remove button is clicked
     $(wrapper1).on('click', '.remove_button1', function(e) {
         e.preventDefault();
         $(this).closest('.added_fields').remove(); // Remove the entire added fields set
         x--; // Decrement field counter
+        $('.member_name').each(function () {
+            $(this).select2();
+        });
+        // Update values to maintain order
+        updateOrder();
     });
 });
 </script>
