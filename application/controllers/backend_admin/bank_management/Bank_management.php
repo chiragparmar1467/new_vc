@@ -98,12 +98,6 @@ class Bank_management extends Admin_Controller
         JOIN bank_management as BM ON BM.fk_account_member_id = AM.id
         where AM.deleted = 0 AND AM.status= 1 AND BM.bill_no =" . $billno)->row_array();
 
-        $data['id'] = $data[0]['id'];
-        $data['bank_date'] = $data[0]['date'];
-        $data['bill_no'] = $data[0]['billno'];
-        $data['amount'] = $data[0]['amountno'];
-        $data['member_name'] = $data[0]['membername'];
-
         echo json_encode($data);
     }
 

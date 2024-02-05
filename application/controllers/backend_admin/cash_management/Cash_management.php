@@ -25,10 +25,9 @@ class Cash_management extends Admin_Controller
 
     public function index()
     {
+        
         // $this->data['js'] = 'application/views/groups/index-js.php';
         $this->data['page_title'] = 'Cash';
-
-
 
         $table_data = $this->db->query('select * from account_master as AM
         JOIN cash_management as CM ON CM.fk_account_member_id = AM.id
@@ -44,7 +43,7 @@ class Cash_management extends Admin_Controller
 
     public function create($acc_no = NULL)
     {
-
+            
         $this->data['page_title'] = 'Add Cash';
 
         // Set validation rules for array inputs
@@ -56,6 +55,7 @@ class Cash_management extends Admin_Controller
             $cashDates = $this->input->post('cash_date[]');
             $memberNames = $this->input->post('member_name[]');
             $amounts = $this->input->post('amount[]');
+            $transaction = $this->input->post('transaction[]');
 
             // Check if the variables are arrays before using count()
             if (is_array($voucherNumbers) && is_array($cashDates) && is_array($memberNames) && is_array($amounts)) {
@@ -67,6 +67,9 @@ class Cash_management extends Admin_Controller
                         'cash_date' => $cashDates[$i],
                         'fk_account_member_id' => $memberNames[$i],
                         'amount' => $amounts[$i],
+                        'transaction' => $transaction[$i],
+                        'fk_financial_year_id' => $_SESSION['year'],
+                        'status'=> 1
                     );
 
                     // Assuming you have a model named YourModel
@@ -75,7 +78,7 @@ class Cash_management extends Admin_Controller
                         $create = $this->Crud_model->save($this->tableName, $data);
                     } else {
                        
-                        $this->Crud_model->update($this->tableName, array('voucher_no' => $voucherNumbers[$i]),$data);
+                        $create = $this->Crud_model->update($this->tableName, array('voucher_no' => $voucherNumbers[$i]),$data);
                     }
                 }
 
@@ -102,16 +105,10 @@ class Cash_management extends Admin_Controller
     public function ajax_voucher_no($voucherno)
     {
 
-        $data = $this->db->query("select CM.id as id,CM.cash_date as date,CM.voucher_no as voucherno,CM.amount as amountno,CM.fk_account_member_id as membername from account_master as AM
+        $data = $this->db->query("select CM.id as id,CM.cash_date as date,CM.voucher_no as voucherno,CM.amount as amountno,CM.fk_account_member_id as membername, AM.account_no as account_no, CM.transaction as transaction from account_master as AM
         JOIN cash_management as CM ON CM.fk_account_member_id = AM.id
         where AM.deleted = 0 AND AM.status= 1 AND CM.voucher_no =" . $voucherno)->row_array();
-
-        $data['id'] = $data[0]['id'];
-        $data['cash_date'] = $data[0]['date'];
-        $data['voucher_no'] = $data[0]['voucherno'];
-        $data['amount'] = $data[0]['amountno'];
-        $data['member_name'] = $data[0]['membername'];
-
+                    
         echo json_encode($data);
     }
 

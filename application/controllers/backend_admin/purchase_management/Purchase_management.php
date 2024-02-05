@@ -28,8 +28,6 @@ class Purchase_management extends Admin_Controller
         // $this->data['js'] = 'application/views/groups/index-js.php';
         $this->data['page_title'] = 'Purchase';
 
-
-
         $table_data = $this->db->query('select * from account_master as AM
         JOIN purchase_management as CM ON CM.fk_account_member_id = AM.id
         where AM.deleted = 0 AND AM.status= 1;')->result_array();
