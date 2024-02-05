@@ -49,7 +49,7 @@ class Account extends Admin_Controller
 
         $this->data['page_title'] = 'Add Account';
 
-        $this->form_validation->set_rules('account_number[]','member_name', 'Member Name', 'required');
+        $this->form_validation->set_rules('account_number[]','Account Number','member_name', 'Member Name', 'required');
               print_r('<pre>');
                     print_r('e');
                     // exit();
