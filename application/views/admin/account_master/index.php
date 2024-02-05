@@ -64,46 +64,57 @@
                                     <form role="form"
                                         action="<?php echo base_url() . $this->controllerPath ?>/create/<?php echo $this->data['table_data']['account_no'] + 1 ?>"
                                         method="post" enctype="multipart/form-data">
-                                        <div class="card-body row">
-                                            <div class="form-group col-md-2">
-                                                <label for="account_number">Account Number</label>
-                                                <input type="text" class="form-control" id="account_number"
-                                                    name="account_number"
-                                                    value="<?php echo $this->data['table_data']['account_no'] + 1  ?>"
-                                                    placeholder="Select party name account number is auto increment"
-                                                    disabled>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <label for="member_name">Member Name</label>
-                                                <input type="text" class="form-control" id="member_name"
-                                                    name="member_name" value="" placeholder="Enter Member Name">
-                                            </div>
+                                        <div class="field_wrapper1">
 
-                                            <div class="form-group col-md-2">
-                                                <label for="address">Address</label>
-                                                <input type="text" class="form-control" id="address" name="address"
-                                                    value="" placeholder="Enter member address">
-                                            </div>
+                                            <div class="card-body row">
+                                                <div class="form-group col-md-2">
+                                                    <label for="account_number">Account Number</label>
+                                                    <input type="text" class="form-control" id="account_number"
+                                                        name="account_number[]"
+                                                        value="<?php echo $this->data['table_data']['account_no'] + 1  ?>"
+                                                        placeholder="Select party name account number is auto increment"
+                                                        disabled>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <label for="member_name">Member Name</label>
+                                                    <input type="text" class="form-control" id="member_name"
+                                                        name="member_name[]" value="" placeholder="Enter Member Name">
+                                                </div>
 
-                                            <div class="form-group col-md-2">
-                                                <label for="mobile_no">Mobile No.</label>
-                                                <input type="number" class="form-control" id="mobile_no"
-                                                    name="mobile_no" value="" placeholder="Enter member number">
-                                            </div>
+                                                <div class="form-group col-md-2">
+                                                    <label for="address">Address</label>
+                                                    <input type="text" class="form-control" id="address"
+                                                        name="address[]" value="" placeholder="Enter member address">
+                                                </div>
 
-                                            <!-- <div class="form-group col-md-6">
+                                                <div class="form-group col-md-2">
+                                                    <label for="mobile_no">Mobile No.</label>
+                                                    <input type="number" class="form-control" id="mobile_no"
+                                                        name="mobile_no[]" value="" placeholder="Enter member number">
+                                                </div>
+
+                                                <!-- <div class="form-group col-md-6">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="" placeholder="Enter member email">
                         </div> -->
-                                            <div class="form-group col-md-2">
-                                                <label for="opening_balance">Opening Balance</label>
+                                                <div class="form-group col-md-2">
+                                                    <label for="opening_balance">Opening Balance</label>
 
-                                                <input type="text" class="form-control " id="opening_balance"
-                                                    name="opening_balance" value="0" placeholder="Enter Opening Balance"
-                                                    autocomplete="off">
-                                            </div>
+                                                    <input type="text" class="form-control " id="opening_balance"
+                                                        name="opening_balance[]" value="0"
+                                                        placeholder="Enter Opening Balance" autocomplete="off">
+                                                </div>
 
-                                            <!-- <div class="form-group col-md-3">
+
+                                                <div class="form-group col-md-1">
+                                                    <label for="amount"></label>
+                                                    <a href="javascript:void(0);" class="add_button1 btn btn-primary"
+                                                        style="margin-left:10px; margin-top:25px" title="Add field"
+                                                        style="margin-left:10px; border-radius: 10px;"><i
+                                                            class="fa fa-plus ms-2 fs-2"></i></a>
+                                                </div>
+
+                                                <!-- <div class="form-group col-md-3">
                                                 <label for="gender">Status</label>
                                                 <div class="radio">
                                                     <label>
@@ -117,6 +128,8 @@
                                                 </div>
                                             </div> -->
 
+                                            </div>
+                                            <div class="added_fields_container"></div>
                                         </div>
 
                                         <div class="card" style="float:right; display: inline-block;">
@@ -140,6 +153,78 @@
 
 </section>
 
+<script>
+$(document).ready(function() {
+    var maxField = 100; // Input fields increment limitation
+    var addButton1 = $('.add_button1'); // Add button selector
+    var wrapper1 = $('.field_wrapper1'); // Input field wrapper
+    var addedFieldsContainer = $('.added_fields_container'); // Container for dynamically added fields
+
+    var fieldHTML1 = '<div class="added_fields">' +
+        '<div class="card-body row">' +
+
+        '<div class = "form-group col-md-2">' +
+        '<label for = "account_number" > Account Number </label>' +
+        '<input type = "text" class = "form-control" id = "account_number"' +
+        'name = "account_number[]" value = "<?php echo $this->data['table_data']['account_no'] + 1  ?>"' +
+        'placeholder = "Select party name account number is auto increment"disabled>' +
+        '</div>' +
+
+        '<div class = "form-group col-md-2">' +
+        '<label for = "member_name" > Member Name </label>' +
+        '<input type = "text" class = "form-control" id = "member_name"' +
+        'name = "member_name[]" value = "" placeholder = "Enter Member Name">' +
+        '</div>' +
+
+        '<div class = "form-group col-md-2">' +
+        '<label for = "address" > Address </label>' +
+        '<input type = "text" class = "form-control" id = "address" name = "address[]"' +
+        'value = "" placeholder = "Enter member address">' +
+        '</div>' +
+
+        '<div class = "form-group col-md-2">' +
+        '<label for = "mobile_no" > Mobile No. </label>' +
+        '<input type = "number" class = "form-control" id = "mobile_no" name = "mobile_no[]"' +
+        'value = ""placeholder = "Enter member number">' +
+        '</div>' +
+
+        '<div class = "form-group col-md-2">' +
+        '<labelfor = "opening_balance" > Opening Balance </label>' +
+        '<input type = "text" class = "form-control " id = "opening_balance" name = "opening_balance[]"' +
+        'value = "0" placeholder = "Enter Opening Balance" autocomplete = "off">' +
+        '</div>' +
+
+
+        '<div class="form-group col-md-1">' +
+        '<label for=""></label>' +
+        '<a href="javascript:void(0);" class="remove_button1 btn btn-danger btn-md" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-times ms-2 fs-1"></i></a>' +
+        '</div>' +
+        '</div>' +
+
+        '</div>';
+
+
+    var x = 1; // Initial field counter is 1
+
+    // Once add button is clicked
+    $(addButton1).click(function() {
+        // Check maximum number of input fields
+        if (x < maxField) {
+            x++; // Increment field counter
+            // $('#voucher_no').val() += 1;
+            var newField = fieldHTML1;
+            $(addedFieldsContainer).append(newField);
+        }
+    });
+
+    // Once remove button is clicked
+    $(wrapper1).on('click', '.remove_button1', function(e) {
+        e.preventDefault();
+        $(this).closest('.added_fields').remove(); // Remove the entire added fields set
+        x--; // Decrement field counter
+    });
+});
+</script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -295,7 +380,7 @@ function cat() {
                                     <th>Account Number </th>
                                     <th>Member Name</th>
                                     <th>Mobile Number</th>
-                                    <th>Email</th>
+                                    <!-- <th>Email</th> -->
                                     <th>Opening Balance</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -317,8 +402,8 @@ function cat() {
 
                                     <td class="text-center"><?php echo $v['mobile_number']; ?>
                                     </td>
-                                    <td class="text-center"><?php echo $v['email']; ?>
-                                    </td>
+                                    <!-- <td class="text-center"><?php echo $v['email']; ?>
+                                    </td> -->
 
                                     <td class="text-center"><?php echo $v['opening_balance']; ?>
                                     </td>
