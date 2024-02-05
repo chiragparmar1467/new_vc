@@ -38,21 +38,18 @@ class crud_model extends CI_Model
 
     public function get($table, $orderby = null, $extrawhere = null)
     {
-        
+
         if ($orderby != '') {
             $this->db->order_by($orderby, "asc");
         }
         if ($extrawhere != '') {
-            
-            $query = $this->db->get_where($table, $extrawhere);
 
-             
+            $query = $this->db->get_where($table, $extrawhere);
         } else {
-        
+
             $query = $this->db->get($table);
-           
         }
-  
+
         return $result = $query->result_array();
     }
 
@@ -178,40 +175,47 @@ class crud_model extends CI_Model
 
     public function get_where_data($table, $searchData = array())
     {
-       
+
         $query = $this->db->get_where($table, $searchData);
-       
+
         return $query->row_array();
     }
 
     public function save($table, $data)
     {
-       
+
         if (!$this->db->field_exists('description', $table)) {
             $this->db->query("alter table $table ADD description longtext");
         }
-     
-       
+
+
         if (!$this->db->field_exists('deleted', $table)) {
             $this->db->query("alter table $table ADD deleted int");
-        } 
-     
-        
+        }
+
+
         if (!$this->db->field_exists('updated_version_of', $table)) {
             $this->db->query("alter table $table ADD updated_version_of int");
-        } if (!$this->db->field_exists('version_latest', $table)) {
+        }
+        if (!$this->db->field_exists('version_latest', $table)) {
             $this->db->query("alter table $table ADD version_latest int");
-        } if (!$this->db->field_exists('sort_order', $table)) {
+        }
+        if (!$this->db->field_exists('sort_order', $table)) {
             $this->db->query("alter table $table ADD sort_order int");
-        } if (!$this->db->field_exists('status', $table)) {
+        }
+        if (!$this->db->field_exists('status', $table)) {
             $this->db->query("alter table $table ADD status int");
-        } if (!$this->db->field_exists('remarks', $table)) {
+        }
+        if (!$this->db->field_exists('remarks', $table)) {
             $this->db->query("alter table $table ADD remarks longtext");
-        } if (!$this->db->field_exists('created_by', $table)) {
+        }
+        if (!$this->db->field_exists('created_by', $table)) {
             $this->db->query("alter table $table ADD created_by int");
-        } if (!$this->db->field_exists('created_at', $table)) {
+        }
+        if (!$this->db->field_exists('created_at', $table)) {
             $this->db->query("alter table $table ADD created_at int");
-        } if (!$this->db->field_exists('ip_address', $table)) {
+        }
+        if (!$this->db->field_exists('ip_address', $table)) {
             $this->db->query("alter table $table ADD ip_address varchar(50)");
         }
 
@@ -220,20 +224,20 @@ class crud_model extends CI_Model
         $data['deleted'] = 0;
         $data['ip_address'] = $this->input->ip_address();
         $data['created_at'] = date('Y-m-d');
-       
-            // print_r('<pre>');   
-            // print_r($table); 
-            // print_r($data); 
-            // exit(); 
-        
+
+        // print_r('<pre>');   
+        // print_r($table); 
+        // print_r($data); 
+        // exit(); 
+
         $this->db->insert($table, $data);
-   
-//    echo $this->db->last_query();
-//     exit(); 
-//         $e = $this->db->insert_id();
-//   print_r('<pre>');   
-//      print_r($e); 
-//      exit(); 
+
+        //    echo $this->db->last_query();
+        //     exit(); 
+        //         $e = $this->db->insert_id();
+        //   print_r('<pre>');   
+        //      print_r($e); 
+        //      exit(); 
 
         return $this->db->insert_id();
     }
@@ -300,26 +304,32 @@ class crud_model extends CI_Model
         if (!$this->db->field_exists('description', $table)) {
             $this->db->query("alter table $table ADD description longtext");
         }
-     
-       
+
+
         if (!$this->db->field_exists('deleted', $table)) {
             $this->db->query("alter table $table ADD deleted int");
-        } 
-     
-        
+        }
+
+
         if (!$this->db->field_exists('updated_version_of', $table)) {
             $this->db->query("alter table $table ADD updated_version_of int");
-        } if (!$this->db->field_exists('version_latest', $table)) {
+        }
+        if (!$this->db->field_exists('version_latest', $table)) {
             $this->db->query("alter table $table ADD version_latest int");
-        } if (!$this->db->field_exists('sort_order', $table)) {
+        }
+        if (!$this->db->field_exists('sort_order', $table)) {
             $this->db->query("alter table $table ADD sort_order int");
-        } if (!$this->db->field_exists('status', $table)) {
+        }
+        if (!$this->db->field_exists('status', $table)) {
             $this->db->query("alter table $table ADD status int");
-        } if (!$this->db->field_exists('remarks', $table)) {
+        }
+        if (!$this->db->field_exists('remarks', $table)) {
             $this->db->query("alter table $table ADD remarks longtext");
-        } if (!$this->db->field_exists('created_by', $table)) {
+        }
+        if (!$this->db->field_exists('created_by', $table)) {
             $this->db->query("alter table $table ADD created_by int");
-        } if (!$this->db->field_exists('ip_address', $table)) {
+        }
+        if (!$this->db->field_exists('ip_address', $table)) {
             $this->db->query("alter table $table ADD ip_address varchar(50)");
         }
 
@@ -327,7 +337,7 @@ class crud_model extends CI_Model
         // $data['updated_by'] = $_SESSION['admin_id'];
         $data['ip_address'] = $this->input->ip_address();
         $this->db->update($table, $data, $where);
-        
+
 
         // echo $this->db->last_query();
         return $this->db->affected_rows();
@@ -406,7 +416,7 @@ class crud_model extends CI_Model
     public function delete_by_id($table, $whereData)
     {
 
-  
+
         $this->db->where('id', $whereData);
         // $this->db->delete($table, $whereData);
         $data =  array(
@@ -527,4 +537,6 @@ class crud_model extends CI_Model
         return $userDDODtls->result();
     }
     // BEGIN: GET USERS DDO AND OTHER DETAILS
+
+ 
 }

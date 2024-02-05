@@ -71,16 +71,16 @@
                             <span class="menu-title">Purchase Payment</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="sell_management">
                         <a href="<?php echo base_url('backend_admin/closed_accounts/Loan_accounts/'); ?>"
-                            class="nav-link" id="close_loan">
+                            class="nav-link" id="sell_management">
                             <i class="fa fa-book menu-icon"></i>
                             <span class="menu-title">Sell</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="<?php echo base_url('backend_admin/closed_accounts/Loan_accounts/'); ?>"
-                            class="nav-link" id="close_loan">
+                    <li class="nav-item" id="bank_management">
+                        <a href="<?php echo base_url('backend_admin/bank_management/Bank_management'); ?>"
+                            class="nav-link" id="bank_management">
                             <i class="fa fa-book menu-icon"></i>
                             <span class="menu-title">Bank</span>
                         </a>
