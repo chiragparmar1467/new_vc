@@ -18,7 +18,6 @@
     </div><!-- /.container-fluid -->
 </div>
 
-
 <!-- Main content -->
 <section class="content">
     <!-- Small boxes (Stat box) -->
@@ -39,7 +38,6 @@
                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
                         aria-labelledby="headingOne">
                         <div class="panel-body">
-
 
                             <div class="col-md-12 col-xs-12">
                                 <?php if ($this->session->flashdata('errors')) { ?>
@@ -62,57 +60,56 @@
                                     </div>
 
                                     <form role="form"
-                                        action="<?php echo base_url() . $this->controllerPath ?>/create/<?php echo $this->data['table_data']['account_no'] + 1 ?>"
+                                        action="<?php echo base_url() . $this->controllerPath ?>/create/<?php echo $this->data['account_no'] + 1 ?>"
                                         method="post" enctype="multipart/form-data">
                                         <div class="field_wrapper1">
 
                                             <div class="card-body row">
-                                                <div class="form-group col-md-2">
-                                                    <label for="account_number">Account Number</label>
-                                                    <input type="text" class="form-control" id="account_number"
-                                                        name="account_number[]"
-                                                        value="<?php echo $this->data['table_data']['account_no'] + 1  ?>"
-                                                        placeholder="Select party name account number is auto increment"
-                                                        disabled>
+                                                <div class="form-group col-md-4 ">
+                                                    <label for="account_no">Account Number</label>
+                                                    <input type="text" class="form-control" id="account_no"
+                                                        name="account_no" readonly
+                                                        value="<?php echo $this->data['account_no'] + 1  ?>"
+                                                        placeholder="Select party name account number is auto increment">
                                                 </div>
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-4">
                                                     <label for="member_name">Member Name</label>
                                                     <input type="text" class="form-control" id="member_name"
-                                                        name="member_name[]" value="" placeholder="Enter Member Name">
+                                                        name="member_name" value="" placeholder="Enter Member Name">
                                                 </div>
 
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-4">
                                                     <label for="address">Address</label>
-                                                    <input type="text" class="form-control" id="address"
-                                                        name="address[]" value="" placeholder="Enter member address">
+                                                    <input type="text" class="form-control" id="address" name="address"
+                                                        value="" placeholder="Enter member address">
                                                 </div>
 
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-4">
                                                     <label for="mobile_no">Mobile No.</label>
                                                     <input type="number" class="form-control" id="mobile_no"
-                                                        name="mobile_no[]" value="" placeholder="Enter member number">
+                                                        name="mobile_no" value="" placeholder="Enter member number">
                                                 </div>
 
                                                 <!-- <div class="form-group col-md-6">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="" placeholder="Enter member email">
                         </div> -->
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-4">
                                                     <label for="opening_balance">Opening Balance</label>
 
                                                     <input type="text" class="form-control " id="opening_balance"
-                                                        name="opening_balance[]" value="0"
+                                                        name="opening_balance" value="0"
                                                         placeholder="Enter Opening Balance" autocomplete="off">
                                                 </div>
 
 
-                                                <div class="form-group col-md-1">
+                                                <!-- <div class="form-group col-md-1">
                                                     <label for="amount"></label>
                                                     <a href="javascript:void(0);" class="add_button1 btn btn-primary"
                                                         style="margin-left:10px; margin-top:25px" title="Add field"
                                                         style="margin-left:10px; border-radius: 10px;"><i
                                                             class="fa fa-plus ms-2 fs-2"></i></a>
-                                                </div>
+                                                </div> -->
 
                                                 <!-- <div class="form-group col-md-3">
                                                 <label for="gender">Status</label>
@@ -153,7 +150,7 @@
 
 </section>
 
-<script>
+<!-- <script>
 $(document).ready(function() {
     var maxField = 100; // Input fields increment limitation
     var addButton1 = $('.add_button1'); // Add button selector
@@ -224,7 +221,7 @@ $(document).ready(function() {
         x--; // Decrement field counter
     });
 });
-</script>
+</script> -->
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -436,10 +433,9 @@ function cat() {
                                             title="Edit" class="btn btn-warning" <?php echo $hide; ?>><i
                                                 class="fa fa-edit"></i></a> -->
 
-
                                         <a onclick="return confirm('Are you sure want to delete this data?');"
                                             title="Delete"
-                                            href="<?php echo base_url() . $this->controllerPath ?>delete/<?php echo $v['id']; ?>"
+                                            href="<?php echo base_url() . $this->controllerPath ?>/delete/<?php echo $v['id']; ?>"
                                             class="btn btn-danger"><i class="fa fa-trash"></i>
                                         </a>
                                     </td>

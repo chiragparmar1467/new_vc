@@ -49,34 +49,61 @@ class Account extends Admin_Controller
 
         $this->data['page_title'] = 'Add Account';
 
-        $this->form_validation->set_rules('member_name', 'Member Name', 'required');
-
+        $this->form_validation->set_rules('account_number[]','Account Number','member_name', 'Member Name', 'required');
+              print_r('<pre>');
+                    print_r('e');
+                    // exit();
         if ($this->form_validation->run() == TRUE) {
-            $data = array(
-                'member_name' => $this->input->post('member_name'),
-                'address' => $this->input->post('address'),
-                'mobile_number' => $this->input->post('mobile_no'),
-                // 'email' => $this->input->post('email'),
-                'status' => $this->input->post('status'),
-                'opening_balance' => $this->input->post('opening_balance'),
-                'fk_financial_year_id' => $_SESSION['year'],
-                'account_no' =>  $acc_no,
-                'status' => 1
-            );
 
-            $create = $this->Crud_model->save($this->tableName, $data);
-            if ($create == true) {
-                $this->session->set_flashdata('success', 'Successfully created');
-                redirect($this->controllerPath, 'refresh');
+            $acc_no =  $this->input->post('account_number[]');
+            // $acc_no =  $_POST['account_number[]'];
+            $member_name = $this->input->post('member_name[]');
+            $address = $this->input->post('address[]');
+            $mobile_number = $this->input->post('mobile_no[]');
+            $opening_balance = $this->input->post('opening_balance[]');
+                print_r('<pre>');
+                    print_r('dfg');
+                    print_r($_POST);
+                    print_r($acc_no);
+                    exit();
+            if (is_array($acc_no) && is_array($member_name) && is_array($address) && is_array($mobile_number) && is_array($opening_balance)) {
+                    print_r('<pre>');
+                        print_r('DS');
+                        exit();
+                $count = count($acc_no);    
+
+                    for ($i = 0; $i < $count; $i++) {
+                        $data = array(
+                            'member_name' => $member_name[$i],
+                            'address' => $address[$i],
+                            'mobile_number' => $mobile_number[$i],
+                            // 'email' => $this->input->post('email'),
+                            'opening_balance' => $opening_balance[$i],
+                            'fk_financial_year_id' => $_SESSION['year'],
+                            'account_number' =>  $acc_no[$i],
+                            'status' => 1
+                        );
+
+                        $create = $this->Crud_model->save($this->tableName, $data);
+                    }
+
+                    if ($create == true) {
+                        $this->session->set_flashdata('success', 'Successfully created');
+                        redirect($this->controllerPath, 'refresh');
+                    } else {
+                        $this->session->set_flashdata('errors', 'Error occurred!!');
+                        redirect($this->controllerPath , 'refresh');
+                    }
             } else {
-                $this->session->set_flashdata('errors', 'Error occurred!!');
-                redirect($this->controllerPath . 'create', 'refresh');
+                // Handle the case where one or more variables are not arrays
+                $this->session->set_flashdata('errors', 'Invalid data format!!');
+                redirect($this->controllerPath , 'refresh');
             }
         } else {
             $this->db->order_by('account_no', "DESC");
             $table_data = $this->db->get('account_master')->result_array()[0];
             $this->data['table_data'] = $table_data;
-            $this->render_template($this->viewPath . 'create', $this->data);
+            $this->render_template($this->viewPath , $this->data);
         }
     }
 
