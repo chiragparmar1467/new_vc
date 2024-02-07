@@ -1,16 +1,12 @@
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Management <?php
-
-                                                        echo $this->data['name']; ?></h1>
+                <h1 class="m-0 text-dark"><?php echo $this->data['name']; ?> Management </h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -46,7 +42,7 @@
 
                             <div class="form-group col-md-2">
                                 <label for="cash_date">Cash Date</label>
-                                <input type="text" class="form-control" name="cash_date[]" id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
+                                <input type="text" class="form-control datepicker" name="cash_date[]" id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
 
                             </div>
                             <div class="form-group col-md-3">
@@ -128,8 +124,17 @@
         }
     }
 </script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 <script>
     $(document).ready(function() {
+        // $("#datepicker").datepicker({
+        //     dateFormat: 'dd-mm-yy'
+        // });
+
         var maxField = 100; // Input fields increment limitation
         var addButton1 = $('.add_button1'); // Add button selector
         var wrapper1 = $('.field_wrapper1'); // Input field wrapper
@@ -156,7 +161,8 @@
 
                 '<div class="form-group col-md-2">' +
                 '<label for="cash_date">Cash Date</label>' +
-                '<input type="text" class="form-control" name="cash_date[]" id="datepicker" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
+                '<input type="text" class="form-control" name="cash_date[]" id="datepicker' +
+                x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
                 '<div class="form-group col-md-3">' +
@@ -216,6 +222,13 @@
                 if ($("#member_name_" + x).length) {
                     $("#member_name_" + x).select2();
                 }
+                // alert(x);
+                // $("#datepicker"+ x).datepicker({
+                //     dateFormat: 'dd-mm-yy'
+                // });
+                $(".datepicker").datepicker({
+                    dateFormat: 'dd-mm-yy'
+                });
 
                 x++; // Increment field counter
             }
@@ -255,17 +268,17 @@
     });
 </script>
 <script>
-    // (function($) {
-    //     // $("#datepicker").datepicker();
-    //     $("#datepicker").datepicker({
-    //         dateFormat: 'dd-mm-yy'
-    //     });
-    // })(jQuery);
-    $(document).ready(function() {
+    (function($) {
+        // $("#datepicker").datepicker();
         $("#datepicker").datepicker({
             dateFormat: 'dd-mm-yy'
         });
-    });
+    })(jQuery);
+    // $(document).ready(function() {
+    //     $("#datepicker").datepicker({
+    //         dateFormat: 'dd-mm-yy'
+    //     });
+    // });
 </script>
 <script>
     $(document).ready(function() {

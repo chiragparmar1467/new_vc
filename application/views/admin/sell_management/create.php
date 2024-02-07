@@ -37,8 +37,8 @@
                             </div>
 
                             <div class="form-group col-md-3">
-                                <label for="purchase_date">Purchase Date</label>
-                                <input type="text" class="form-control" name="purchase_date[]" id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
+                                <label for="sell_date">Sell Date</label>
+                                <input type="text" class="form-control" name="sell_date[]" id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
 
                             </div>
                             <div class="form-group col-md-3">
@@ -89,7 +89,7 @@
         $("#link-Transaction").removeClass('collapsed');
         $("#link-Transaction").attr("aria-expanded", true);
         $("#ui-basic").addClass('show');
-        $("#purchase_management").addClass('active');
+        $("#sell_management").addClass('active');
     });
 
     function selectAllRecord(params) {
@@ -130,8 +130,8 @@
                 '</div>' +
 
                 '<div class="form-group col-md-3">' +
-                '<label for="purchase_date">Purchase Date</label>' +
-                '<input type="text" class="form-control" name="purchase_date[]" id="datepicker" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
+                '<label for="sell_date">Sell Date</label>' +
+                '<input type="text" class="form-control" name="sell_date[]" id="datepicker" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
                 '<div class="form-group col-md-3">' +

@@ -25,18 +25,17 @@ class Purchase_management extends Admin_Controller
 
     public function index()
     {
+
         // $this->data['js'] = 'application/views/groups/index-js.php';
-        $this->data['page_title'] = 'Purchase';
+        $this->data['page_title'] = 'Cash';
 
         $table_data = $this->db->query('select * from account_master as AM
-        JOIN purchase_management as CM ON CM.fk_account_member_id = AM.id
+        JOIN purchase_management as PM ON PM.fk_account_member_id = AM.id
         where AM.deleted = 0 AND AM.status= 1;')->result_array();
 
-        // $table_data = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
+        $this->data['voucher_no'] = end($table_data)['voucher_no'];
 
-        // if($table_data[$party]){
 
-        // }
         $this->data['table_data'] = $table_data;
 
         $this->render_template($this->viewPath . 'create', $this->data);
@@ -44,78 +43,72 @@ class Purchase_management extends Admin_Controller
 
     public function create($acc_no = NULL)
     {
-print_r('<pre>');
-print_r('In');
-print_r('<pre>');
-print_r($_POST);
-exit();
+
         $this->data['page_title'] = 'Add Purchase';
 
         // Set validation rules for array inputs
-        $this->form_validation->set_rules('voucher_no[]', 'Voucher No.', 'required');
+        $this->form_validation->set_rules('voucher_no[]', 'Bill No.', 'required');
+        if ($this->form_validation->run() == TRUE) {
+           
 
-        $table_data = $this->db->query('select * from account_master as AM
-        JOIN purchase_management as CM ON CM.fk_account_member_id = AM.id
-        where AM.deleted = 0 AND AM.status= 1;')->result_array();
-        // $voucherNumbers = $this->input->post('voucher_no[]');
-        if ($this->input->post('voucher_no[]') != $table_data['voucher_no']) {
-            
-            if ($this->form_validation->run() == TRUE) {
-                
-                $voucherNumbers = $this->input->post('voucher_no[]');
-                print_r('<pre>');
-                print_r($voucherNumbers);
-                   exit();
-                $purchaseDates = $this->input->post('cash_date[]');
-                $memberNames = $this->input->post('member_name[]');
-                $amounts = $this->input->post('amount[]');
+            $voucherNumbers = $this->input->post('voucher_no[]');
+            $purchaseDates = $this->input->post('purchase_date[]');
+            $memberNames = $this->input->post('member_name[]');
+            $amounts = $this->input->post('amount[]');
+          
 
-                // Check if the variables are arrays before using count()
-                if (is_array($voucherNumbers) && is_array($cashDates) && is_array($memberNames) && is_array($amounts)) {
-                    $count = count($voucherNumbers); // Assuming all arrays have the same length
+            // Check if the variables are arrays before using count()
+            if (is_array($voucherNumbers) && is_array($purchaseDates) && is_array($memberNames) && is_array($amounts)) {
+                $count = count($voucherNumbers); // Assuming all arrays have the same length
 
-                    for ($i = 0; $i < $count; $i++) {
-                        $data = array(
-                            'voucher_no' => $voucherNumbers[$i],
-                            'cash_date' => $cashDates[$i],
-                            'fk_account_member_id' => $memberNames[$i],
-                            'amount' => $amounts[$i],
-                        );
+                for ($i = 0; $i < $count; $i++) {
+                    $data = array(
+                        'voucher_no' => $voucherNumbers[$i],
+                        'purchase_date' => $purchaseDates[$i],
+                        'fk_account_member_id' => $memberNames[$i],
+                        'amount' => $amounts[$i],
+                        'fk_financial_year_id' => $_SESSION['year'],
+                        'status' => 1
+                    );
+           
+                    // Assuming you have a model named YourModel
 
-                        // Assuming you have a model named YourModel
+                    if ($_POST['is_exist'] == '0') {
                         $create = $this->Crud_model->save($this->tableName, $data);
-                    }
-
-                    if ($create == true) {
-                        $this->session->set_flashdata('success', 'Successfully created');
-                        redirect(site_url($this->controllerPath), 'refresh');
                     } else {
-                        $this->session->set_flashdata('errors', 'Error occurred!!');
-                        redirect(site_url($this->controllerPath . '/create'), 'refresh');
+
+                        $create = $this->Crud_model->update($this->tableName, array('voucher_no' => $voucherNumbers[$i]), $data);
                     }
+                }
+
+                if ($create == true) {
+                    $this->session->set_flashdata('success', 'Successfully created');
+                    redirect(site_url($this->controllerPath), 'refresh');
                 } else {
-                    // Handle the case where one or more variables are not arrays
-                    $this->session->set_flashdata('errors', 'Invalid data format!!');
+                    $this->session->set_flashdata('errors', 'Error occurred!!');
                     redirect(site_url($this->controllerPath . '/create'), 'refresh');
                 }
             } else {
-                $this->db->order_by('account_no', "DESC");
-                $table_data = $this->db->get('account_master')->result_array()[0];
-                $this->data['table_data'] = $table_data;
-                $this->render_template($this->viewPath . '/create', $this->data);
+                // Handle the case where one or more variables are not arrays
+                $this->session->set_flashdata('errors', 'Invalid data format!!');
+                redirect(site_url($this->controllerPath . '/create'), 'refresh');
             }
         } else {
-        
-            $voucher_no = $this->input->post('voucher_no');
-             
-                $voucher_data = $this->db->query('select * from account_master as AM
-                                                JOIN purchase_management as CM ON CM.fk_account_member_id = AM.id
-                                                where AM.deleted = 0 AND AM.status= 1 AND CM.voucher_no =' . $voucher_no)->row_array();
-                print_r('<pre>');
-                print_r($voucher_data);
-                exit();
-            
+            $this->db->order_by('account_no', "DESC");
+            $table_data = $this->db->get('account_master')->result_array()[0];
+            $this->data['table_data'] = $table_data;
+            $this->render_template($this->viewPath . '/create', $this->data);
         }
+    }
+
+    public function ajax_voucher_no($voucherno)
+    {
+
+        $data = $this->db->query("select PM.id as id,PM.purchase_date as date,PM.voucher_no as voucherno,PM.amount as amountno,PM.fk_account_member_id as membername, AM.account_no as account_no, PM.transaction as transaction from account_master as AM
+        JOIN purchase_management as PM ON PM.fk_account_member_id = AM.id
+        where AM.deleted = 0 AND AM.status= 1 AND PM.voucher_no =" . $voucherno)->row_array();
+
+        echo json_encode($data);
     }
 
     public function edit($acc_no = null)

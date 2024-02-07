@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li class="nav-item" id="sell_management">
-                        <a href="<?php echo base_url('backend_admin/closed_accounts/Loan_accounts/'); ?>"
+                        <a href="<?php echo base_url('backend_admin/sell_management/Sell_management'); ?>"
                             class="nav-link" id="sell_management">
                             <i class="fa fa-book menu-icon"></i>
                             <span class="menu-title">Sell</span>
@@ -154,10 +154,28 @@
 
 
 
-        <li class="nav-item" id="li-report">
-            <a class="nav-link" href="<?php echo base_url('backend_admin/report_master/report'); ?>" id="link-report">
+        <li class="nav-item" id="li-report-cash">
+            <a class="nav-link" href="<?php echo base_url('backend_admin/report_master/Cash_Report/'); ?>" id="link-report-cash">
                 <i class="fa fa-file menu-icon"></i>
-                <span class="menu-title">Report</span>
+                <span class="menu-title">Cash Report</span>
+            </a>
+        </li>
+        <li class="nav-item" id="li-report-Purchase">
+            <a class="nav-link" href="<?php echo base_url('backend_admin/report_master/Purchase_Report/'); ?>" id="link-report-Purchase">
+                <i class="fa fa-file menu-icon"></i>
+                <span class="menu-title">Purchase Report</span>
+            </a>
+        </li>
+        <li class="nav-item" id="li-report-Sell">
+            <a class="nav-link" href="<?php echo base_url('backend_admin/report_master/Sell_Report/'); ?>" id="link-report-Sell">
+                <i class="fa fa-file menu-icon"></i>
+                <span class="menu-title">Sell Report</span>
+            </a>
+        </li>
+        <li class="nav-item" id="li-report-bank">
+            <a class="nav-link" href="<?php echo base_url('backend_admin/report_master/Bank_Report/'); ?>" id="link-report-bank">
+                <i class="fa fa-file menu-icon"></i>
+                <span class="menu-title">Bank Report</span>
             </a>
         </li>
 
