@@ -23,33 +23,24 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
 
     <!-- External Css -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css"> -->
     <script src="<?= base_url() ?>assets/js/jquery-1.12.4.js"></script>
-    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
-    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="<?= base_url() ?>assets/js/jquery-ui.js"></script>
     <!-- External Css -->
     
-    <!-- <link rel="stylesheet"
-        href="<?php echo base_url('assets/AdminLTE-3.0.2/');?>plugins/daterangepicker/daterangepicker.css"> -->
+    <link rel="stylesheet"
+        href="<?php echo base_url('assets/AdminLTE-3.0.2/');?>plugins/daterangepicker/daterangepicker.css">
 
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
     <!-- inject:css -->
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="images/favicon.png" />
-
-
-
-
-    <!-- datepiker  -->
-    <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-    
-
+ 
 </head>
 
 <body>

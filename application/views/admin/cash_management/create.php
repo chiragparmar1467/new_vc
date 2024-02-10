@@ -198,6 +198,8 @@
         $("#link-Transaction").attr("aria-expanded", true);
         $("#ui-basic").addClass('show');
         $("#Cash_management").addClass('active');
+
+
     });
 
     function selectAllRecord(params) {
@@ -211,7 +213,6 @@
         }
     }
 </script>
-
 <script>
     $(document).ready(function() {
 
@@ -239,14 +240,13 @@
 
                 '<div class="form-group col-md-2">' +
                 '<label for="cash_date">Cash Date</label>' +
-                '<input type="text" class="form-control" name="row[' + x + '][cash_date]" id="datepicker' +
-                x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
+                '<input type="text" class="form-control datepicker" name="row[' + x + '][cash_date]" id="datepicker" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
                 '<div class="form-group col-md-3">' +
                 '<label>Select Member Name</label>' +
                 '<select class="js-example-basic-single w-100 member_name" name="row[' + x + '][member_name]" id="member_name_' +
-                x + '" onchange="get_amount()" required>' +
+                x + '" required>' +
                 '<option disabled selected hidden>Select Members</option>' +
                 '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
                     foreach ($member as $row) { ?>' +
@@ -304,7 +304,6 @@
             }
 
         });
-
 
         $(wrapper1).on('click', '.remove_button1', function(e) {
             e.preventDefault();
@@ -373,6 +372,12 @@
     });
 </script>
 <script>
+    $(document).ready(function() {
+        // Initialize the datepicker
+        $("#datepicker").datepicker({
+            dateFormat: 'dd-mm-yy' // Set the date format
+        });
+    });
     (function($) {
         // $("#datepicker").datepicker();
         $("#datepicker").datepicker({
@@ -385,7 +390,6 @@
         $('#voucher_no').on('keyup', function() {
             voucher_no();
         });
-
     });
 
     function voucher_no() {
@@ -399,15 +403,24 @@
             dataType: 'json',
             success: function(data) {
                 // Handle the response data here
-                console.log(data);
-                $('#datepicker').val(data.date);
-                $('#is_exist').val('1');
-                $("#member_name").val(data.account_no).trigger("change");
-                // $('#member_name').val(data.membername);
-                $('#amount').val(data.amountno);
-                $('input[name="transaction[]"]').prop('checked', false); // Uncheck all radio buttons
-                $('input[name="transaction[]"][value="' + data.transaction + '"]').prop('checked',
-                    true); // Check the appropriate radio button
+                if (data != null) {
+                    console.log(data);
+                    $('#datepicker').val(data.date);
+                    $('#is_exist').val('1');
+                    $("#member_name").val(data.account_no).trigger("change");
+                    // $('#member_name').val(data.membername);
+                    $('#amount').val(data.amountno);
+                    $('input[name="transaction[]"]').prop('checked', false); // Uncheck all radio buttons
+                    $('input[name="transaction[]"][value="' + data.transaction + '"]').prop('checked',
+                        true); // Check the appropriate radio button
+                } else {
+                    $('#datepicker').val('');
+                    $('#is_exist').val('');
+                    $("#member_name").val('').trigger("change");
+                    // $('#member_name').val(data.membername);
+                    $('#amount').val('');
+
+                }
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);

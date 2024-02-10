@@ -34,7 +34,7 @@ class Account extends Admin_Controller
         
         $this->data['table_data'] = $table_data;
 
-        $this->render_template($this->viewPath . 'index', $this->data);
+        $this->render_template($this->viewPath . 'create', $this->data);
     }
 
     public function create($acc_no = NULL)

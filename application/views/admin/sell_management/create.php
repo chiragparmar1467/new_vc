@@ -218,7 +218,7 @@
 
                 '<div class="form-group col-md-3">' +
                 '<label for="cash_date">Sell Date</label>' +
-                '<input type="text" class="form-control datepicker" name="row[' + x + '][sell_date]" id="datepicker_' +
+                '<input type="date" class="form-control datepicker" name="row[' + x + '][sell_date]" id="dateInput' +
                 x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
@@ -226,7 +226,7 @@
                 '<label>Select Member Name</label>' +
                 '<select class="js-example-basic-single w-100 member_name" name="row[' + x +
                 '][member_name]" id="member_name_' +
-                x + '" onchange="get_amount()" required>' +
+                x + '" required>' +
                 '<option disabled selected hidden>Select Members</option>' +
                 '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
                     foreach ($member as $row) { ?>' +
@@ -260,7 +260,11 @@
                 if ($("#member_name_" + x).length) {
                     $("#member_name_" + x).select2();
                 };
-
+                document.getElementById("dateInput" + x).addEventListener("change", function() {
+                    var inputDate = new Date(this.value);
+                    var formattedDate = ("0" + inputDate.getDate()).slice(-2) + "-" + ("0" + (inputDate.getMonth() + 1)).slice(-2) + "-" + inputDate.getFullYear();
+                    this.value = formattedDate;
+                });
                 x++; // Increment field counter
             }
 
@@ -335,10 +339,10 @@
 </script>
 <script>
     (function($) {
-    // $("#datepicker").datepicker();
-    $("#datepicker").datepicker({
-        dateFormat: 'dd-mm-yy'
-    });
+        // $("#datepicker").datepicker();
+        $("#datepicker").datepicker({
+            dateFormat: 'dd-mm-yy'
+        });
     })(jQuery);
     // $('.datepicker').datepicker({
     //     format: 'dd-mm-yyyy',

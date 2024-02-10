@@ -264,7 +264,7 @@ $(document).ready(function() {
             '<label>Select Member Name</label>' +
             '<select class="js-example-basic-single w-100 member_name" name="row[' + x +
             '][member_name]" id="member_name_' +
-            x + '" onchange="get_amount()" required>' +
+            x + '" required>' +
             '<option disabled selected hidden>Select Members</option>' +
             '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
                     foreach ($member as $row) { ?>' +
