@@ -34,21 +34,22 @@
                         <div class="card-body row">
                             <div class="form-group col-md-2">
                                 <label for="voucher_number">Voucher No.</label>
-                                <input type="text" class="form-control voucher_no" id="voucher_no" name="voucher_no[]"
-                                    value="<?php echo $this->data['voucher_no'] + 1;  ?>"
+                                <input type="text" class="form-control voucher_no" id="voucher_no"
+                                    name="row[0][voucher_no]" value="<?php echo $this->data['voucher_no'] + 1;  ?>"
                                     placeholder="Enter Voucher Number" required>
-                                <input type="hidden" class="form-control" id="is_exist" name="is_exist" value="0">
+                                <input type="hidden" class="form-control" id="is_exist" name="row[0][is_exist]"
+                                    value="0">
                             </div>
 
                             <div class="form-group col-md-2">
                                 <label for="bank_date">Bank Date</label>
-                                <input type="text" class="form-control datepicker" name="bank_date[]" id="datepicker"
-                                    value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
+                                <input type="text" class="form-control datepicker" name="row[0][bank_date]"
+                                    id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
 
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Select Member Name</label>
-                                <select class="js-example-basic-single w-100 member_name" name="member_name[]"
+                                <select class="js-example-basic-single w-100 member_name" name="row[0][member_name]"
                                     id="member_name" required>
                                     <option disabled selected hidden>Select Members</option>
                                     <?php
@@ -65,22 +66,24 @@
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="amount">Amount</label>
-                                <input type="number" class="form-control" id="amount" name="amount[]"
+                                <input type="number" class="form-control" id="amount" name="row[0][amount]"
                                     placeholder="Enter Amount">
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="Transaction">Transaction</label>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="transaction[]" id="transaction" value="1" <?php if ($transaction == 1) {
-                                                                                                                echo "checked";
-                                                                                                            }  ?>>
+                                        <input type="radio" name="row[0][transaction]" id="transaction" value="1"
+                                            <?php if ($transaction == 1) {
+                                                                                                                        echo "checked";
+                                                                                                                    }  ?>>
                                         Recipt
                                     </label>
                                     <label>
-                                        <input type="radio" name="transaction[]" id="transaction" value="0" <?php if ($transaction == 0) {
-                                                                                                                echo "checked";
-                                                                                                            }  ?>>
+                                        <input type="radio" name="row[0][transaction]" id="transaction" value="0"
+                                            <?php if ($transaction == 0) {
+                                                                                                                        echo "checked";
+                                                                                                                    }  ?>>
                                         Payment
                                     </label>
                                 </div>
@@ -110,6 +113,99 @@
     <!-- /.row -->
 </section>
 
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-12">
+            <?php if ($this->session->flashdata('success')) { ?>
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <?php echo $this->session->flashdata('success'); ?>
+            </div>
+            <?php } elseif ($this->session->flashdata('error')) { ?>
+            <div class="alert alert-error alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <?php echo $this->session->flashdata('error'); ?>
+            </div>
+            <?php } ?>
+
+            <!-- /.box -->
+        </div>
+        <!-- col-md-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Sr. No.</th>
+                                    <th>Voucher Number </th>
+                                    <th>Bank Date</th>
+                                    <th>Member Name</th>
+                                    <th>Amount</th>
+                                    <th>Transaction</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1; ?>
+                                <?php if ($table_data) : ?>
+                                <?php foreach ($table_data as $k => $v) :
+
+                                    ?>
+                                <tr>
+                                    <td><?php echo $i; ?>
+                                    </td>
+                                    <td class="text-center"><?php echo $v['voucher_no']; ?>
+                                    </td>
+                                    <td class="text-center"><?php
+                                                                    echo  $v['bank_date'];
+                                                                    ?>
+                                    </td>
+                                    <td class="text-center"><?php
+                                                                    echo  $v['member_name'];
+                                                                    ?>
+                                    </td>
+                                    <td class="text-center"><?php echo $v['amount']; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if ($v['transaction'] == 0) { ?>
+                                        <p style="color:red">Payment</p>
+                                        <?php   } else { ?>
+                                        <p style="color:green"> Recipt</p>
+                                        <?php } ?>
+                                    </td>
+
+                                    <td>
+                                        <a onclick="return confirm('Are you sure want to delete this data?');"
+                                            title="Delete"
+                                            href="<?php echo base_url() . $this->controllerPath ?>/delete/<?php echo $v['id']; ?>"
+                                            class="btn btn-danger"><i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php $i++; ?>
+                                <?php endforeach ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -138,34 +234,36 @@ $(document).ready(function() {
     var wrapper1 = $('.field_wrapper1'); // Input field wrapper
     var addedFieldsContainer = $('.added_fields_container'); // Container for dynamically added fields
 
-    var x = $('#voucher_no').val(); // Initial field counter is 1
+    var x = 1; // Initial field counter is 1
 
 
     // Once add button is clicked
     $(addButton1).click(function() {
-        var integerValue = parseInt(x);
-
-        var bill_no = $('#voucher_no').val();
+        var voucher_no_last = $('#voucher_no').val();
+        var voucher_no = parseInt(voucher_no_last) + x;
 
         var fieldHTML1 = '<div class="added_fields">' +
             '<div class="card-body row">' +
 
             '<div class="form-group col-md-2">' +
             '<label for="voucher_number">Voucher No.</label>' +
-            '<input type="text" class="form-control" id="voucher_no" value="' + (integerValue + 1) +
-            '" name="voucher_no[]" placeholder="Enter Voucher Number" required>' +
-            '<input type="hidden" class="form-control" id="is_exist" name="is_exist" value="0">' +
+            '<input type="text" class="form-control" id="voucher_no" value="' + voucher_no +
+            '" name="row[' + x + '][voucher_no]" placeholder="Enter Voucher Number" required>' +
+            '<input type="hidden" class="form-control" id="is_exist" name="row[' + x +
+            '][is_exist]" value="0">' +
             '</div>' +
 
             '<div class="form-group col-md-2">' +
             '<label for="bank_date">Bank Date</label>' +
-            '<input type="text" class="form-control datepicker" name="bank_date[]" id="datepicker_' +
+            '<input type="text" class="form-control datepicker" name="row[' + x +
+            '][bank_date]" id="datepicker_' +
             x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
             '</div>' +
 
             '<div class="form-group col-md-3">' +
             '<label>Select Member Name</label>' +
-            '<select class="js-example-basic-single w-100 member_name" name="member_name[]" id="member_name_' +
+            '<select class="js-example-basic-single w-100 member_name" name="row[' + x +
+            '][member_name]" id="member_name_' +
             x + '" onchange="get_amount()" required>' +
             '<option disabled selected hidden>Select Members</option>' +
             '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
@@ -179,20 +277,23 @@ $(document).ready(function() {
 
             '<div class="form-group col-md-2">' +
             '<label for="amount">Amount</label>' +
-            '<input type="number" class="form-control" id="amount" name="amount[]" placeholder="Enter Amount" required>' +
+            '<input type="number" class="form-control" id="amount" name="row[' + x +
+            '][amount]" placeholder="Enter Amount" required>' +
             '</div>' +
 
             '<div class = "form-group col-md-2">' +
             '<label for = "Transaction" >Transaction </label>' +
             '<div class = "radio" >' +
             '<label>' +
-            '<input type = "radio"name = "transaction[]" id ="transaction' + x + '" value = "1" <?php if ($transaction == 1) {
-                                                                                                        echo "checked";
-                                                                                                    }  ?> >' +
+            '<input type = "radio"name = "row[' + x + '][transaction]" id ="transaction' + x +
+            '" value = "1" <?php if ($transaction == 1) {
+                                                                                                                        echo "checked";
+                                                                                                                    }  ?> >' +
             'Recipt' +
             '</label>' +
             '<label>' +
-            '<input type = "radio" class="ml-1" name = "transaction[]" id = "transaction' + x +
+            '<input type = "radio" class="ml-1" name = "row[' + x +
+            '][transaction]" id = "transaction' + x +
             '" value = "0" <?php if ($transaction == 0) {
                                     echo "checked";
                                 }  ?> >' +
@@ -203,7 +304,8 @@ $(document).ready(function() {
 
             '<div class="form-group col-md-1">' +
             '<label for="sdf"></label>' +
-            '<a href="javascript:void(0);" class="remove_button1 btn btn-danger btn-md mt-4" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-times ms-2 fs-1"></i></a>' +
+            '<a href="javascript:void(0);" id="remove_button_' + x +
+            '" class="remove_button1 btn btn-danger btn-md mt-4" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-times ms-2 fs-1"></i></a>' +
             '</div>' +
             '</div>' +
 
@@ -212,11 +314,11 @@ $(document).ready(function() {
 
         if (x < maxField) {
 
-            var newField = fieldHTML1.replace(/transaction\[/g, 'transaction[' + x);
+            // var newField = fieldHTML1;
+
+            var newField = fieldHTML1;
             $(addedFieldsContainer).append(newField);
-            // if ($(".js-example-basic-single").length) {
-            //     $(".js-example-basic-single").select2();
-            // }
+
             if ($("#member_name_" + x).length) {
                 $("#member_name_" + x).select2();
             }
@@ -226,32 +328,97 @@ $(document).ready(function() {
 
     });
 
-    function updateOrder() {
+    // function updateOrder() {
 
-        $('.member_name').each(function(ele) {
-            console.log(ele);
-            $(this).val(index + 1);
-            $(this).prop('id', 'newId');
+    //     $('.member_name').each(function(ele) {
+    //         console.log(ele);
+    //         $(this).val(index + 1);
+    //         $(this).prop('id', 'newId');
 
-        });
-        $('[name^="transaction"]').each(function(index) {
-            $(this).prop('id', 'transaction' + index);
-            $(this).prop('name', 'transaction[' + index + ']');
-        });
+    //     });
+    //     $('[name^="transaction"]').each(function(index) {
+    //         $(this).prop('id', 'transaction' + index);
+    //         $(this).prop('name', 'transaction[' + index + ']');
+    //     });
 
 
-    }
+    // }
 
     // Once remove button is clicked
+    // $(wrapper1).on('click', '.remove_button1', function(e) {
+    //     e.preventDefault();
+    //     $(this).closest('.added_fields').remove(); // Remove the entire added fields set
+    //     x--; // Decrement field counter
+    //     $('.member_name').each(function() {
+    //         $(this).select2();
+    //     });
+    //     // Update values to maintain order
+    //     updateOrder();
+    // });
     $(wrapper1).on('click', '.remove_button1', function(e) {
         e.preventDefault();
-        $(this).closest('.added_fields').remove(); // Remove the entire added fields set
-        x--; // Decrement field counter
-        $('.member_name').each(function() {
-            $(this).select2();
+
+        // Get the id of the clicked button and extract the index
+        var clickedButtonId = $(this).attr('id');
+        var index = parseInt(clickedButtonId.split('_').pop());
+
+        // Get the voucher number from the field above the removed ID
+        var voucherNumber = null;
+        if (index > 1) {
+            var prevVoucherField = $('.added_fields').eq(index - 2).find('#voucher_no');
+            if (prevVoucherField.length) {
+                voucherNumber = parseInt(prevVoucherField.val()) + 1;
+            }
+        } else {
+            // If removing the first field, get voucher number from the second field
+            var nextVoucherField = $('.added_fields').eq(index).find('#voucher_no');
+            if (nextVoucherField.length) {
+                voucherNumber = parseInt(nextVoucherField.val()) - 1;
+            }
+        }
+
+        // Get the values of fields after the removed ID
+        var values = [];
+        $('.added_fields').each(function() {
+            var currentId = parseInt($(this).find('.remove_button1').attr('id').split('_')
+                .pop());
+            if (currentId > index) {
+                var fieldValue = $(this).find('[name^="row[' + currentId + ']"]').map(
+                    function() {
+                        return $(this).val();
+                    }).get();
+                values.push(fieldValue);
+            }
         });
-        // Update values to maintain order
-        updateOrder();
+
+        console.log('Values after removed ID:', values);
+
+        // Remove the entire added fields set
+        $(this).closest('.added_fields').remove();
+
+        // Decrement field counter
+        x--;
+
+        // Adjust subsequent field IDs, voucher numbers, and other values
+        $('.added_fields').each(function() {
+            var currentId = parseInt($(this).find('.remove_button1').attr('id').split('_')
+                .pop());
+            if (currentId > index) {
+                var newIndex = currentId - 1;
+                var newId = $(this).find('.remove_button1').attr('id').replace('_' + currentId,
+                    '_' + newIndex);
+                $(this).find('.remove_button1').attr('id', newId);
+                $(this).find('#voucher_no').val(voucherNumber++);
+                $(this).find('[name^="row[' + currentId + ']"]').each(function() {
+                    var newName = $(this).attr('name').replace('[' + currentId + ']',
+                        '[' + newIndex + ']');
+                    $(this).attr('name', newName);
+                });
+            }
+        });
+
+        // Reinitialize Select2
+        $('.member_name').select2();
     });
 });
 </script>
@@ -293,7 +460,7 @@ function voucher_no() {
             $('#amount').val(data.amountno);
             $('input[name="transaction[]"]').prop('checked', false); // Uncheck all radio buttons
             $('input[name="transaction[]"][value="' + data.transaction + '"]').prop('checked',
-            true); // Check the appropriate radio button
+                true); // Check the appropriate radio button
         },
         error: function(xhr, status, error) {
             // Handle errors here

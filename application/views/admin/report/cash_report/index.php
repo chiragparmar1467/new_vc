@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Manage <?php echo $this->data['name']; ?></h1>
+                <h1 class="m-0 text-dark"><?php echo $this->data['name']; ?> Manage</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -64,7 +64,7 @@
                                 <select class="js-example-basic-single w-100 member_name" name="member_name" id="member_name" required>
                                     <option disabled selected hidden>Select Members</option>
                                     <?php
-                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
+                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1  AND fk_financial_year_id =' . $_SESSION['year'])->result_array();
                                     foreach ($member as $row) {
                                     ?>
                                         <option value=" <?php echo $row['account_no']; ?>">
@@ -80,7 +80,7 @@
                                 <select class="js-example-basic-single w-100 voucher_no" name="voucher_no" id="voucher_no" required>
                                     <option disabled selected hidden>Select Voucher No</option>
                                     <?php
-                                    $voucher_no = $this->db->query('select * from cash_management where deleted = 0 AND status = 1')->result_array();
+                                    $voucher_no = $this->db->query('select * from cash_management where deleted = 0 AND status = 1 AND fk_financial_year_id =' . $_SESSION['year'])->result_array();
                                     foreach ($voucher_no as $row) {
                                     ?>
                                         <option value="<?= $row['voucher_no'] ?>">
@@ -96,7 +96,7 @@
                                 <select class="js-example-basic-single w-100 account_no" name="account_no" id="account_no" required>
                                     <option disabled selected hidden>Select Account No</option>
                                     <?php
-                                    $account_no = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
+                                    $account_no = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id =' . $_SESSION['year'])->result_array();
                                     foreach ($account_no as $row) {
                                     ?>
                                         <option value="<?= $row['account_no'] ?>">
@@ -115,9 +115,6 @@
                     </form>
                 </div>
                 <!-- /.card-body -->
-
-
-
             </div>
             <!-- /.card -->
         </div>
@@ -128,10 +125,11 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#li-report").addClass('active');
-        // $("#link-report").addClass('active');
-
-
+        // $("#li-account").addClass('active');
+        $("#link-Reports").removeClass('collapsed');
+        $("#link-Reports").attr("aria-expanded", true);
+        $("#ui-basi").addClass('show');
+        $("#li-report-cash").addClass('active');
     });
 </script>
 
@@ -175,50 +173,5 @@
                 console.log(data);
             }
         });
-        // $.ajax({
-        //     type: "POST",
-        //     url: "<?php echo base_url() . $this->controllerPath ?>get_member",
-        //     data: {
-        //         group_id: group_id
-        //     },
-        //     success: function(data) {
-        //         $('#member_name').html(data);
-
-        //         console.log(data);
-        //     }
-        // });
-        // $.ajax({
-        //     type: "POST",
-        //     url: "<?php echo base_url() . $this->controllerPath ?>get_acc",
-        //     data: {
-        //         group_id: group_id
-        //     },
-        //     success: function(data) {
-        //         $('#acc_no').html(data);
-
-        //         console.log(data);
-        //     }
-        // });
     };
-</script>
-<script>
-    function get_account() {
-        var group_id = $("#group_name").val();
-        var member_id = $("#member_name").val();
-        // alert(group_id);
-        // alert(member_id);
-        $.ajax({
-            type: "POST",
-            url: "<?php echo base_url() . $this->controllerPath ?>get_acc",
-            data: {
-                group_id: group_id,
-                member_id: member_id
-            },
-            success: function(data) {
-                $('#acc_no').html(data);
-
-                console.log(data);
-            }
-        });
-    }
 </script>

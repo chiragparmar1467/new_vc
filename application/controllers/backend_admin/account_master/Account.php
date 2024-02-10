@@ -28,16 +28,8 @@ class Account extends Admin_Controller
         // $this->data['js'] = 'application/views/groups/index-js.php';
         $this->data['page_title'] = 'Account';
 
+        $table_data = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id ='.$_SESSION['year'])->result_array();
 
-
-        // $table_data = $this->db->query('select *,member_master.status as member_status from member_master 
-        // INNER JOIN account_master ON member_master.id=account_master.fk_member_id where account_master.deleted = 0 AND member_master.deleted = 0 order by account_master.id ASC;')->result_array();
-
-        $table_data = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
-
-        // if($table_data[$party]){
-
-        // }
         $this->data['account_no'] = end($table_data)['account_no'];
         
         $this->data['table_data'] = $table_data;
@@ -54,9 +46,7 @@ class Account extends Admin_Controller
         $this->form_validation->set_rules('member_name', 'Member Name', 'required');
         
         if ($this->form_validation->run() == TRUE) {
-                // print_r('<pre>');
-                //     print_r($_POST);
-                //     exit();
+                
 
             $data = array(
                 'member_name' => $this->input->post('member_name'),
@@ -69,9 +59,7 @@ class Account extends Admin_Controller
                 'account_no' =>  $this->input->post('account_no'),
                 'status' => 1
             );
-                // print_r('<pre>');
-                //     print_r($data);
-                //     exit();
+               
 
             $create = $this->Crud_model->save($this->tableName, $data);
             if ($create == true) {

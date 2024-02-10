@@ -64,7 +64,7 @@
                                 <select class="js-example-basic-single w-100 member_name" name="member_name" id="member_name" required>
                                     <option disabled selected hidden>Select Members</option>
                                     <?php
-                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
+                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id =' . $_SESSION['year'])->result_array();
                                     foreach ($member as $row) {
                                     ?>
                                         <option value=" <?php echo $row['account_no']; ?>">
@@ -80,7 +80,7 @@
                                 <select class="js-example-basic-single w-100 voucher_no" name="voucher_no" id="voucher_no" required>
                                     <option disabled selected hidden>Select Voucher No</option>
                                     <?php
-                                    $voucher_no = $this->db->query('select * from sell_management where deleted = 0 AND status = 1')->result_array();
+                                    $voucher_no = $this->db->query('select * from sell_management where deleted = 0 AND status = 1 AND fk_financial_year_id =' . $_SESSION['year'])->result_array();
                                     foreach ($voucher_no as $row) {
                                     ?>
                                         <option value="<?= $row['voucher_no'] ?>">
@@ -128,10 +128,11 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        // $("#li-account").addClass('active');
+        $("#link-Reports").removeClass('collapsed');
+        $("#link-Reports").attr("aria-expanded", true);
+        $("#ui-basi").addClass('show');
         $("#li-report-Sell").addClass('active');
-        // $("#link-report").addClass('active');
-
-
     });
 </script>
 

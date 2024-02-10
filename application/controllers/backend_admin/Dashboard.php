@@ -25,9 +25,8 @@ class Dashboard extends Admin_Controller
 
 			$this->data['company_data'] = $this->db->get('company')->row_array();
 
-
 			// for daily collection counting 
-			$this->data['customer_data'] = $this->db->get_where('account_master', array('deleted' => '0'))->result_array();
+			$this->data['customer_data'] = $this->db->get_where('account_master', array('deleted' => '0','fk_financial_year_id' => $_SESSION['year']))->result_array();
 			$group_id = 1;
 			$is_admin = ($group_id == 1) ? true : false;
 			$this->data['is_admin'] = $is_admin;

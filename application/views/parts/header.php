@@ -31,8 +31,8 @@
     <script src="<?= base_url() ?>assets/js/jquery-ui.js"></script>
     <!-- External Css -->
     
-    <link rel="stylesheet"
-        href="<?php echo base_url('assets/AdminLTE-3.0.2/');?>plugins/daterangepicker/daterangepicker.css">
+    <!-- <link rel="stylesheet"
+        href="<?php echo base_url('assets/AdminLTE-3.0.2/');?>plugins/daterangepicker/daterangepicker.css"> -->
 
     <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
 
@@ -45,9 +45,11 @@
 
 
     <!-- datepiker  -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+    
+
 </head>
 
 <body>

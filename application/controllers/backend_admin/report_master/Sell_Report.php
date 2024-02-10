@@ -21,12 +21,12 @@ class Sell_Report extends Admin_Controller
         $this->viewPath = 'admin/report/sell_report/';
         $this->uploadFolder = '';
         $this->data['company_data'] = $this->db->get('company')->row_array();
-        $this->data['name'] = 'Report';
+        $this->data['name'] = 'Sell';
     }
 
     public function index()
     {
-        $this->data['page_title'] = 'Report';
+        $this->data['page_title'] = 'Sell';
 
         $data['table_data'] = '';
 
@@ -35,7 +35,7 @@ class Sell_Report extends Admin_Controller
 
     public function create()
     {
-        $this->data['page_title'] = 'Report';
+        $this->data['page_title'] = 'Sell';
 
         if (isset($_POST['submit'])) {
 
@@ -74,12 +74,17 @@ class Sell_Report extends Admin_Controller
                     $member_id = " AND AM.account_no = $member_name";
                     $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name))->row();
                     $mem = "Name : " . $mem_name->member_name . "<br>";
+                    $opening_balance =  $mem_name->opening_balance;
+                    $created_at_date =  $mem_name->created_at;
                 }
 
 
                 if (!empty($voucher_no)) {
                     $voucher = " AND SM.voucher_no = $voucher_no";
                 }
+
+                $year = " AND SM.fk_financial_year_id =" . $_SESSION['year'];
+
                 $data['table_data'] = $this->db->query("
                 SELECT AM.member_name,
                 AM.account_no,
@@ -91,12 +96,15 @@ class Sell_Report extends Admin_Controller
                 WHERE SM.status = 1
                       AND SM.deleted = 0
                       AND AM.status = 1
-                      AND AM.deleted = 0" . $filter_date . $member . $voucher   . "
+                      AND AM.deleted = 0" . $filter_date . $member . $voucher . $year . "
                     ")->result_array();
 
                 $data['from'] = $from_date;
                 $data['to'] = $to_date;
                 $data['member'] = $mem;
+                $data['opening_balance'] = $opening_balance;
+                $formatted_date = date("d-m-Y", strtotime($created_at_date));
+                $data['created_at_date'] = $formatted_date;
 
                 $mpdf =  new \Mpdf\Mpdf(['format' => 'A5']);
                 //  $mpdf = new \Mpdf\Mpdf();
@@ -106,14 +114,14 @@ class Sell_Report extends Admin_Controller
                 $mpdf->WriteHTML($html);
                 $mpdf->Output();
             } else {
-                $this->data['page_title'] = 'Report';
+                $this->data['page_title'] = 'Sell';
 
                 $data['table_data'] = '';
 
                 $this->render_template($this->viewPath . 'index', $data);
             }
         } else {
-            $this->data['page_title'] = 'Report';
+            $this->data['page_title'] = 'Sell';
 
             $data['table_data'] = '';
 

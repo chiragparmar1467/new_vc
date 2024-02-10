@@ -25,13 +25,13 @@ class Bank_management extends Admin_Controller
 
     public function index()
     {
-        
+
         // $this->data['js'] = 'application/views/groups/index-js.php';
         $this->data['page_title'] = 'Cash';
 
         $table_data = $this->db->query('select * from account_master as AM
         JOIN bank_management as BM ON BM.fk_account_member_id = AM.id
-        where AM.deleted = 0 AND AM.status= 1;')->result_array();
+        where BM.deleted = 0 AND BM.status= 1 AND BM.fk_financial_year_id=' . $_SESSION['year'])->result_array();
 
         $this->data['voucher_no'] = end($table_data)['voucher_no'];
 
@@ -43,62 +43,42 @@ class Bank_management extends Admin_Controller
 
     public function create($acc_no = NULL)
     {
-            
+
         $this->data['page_title'] = 'Add Cash';
 
-        // Set validation rules for array inputs
-        $this->form_validation->set_rules('voucher_no[]', 'Voucher No.', 'required');
+        if (isset($_POST['submit'])) {
+            foreach ($_POST['row'] as $v) {
 
-        if ($this->form_validation->run() == TRUE) {
+                $data = array(
+                    'voucher_no' => $v['voucher_no'],
+                    'bank_date' => $v['bank_date'],
+                    'fk_account_member_id' => $v['member_name'],
+                    'amount' => $v['amount'],
+                    'transaction' => $v['transaction'],
+                    'fk_financial_year_id' => $_SESSION['year'],
+                    'status' => 1
+                );
 
-            $voucherNumbers = $this->input->post('voucher_no[]');
-            $bankDates = $this->input->post('bank_date[]');
-            $memberNames = $this->input->post('member_name[]');
-            $amounts = $this->input->post('amount[]');
-            $transaction = $this->input->post('transaction[]');
+                // Assuming you have a model named YourModel
 
-            // Check if the variables are arrays before using count()
-            if (is_array($voucherNumbers) && is_array($bankDates) && is_array($memberNames) && is_array($amounts)) {
-                $count = count($voucherNumbers); // Assuming all arrays have the same length
-
-                for ($i = 0; $i < $count; $i++) {
-                    $data = array(
-                        'voucher_no' => $voucherNumbers[$i],
-                        'bank_date' => $bankDates[$i],
-                        'fk_account_member_id' => $memberNames[$i],
-                        'amount' => $amounts[$i],
-                        'transaction' => $transaction[$i],
-                        'fk_financial_year_id' => $_SESSION['year'],
-                        'status'=> 1
-                    );
-
-                    // Assuming you have a model named YourModel
-
-                    if ($_POST['is_exist'] == '0') {
-                        $create = $this->Crud_model->save($this->tableName, $data);
-                    } else {
-                       
-                        $create = $this->Crud_model->update($this->tableName, array('voucher_no' => $voucherNumbers[$i]),$data);
-                    }
-                }
-
-                if ($create == true) {
-                    $this->session->set_flashdata('success', 'Successfully created');
-                    redirect(site_url($this->controllerPath), 'refresh');
+                if ($v['is_exist'] == '0') {
+                    $create = $this->Crud_model->save($this->tableName, $data);
                 } else {
-                    $this->session->set_flashdata('errors', 'Error occurred!!');
-                    redirect(site_url($this->controllerPath . '/create'), 'refresh');
+
+                    $create = $this->Crud_model->update($this->tableName, array('voucher_no' => $v['voucher_no']), $data);
                 }
+            }
+            if ($create == true) {
+                $this->session->set_flashdata('success', 'Successfully created');
+                redirect(site_url($this->controllerPath), 'refresh');
             } else {
-                // Handle the case where one or more variables are not arrays
-                $this->session->set_flashdata('errors', 'Invalid data format!!');
+                $this->session->set_flashdata('errors', 'Error occurred!!');
                 redirect(site_url($this->controllerPath . '/create'), 'refresh');
             }
         } else {
-            $this->db->order_by('account_no', "DESC");
-            $table_data = $this->db->get('account_master')->result_array()[0];
-            $this->data['table_data'] = $table_data;
-            $this->render_template($this->viewPath . '/create', $this->data);
+            // Handle the case where one or more variables are not arrays
+            $this->session->set_flashdata('errors', 'Invalid data format!!');
+            redirect(site_url($this->controllerPath . '/create'), 'refresh');
         }
     }
 
@@ -107,8 +87,8 @@ class Bank_management extends Admin_Controller
 
         $data = $this->db->query("select BM.id as id,BM.bank_date as date,BM.voucher_no as voucherno,BM.amount as amountno,BM.fk_account_member_id as membername, AM.account_no as account_no, BM.transaction as transaction from account_master as AM
         JOIN bank_management as BM ON BM.fk_account_member_id = AM.id
-        where AM.deleted = 0 AND AM.status= 1 AND BM.voucher_no =" . $voucherno)->row_array();
-                    
+        where AM.deleted = 0 AND AM.status= 1 AND BM.voucher_no =" . $voucherno . " AND BM.fk_financial_year_id=" . $_SESSION['year'])->row_array();
+
         echo json_encode($data);
     }
 

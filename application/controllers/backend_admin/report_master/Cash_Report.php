@@ -21,7 +21,7 @@ class Cash_Report extends Admin_Controller
         $this->viewPath = 'admin/report/cash_report/';
         $this->uploadFolder = '';
         $this->data['company_data'] = $this->db->get('company')->row_array();
-        $this->data['name'] = 'Report';
+        $this->data['name'] = 'Cash';
     }
 
     public function index()
@@ -65,7 +65,6 @@ class Cash_Report extends Admin_Controller
 
                     if (!empty($from_date) && $from_date !=  'dd-mm-yyyy') {
                         $filter_date = " AND CM.cash_date BETWEEN '$from_date' AND '$to_date'";
-                       
                     } else {
                         $filter_date = " AND CM.Cash_date = $to_date";
                     }
@@ -77,6 +76,8 @@ class Cash_Report extends Admin_Controller
                     $member_id = " AND AM.account_no = $member_name";
                     $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name))->row();
                     $mem = "Name : " . $mem_name->member_name . "<br>";
+                    $opening_balance =  $mem_name->opening_balance;
+                    $created_at_date =  $mem_name->created_at;
                 }
 
 
@@ -87,6 +88,7 @@ class Cash_Report extends Admin_Controller
                     // $mem = " Member Name = " . $mem_name->member_name . "<br>";
                 }
 
+                $year = " AND CM.fk_financial_year_id =" . $_SESSION['year'];
 
                 $data['table_data'] = $this->db->query("(
                     SELECT AM.member_name,
@@ -102,7 +104,7 @@ class Cash_Report extends Admin_Controller
                                    AND CM.deleted = 0
                                    AND CM.transaction = 1
                                    AND AM.status = 1
-                                   AND AM.deleted = 0" . $filter_date . $member . $voucher   . "
+                                   AND AM.deleted = 0" . $filter_date . $member . $voucher  . $year . "
                     )
                            UNION ALL
                     (
@@ -119,12 +121,15 @@ class Cash_Report extends Admin_Controller
                                    AND CM.deleted = 0
                                   AND CM.transaction = 0
                                    AND AM.status = 1
-                                  AND AM.deleted = 0" . $filter_date . $member . $voucher  . ")")->result_array();
+                                  AND AM.deleted = 0" . $filter_date . $member . $voucher . $year . ")")->result_array();
 
                 $data['from'] = $from_date;
                 $data['to'] = $to_date;
                 $data['member'] = $mem;
-                
+                $data['opening_balance'] = $opening_balance;
+                $formatted_date = date("d-m-Y", strtotime($created_at_date));
+                $data['created_at_date'] = $formatted_date;
+
                 $mpdf =  new \Mpdf\Mpdf(['format' => 'A5']);
                 //  $mpdf = new \Mpdf\Mpdf();
 
@@ -184,8 +189,7 @@ class Cash_Report extends Admin_Controller
         echo '<option selected disabled hidden>Select Voucher No</option>';
         $query = $this->db->query("
         SELECT DISTINCT * FROM cash_management as CM JOIN account_master as AM ON AM.account_no = CM.fk_account_member_id
-        WHERE CM.fk_account_member_id = '" . $member_id . "'
-        ")->result_array();
+        WHERE CM.fk_account_member_id = '" . $member_id . "' AND CM.fk_financial_year_id =" . $_SESSION['year'])->result_array();
         foreach ($query as $k => $v) {
             echo "<option value='" . $v['voucher_no'] . "'>" . $v['voucher_no'] . "</option>";
         }

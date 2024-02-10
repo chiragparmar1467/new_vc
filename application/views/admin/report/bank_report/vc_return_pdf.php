@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Bank Report</title>
     <link rel="stylesheet" href="<?php echo base_url('public/pdf/bootstrap.min.css'); ?>">
     <!-- <style>
         p {
@@ -37,7 +37,6 @@
         }
     </style> -->
     <style>
-      
         p {
             margin-bottom: 0;
             font-family: "Courier New", monospace;
@@ -85,12 +84,17 @@
                 </p>
             </div>
             <table class="styled-table">
-                <?php if (!empty($from) || !empty($to)) { ?>
-                    <tr>
-                        <td style="font-size: 1em;">From : <?php echo $from; ?></td>
-                        <td style="font-size: 1em;">To : <?php echo $to; ?></td>
-                    </tr>
-                <?php } ?>
+                <?php if (!empty($from) || !empty($to)) {
+                    if ($from != 'dd-mm-yyyy') {
+                ?>
+                        <tr>
+                            <td style="font-size: 1em;">From : <?php echo $from; ?></td>
+                            <?php if ($to != 'dd-mm-yyyy') { ?>
+                                <td style="font-size: 1em;">To : <?php echo $to; ?></td>
+                            <?php } ?>
+                        </tr>
+                <?php }
+                } ?>
                 <?php if (!empty($member)) { ?>
                     <tr>
                         <td style="font-size: 1em;"><?php echo $member; ?></td>
@@ -112,7 +116,15 @@
                 <tr>
                     <td colspan="7" style="border-bottom: 2px solid black;"></td>
                 </tr>
-                <?php
+                <?php if ($opening_balance == true) { ?>
+                    <tr>
+                        <td><?php echo $created_at_date; ?></td>
+                        <td>Open Bal.</td>
+                        <td></td>
+                        <td></td>
+                        <td><?php echo $opening_balance; ?></td>
+                    </tr>
+                <?php }
                 $i = 1; ?>
                 <?php if (!empty($table_data)) { ?>
                     <?php foreach ($table_data as $k => $v) :   ?>
@@ -157,9 +169,10 @@
                     foreach ($table_data as $row) {
                         $debit += $row['debit'];
                     }
-                    if (!empty($debit)) {
+                    $debitopnbal =  $debit + $opening_balance;
+                    if (!empty($debitopnbal)) {
                     ?>
-                        <td><b><?php echo $debit; ?></b></td>
+                        <td><b><?php echo $debitopnbal; ?></b></td>
                     <?php } else { ?>
                         <td><b>0</b></td>
                     <?php } ?>
@@ -168,14 +181,7 @@
             <table class="table text-center styled-table w-100">
                 <tr>
                     <th style="text-align: left; width:70%">Net Baki... </b></th>
-                    <th style="text-align: center; width:15%"><?php
-                                                            $credit = 0;
-                                                            $debit = 0;
-                                                            foreach ($table_data as $row) {
-                                                                $credit += $row['credit'];
-                                                                $debit += $row['debit'];
-                                                            }
-                                                            echo $total = $debit - $credit; ?>
+                    <th style="text-align: center; width:15%"><?php echo $total = $debitopnbal - $credit; ?>
                         </b></th>
                     <th style="text-align: left; width:15%"></th>
                 </tr>
@@ -187,14 +193,7 @@
                     <td colspan="5" style="border-bottom: 4px double #333"></td>
                 </tr>
                 <tr>
-                    <td><b>Net Receivable : <?php
-                                            $credit = 0;
-                                            $debit = 0;
-                                            foreach ($table_data as $row) {
-                                                $credit += $row['credit'];
-                                                $debit += $row['debit'];
-                                            }
-                                            echo $total = $debit - $credit; ?></b></td>
+                    <td><b>Net Receivable : <?php echo $total; ?></b></td>
                     <td><b>
                         </b></td>
                 </tr>
