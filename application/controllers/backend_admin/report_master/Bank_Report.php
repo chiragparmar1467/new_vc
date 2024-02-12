@@ -21,13 +21,13 @@ class Bank_Report extends Admin_Controller
         $this->viewPath = 'admin/report/bank_report/';
         $this->uploadFolder = '';
         $this->data['company_data'] = $this->db->get('company')->row_array();
-        $this->data['name'] = 'Report';
+        $this->data['name'] = 'Bank Report';
     }
 
     public function index()
     {
 
-        $this->data['page_title'] = 'Report';
+        $this->data['page_title'] = 'Bank Report';
 
         $data['table_data'] = '';
 
@@ -36,7 +36,7 @@ class Bank_Report extends Admin_Controller
 
     public function create()
     {
-        $this->data['page_title'] = 'Report';
+        $this->data['page_title'] = 'Bank Report';
 
         if (isset($_POST['submit'])) {
 

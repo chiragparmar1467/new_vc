@@ -26,7 +26,7 @@ class Sell_Report extends Admin_Controller
 
     public function index()
     {
-        $this->data['page_title'] = 'Sell';
+        $this->data['page_title'] = 'Sell Report';
 
         $data['table_data'] = '';
 
@@ -35,7 +35,7 @@ class Sell_Report extends Admin_Controller
 
     public function create()
     {
-        $this->data['page_title'] = 'Sell';
+        $this->data['page_title'] = 'Sell Report';
 
         if (isset($_POST['submit'])) {
 

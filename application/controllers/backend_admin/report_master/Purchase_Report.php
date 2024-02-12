@@ -26,7 +26,7 @@ class Purchase_Report extends Admin_Controller
 
     public function index()
     {
-        $this->data['page_title'] = 'Purchase';
+        $this->data['page_title'] = 'Purchase Report';
 
         $data['table_data'] = '';
 

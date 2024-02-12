@@ -27,7 +27,7 @@ class Purchase_management extends Admin_Controller
     {
 
         // $this->data['js'] = 'application/views/groups/index-js.php';
-        $this->data['page_title'] = 'Cash';
+        $this->data['page_title'] = 'Purchase';
 
         $table_data = $this->db->query('select * from account_master as AM
         JOIN purchase_management as PM ON PM.fk_account_member_id = AM.account_no
@@ -44,7 +44,7 @@ class Purchase_management extends Admin_Controller
     public function create($acc_no = NULL)
     {
 
-        $this->data['page_title'] = 'Add Cash';
+        $this->data['page_title'] = 'Add Purchase';
 
         if (isset($_POST['submit'])) {
             foreach ($_POST['row'] as $v) {

@@ -27,7 +27,7 @@ class Cash_Report extends Admin_Controller
     public function index()
     {
 
-        $this->data['page_title'] = 'Report';
+        $this->data['page_title'] = 'Cash Report';
 
         $data['table_data'] = '';
 
@@ -36,7 +36,7 @@ class Cash_Report extends Admin_Controller
 
     public function create()
     {
-        $this->data['page_title'] = 'Report';
+        $this->data['page_title'] = 'Cash Report';
 
         if (isset($_POST['submit'])) {
 

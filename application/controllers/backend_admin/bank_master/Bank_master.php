@@ -38,7 +38,7 @@ class Bank_master extends Admin_Controller
     public function create($acc_no = NULL)
     {
 
-        $this->data['page_title'] = 'Add Account';
+        $this->data['page_title'] = 'Add Bank';
 
         $this->form_validation->set_rules('bank_account_no', 'Bank Account No', 'required');
 
