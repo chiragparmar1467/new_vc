@@ -107,8 +107,8 @@
             <table class="table text-center styled-table" style="margin-top:10px; text-align: center;">
                 <tr>
                     <!-- <td width="15%">Sr.No</td> -->
-                    <td width="15%">DATE</td>
-                    <td width="15%">Voucher No</td>
+                    <td width="20%">DATE</td>
+                    <td width="10%">Voucher No</td>
                     <td width="20%">NAME & NARRATION</td>
                     <td width="20%">BANK NAME</td>
                     <td width="15%">CREDIT DEBIT</td>

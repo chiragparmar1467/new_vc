@@ -31,7 +31,7 @@ class Sell_management extends Admin_Controller
 
         $table_data = $this->db->query('select * from account_master as AM
         JOIN sell_management as SM ON SM.fk_account_member_id = AM.id
-        where SM.deleted = 0 AND SM.status= 1 AND SM.fk_financial_year_id=' . $_SESSION['year'] . 'AND AM.fk_financial_year_id = ' . $_SESSION['year'])->result_array();
+        where SM.deleted = 0 AND SM.status= 1 AND SM.fk_financial_year_id=' . $_SESSION['year'] . ' AND AM.fk_financial_year_id = ' . $_SESSION['year'])->result_array();
 
         $this->data['voucher_no'] = end($table_data)['voucher_no'];
 
@@ -84,7 +84,7 @@ class Sell_management extends Admin_Controller
 
         $data = $this->db->query("select SM.id as id,SM.sell_date as date,SM.voucher_no as voucherno,SM.amount as amountno,SM.fk_account_member_id as membername, AM.account_no as account_no from account_master as AM
         JOIN sell_management as SM ON SM.fk_account_member_id = AM.id
-        where AM.deleted = 0 AND AM.status= 1 AND SM.voucher_no =" . $voucherno . " AND SM.fk_financial_year_id=" . $_SESSION['year'] . 'AND AM.fk_financial_year_id = ' . $_SESSION['year'])->row_array();
+        where AM.deleted = 0 AND AM.status= 1 AND SM.voucher_no =" . $voucherno . " AND SM.fk_financial_year_id=" . $_SESSION['year'] . ' AND AM.fk_financial_year_id = ' . $_SESSION['year'])->row_array();
 
         echo json_encode($data);
     }

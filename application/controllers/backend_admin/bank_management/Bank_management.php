@@ -27,12 +27,12 @@ class Bank_management extends Admin_Controller
     {
 
         // $this->data['js'] = 'application/views/groups/index-js.php';
-        $this->data['page_title'] = 'Cash';
+        $this->data['page_title'] = 'Bank';
 
         $table_data = $this->db->query('select * from account_master as AM
         JOIN bank_management as BM ON BM.fk_account_member_id = AM.id
         JOIN bank_master as MB ON MB.id = BM.fk_bank_id
-        where BM.deleted = 0 AND BM.status= 1 AND BM.fk_financial_year_id=' . $_SESSION['year'] . "AND AM.fk_financial_year_id = " . $_SESSION['year'])->result_array();
+        where BM.deleted = 0 AND BM.status= 1 AND BM.fk_financial_year_id=' . $_SESSION['year'] . " AND AM.fk_financial_year_id = " . $_SESSION['year'])->result_array();
 
         $this->data['voucher_no'] = end($table_data)['voucher_no'];
 
@@ -45,9 +45,10 @@ class Bank_management extends Admin_Controller
     public function create($acc_no = NULL)
     {
 
-        $this->data['page_title'] = 'Add Cash';
-
+        $this->data['page_title'] = 'Add Bank';
+                     
         if (isset($_POST['submit'])) {
+
             foreach ($_POST['row'] as $v) {
 
                 $data = array(

@@ -41,7 +41,7 @@ class Carry_forward extends Admin_Controller
         }
         $this->data['table_data'] = $table_data;
 
-        $this->render_template($this->viewPath . 'index', $this->data);
+        $this->render_template($this->viewPath . 'create', $this->data);
     }
 
     public function view_loan($id)
@@ -71,7 +71,7 @@ class Carry_forward extends Admin_Controller
 
             $closing_year =  $this->input->post('closing_year');
             $carry_forward = $this->input->post('cary_forward');
-
+            
             $cashaccount_data = $this->db->query('SELECT member_name,
                                                     account_no,
                                                     address,
@@ -227,6 +227,15 @@ class Carry_forward extends Admin_Controller
 
                     $create = $this->Crud_model->save('bank_management', $data);
                 }
+            }
+
+            if (!empty($closing_year) && !empty($carry_forward)) {
+                $data = array(
+                    'old_fk_financial_year_id' => $closing_year,
+                    'fk_financial_year_id' => $carry_forward,
+                );
+
+                $create = $this->Crud_model->save('carry_forward', $data);
             }
 
             if ($create == true) {

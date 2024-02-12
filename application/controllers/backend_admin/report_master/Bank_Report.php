@@ -125,7 +125,7 @@ class Bank_Report extends Admin_Controller
                                    AND BM.deleted = 0
                                    AND BM.transaction = 0
                                    AND AM.status = 1
-                                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . ")")->result_array();
+                                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . ") ORDER BY voucher_no ASC;")->result_array();
 
                 $data['from'] = $from_date;
                 $data['to'] = $to_date;

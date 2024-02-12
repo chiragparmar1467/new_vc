@@ -83,6 +83,7 @@ class Cash_Report extends Admin_Controller
 
                 if (!empty($voucher_no)) {
                     $voucher = " AND CM.voucher_no = $voucher_no";
+
                     // $member_id = " AND AM.account_no = $member_name";
                     // $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name))->row();
                     // $mem = " Member Name = " . $mem_name->member_name . "<br>";
@@ -104,7 +105,7 @@ class Cash_Report extends Admin_Controller
                                    AND CM.deleted = 0
                                    AND CM.transaction = 1
                                    AND AM.status = 1
-                                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher  . $year . "
+                                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher  . $year . " 
                     )
                            UNION ALL
                     (
@@ -121,7 +122,8 @@ class Cash_Report extends Admin_Controller
                                    AND CM.deleted = 0
                                   AND CM.transaction = 0
                                    AND AM.status = 1
-                                  AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . ")")->result_array();
+                                  AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . " )ORDER BY voucher_no ASC;")->result_array();
+
 
                 $data['from'] = $from_date;
                 $data['to'] = $to_date;

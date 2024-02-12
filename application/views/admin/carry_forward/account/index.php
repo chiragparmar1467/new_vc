@@ -25,17 +25,15 @@
         <div class="row">
             <div class="col-12">
                 <?php if ($this->session->flashdata('success')) { ?>
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <?php echo $this->session->flashdata('success'); ?>
-                </div>
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <?php echo $this->session->flashdata('success'); ?>
+                    </div>
                 <?php } elseif ($this->session->flashdata('error')) { ?>
-                <div class="alert alert-error alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <?php echo $this->session->flashdata('error'); ?>
-                </div>
+                    <div class="alert alert-error alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <?php echo $this->session->flashdata('error'); ?>
+                    </div>
                 <?php } ?>
 
                 <!-- /.box -->
@@ -47,13 +45,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Manage <?php echo $this->data['name']; ?></h3>
-                        <a href="<?php echo base_url() . $this->controllerPath ?>create"
-                            class="btn btn-primary float-right">
-                            <?php echo $this->data['name']; ?></a>
-                    </div>
-
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="table-responsive">
@@ -63,62 +54,26 @@
                                         <th>Sr. No.</th>
                                         <th>Closing year</th>
                                         <th>Carry Forward Year</th>
-                                        <!-- <th>Carry foward No</th> -->
-                                        <!-- <th>Status</th> -->
-                                        <th>View</th>
-                                        <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php  $i = 1; ?>
+                                    <?php $i = 1; ?>
                                     <?php if ($table_data) : ?>
-                                    <?php foreach ($table_data as $k => $v) :
-
-                                        ?>
-                                    <tr>
-                                        <td><?php echo $i; ?>
-                                        </td>
-                                        <td class="text-center"><?php        
-                                          echo $v['old_fin_year'];
-                                           ?>
-                                        </td>
-                                        <td class="text-center"><?php        
-                                          echo $v['new_fin_year'];
-                                           ?>
-                                        </td>
-
-                                        <!-- <td class="text-center"><?php   
-                                            //  $total =  $this->db->get_where("loan_master",array('account_no' =>$v['id'],'status'=>1,'deleted'=>0))->result_array();
-                                            //  $total =   $this->db->query('SELECT  * FROM loan_master where status = 1 AND deleted=0 AND  fk_party_id ='.$v['id'])->result_array();
-                                            //   print_r(count($total));
-                                            //   print_r($total);
-                                            //   print_r($this->db->last_query());
-                                            //   exit();  
-
-                                             ?>
-                                        </td> -->
-
-                                        <!-- <td class="text-center"><?php
-                                        echo $v['mobile_number'];
-                                        ?>
-                                        </td> -->
-
-
-                                        <td class="text-center">
-                                            <a href="<?php echo base_url() . $this->controllerPath ?>view_loan/<?php echo $v['old_fk_financial_year_id'] ?>/<?php echo $v['fk_financial_year_id'] ?>"
-                                                title="view" class="btn btn-warning" <?php echo $hide; ?>><i
-                                                    class="fa fa-eye"></i></a>
-
-
-                                        </td>
-
-
-                                    </tr>
-
-
-
-                                    <?php $i++; ?>
-                                    <?php endforeach ?>
+                                        <?php foreach ($table_data as $k => $v) : ?>
+                                            <tr>
+                                                <td><?php echo $i; ?>
+                                                </td>
+                                                <td class="text-center"><?php
+                                                                        echo $v['old_fin_year'];
+                                                                        ?>
+                                                </td>
+                                                <td class="text-center"><?php
+                                                                        echo $v['new_fin_year'];
+                                                                        ?>
+                                                </td>
+                                            </tr>
+                                            <?php $i++; ?>
+                                        <?php endforeach ?>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
@@ -136,14 +91,7 @@
 <!-- /.content-wrapper -->
 
 <script type="text/javascript">
-$(document).ready(function() {
-
-    // $("#loan").addClass('menu-open');
-    // $("#li-loan").addClass('active');
-    // $("#loan-list").addClass('menu-open');
-    // $("#loan-master").addClass('active');
-    $("#carry_forward").addClass('active');
-    // $("#link-Master").addClass('menu-open');
-    // $("#add_customer").addClass('active');
-});
+    $(document).ready(function() {
+        $("#carry_forward").addClass('active');
+    });
 </script>

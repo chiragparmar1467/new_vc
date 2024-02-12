@@ -261,7 +261,7 @@
                 '</div>' +
 
                 '<div class="form-group col-md-4">' +
-                '<label for="bank_date">Bank Date</label>' +
+                '<label for="bank_date">Transaction Date</label>' +
                 '<input type="text" class="form-control datepicker" name="row[' + x +
                 '][bank_date]" id="datepicker' +
                 x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
@@ -283,15 +283,14 @@
                 '</div>' +
 
                 '<div class="form-group col-md-4">' +
-                '<label>Select Member Name</label>' +
+                '<label>Select Bank Name</label>' +
                 '<select class="js-example-basic-single w-100 bank_name" name="row[' + x +
-                '][bank_name]" id="bank_name' +
+                '][bank_name]" id="bank_name_' +
                 x + '" required>' +
                 '<option disabled selected hidden>Select Bank Name</option>' +
                 '<?php $member = $this->db->query('select * from bank_master where deleted = 0 AND status = 1 AND fk_financial_year_id=' . $_SESSION['year'])->result_array();
                     foreach ($member as $row) { ?>' +
-                '<option value="<?= $row["id
-            "] ?>">' +
+                '<option value="<?= $row["id"] ?>">' +
                 '<?php echo "(" . $row['bank_account_no'] . ")" . $row['bank_name']; ?>' +
                 '</option>' +
                 '<?php } ?>' +
@@ -345,8 +344,8 @@
                 if ($("#member_name_" + x).length) {
                     jQuery("#member_name_" + x).select2();
                 }
-                if ($("#bank_name" + x).length) {
-                    jQuery("#bank_name" + x).select2();
+                if ($("#bank_name_" + x).length) {
+                    jQuery("#bank_name_" + x).select2();
                 }
                 $('#datepicker' + x).datepicker({
                     dateFormat: 'dd-mm-yy'
