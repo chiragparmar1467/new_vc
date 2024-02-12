@@ -104,7 +104,7 @@ class Cash_Report extends Admin_Controller
                                    AND CM.deleted = 0
                                    AND CM.transaction = 1
                                    AND AM.status = 1
-                                   AND AM.deleted = 0" . $filter_date . $member . $voucher  . $year . "
+                                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher  . $year . "
                     )
                            UNION ALL
                     (
@@ -121,7 +121,7 @@ class Cash_Report extends Admin_Controller
                                    AND CM.deleted = 0
                                   AND CM.transaction = 0
                                    AND AM.status = 1
-                                  AND AM.deleted = 0" . $filter_date . $member . $voucher . $year . ")")->result_array();
+                                  AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . ")")->result_array();
 
                 $data['from'] = $from_date;
                 $data['to'] = $to_date;

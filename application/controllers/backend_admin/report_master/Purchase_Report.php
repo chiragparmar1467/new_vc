@@ -97,7 +97,7 @@ class Purchase_Report extends Admin_Controller
                 WHERE PM.status = 1
                       AND PM.deleted = 0
                       AND AM.status = 1
-                      AND AM.deleted = 0" . $filter_date . $member . $voucher . $year  . "
+                      AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year  . "
                     ")->result_array();
 
                 $data['from'] = $from_date;

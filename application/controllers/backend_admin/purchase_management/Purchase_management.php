@@ -31,7 +31,7 @@ class Purchase_management extends Admin_Controller
 
         $table_data = $this->db->query('select * from account_master as AM
         JOIN purchase_management as PM ON PM.fk_account_member_id = AM.id
-        where PM.deleted = 0 AND PM.status= 1 AND PM.fk_financial_year_id=' . $_SESSION['year'])->result_array();
+        where PM.deleted = 0 AND PM.status= 1 AND PM.fk_financial_year_id=' . $_SESSION['year'] . 'AND AM.fk_financial_year_id = ' . $_SESSION['year'])->result_array();
 
         $this->data['voucher_no'] = end($table_data)['voucher_no'];
 

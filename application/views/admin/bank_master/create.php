@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"><?php echo $this->data['name']; ?> Management </h1>
+                <h1 class="m-0 text-dark"><?php echo $this->data['name']; ?> Master </h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -30,63 +30,26 @@
                 <form role="form" id="cash_form" action="<?php echo base_url() . $this->controllerPath ?>/create" method="post" enctype="multipart/form-data">
                     <div class="field_wrapper1">
                         <div class="card-body row">
-                            <div class="form-group col-md-2">
-                                <label for="voucher_number">Voucher No.</label>
-                                <input type="text" class="form-control voucher_no" id="voucher_no" name="row[0][voucher_no]" value="<?php echo $this->data['voucher_no'] + 1;  ?>" placeholder="Enter Voucher Number" required>
-                                <input type="hidden" class="form-control" id="is_exist" name="row[0][is_exist]" value="0">
+                            <div class="form-group col-md-4">
+                                <label for="Bank Account No">Bank Account No</label>
+                                <input type="number" class="form-control" id="bank_account_no" name="bank_account_no" placeholder="Enter Bank Account No" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="voucher_number">Bank Name</label>
+                                <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Enter Bank Name" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="bank_date">Bank IFSC</label>
+                                <input type="text" class="form-control" name="bank_ifsc" id="bank_ifsc" placeholder="Enter Bank IFSC" required>
+
                             </div>
 
-                            <div class="form-group col-md-2">
-                                <label for="cash_date">Cash Date</label>
-                                <input type="text" class="form-control datepicker" name="row[0][cash_date]" id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
-
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Select Member Name</label>
-                                <select class="js-example-basic-single w-100 member_name" name="row[0][member_name]" id="member_name" required>
-                                    <option disabled selected hidden>Select Members</option>
-                                    <?php
-                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
-                                    foreach ($member as $row) {
-                                    ?>
-                                        <option value="<?= $row['account_no'] ?>" <?php if ($accountno == $row['account_no']) { ?> selected<?php } ?>>
-                                            <?php echo "(" . $row['account_no'] . ")" . $row['member_name']; ?>
-                                        </option>
-                                    <?php
-                                    } ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="amount">Amount</label>
-                                <input type="number" class="form-control" id="amount" name="row[0][amount]" placeholder="Enter Amount" required>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="Transaction">Transaction</label>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" class="transaction" name="row[0][transaction]" id="transaction" value="1" <?php if ($transaction == 1) {
-                                                                                                                                            echo "checked";
-                                                                                                                                        }  ?> required>
-                                        Recipt
-                                    </label>
-                                    <label>
-                                        <input type="radio" class="transaction" name="row[0][transaction]" id="transaction" value="0" <?php if ($transaction == 0) {
-                                                                                                                                            echo "checked";
-                                                                                                                                        }  ?> required>
-                                        Payment
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-md-1">
-                                <label for="amount"></label>
-                                <a href="javascript:void(0);" id="add_button" disabled class="add_button1 btn btn-primary" style="margin-left:10px; margin-top:25px" title="Add field" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-plus ms-2 fs-2"></i></a>
-                            </div>
                         </div>
                         <div class="added_fields_container"></div>
                     </div>
 
                     <div class="card-footer">
+
                         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                         <!-- <a href="<?php echo base_url() . $this->controllerPath ?>" class="btn btn-warning">Back</a> -->
                     </div>
@@ -98,6 +61,7 @@
     </div>
     <!-- /.row -->
 </section>
+
 <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
@@ -130,11 +94,9 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>Sr. No.</th>
-                                    <th>Voucher Number </th>
-                                    <th>Cash Date</th>
-                                    <th>Member Name</th>
-                                    <th>Amount</th>
-                                    <th>Transaction</th>
+                                    <th>Bank Account No</th>
+                                    <th>Bank Name</th>
+                                    <th>Bank IFSC</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -147,31 +109,18 @@
                                         <tr>
                                             <td><?php echo $i; ?>
                                             </td>
-                                            <td class="text-center"><?php echo $v['voucher_no']; ?>
+                                            <td class="text-center"><?php echo $v['bank_account_no']; ?>
                                             </td>
                                             <td class="text-center"><?php
-                                                                    echo  $v['cash_date'];
+                                                                    echo  $v['bank_name'];
                                                                     ?>
                                             </td>
                                             <td class="text-center"><?php
-                                                                    echo  $v['member_name'];
+                                                                    echo  $v['bank_ifsc'];
                                                                     ?>
                                             </td>
-                                            <td class="text-center"><?php echo $v['amount']; ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php if ($v['transaction'] == 0) { ?>
-                                                    <p style="color:red">Payment</p>
-                                                <?php   } else { ?>
-                                                    <p style="color:green"> Recipt</p>
-
-                                                <?php }
-
-                                                ?>
-                                            </td>
-
-
                                             <td>
+                                                <a href="<?php echo base_url() . $this->controllerPath ?>/edit/<?php echo $v['id'];  ?>" title="Edit" class="btn btn-warning"><i class="fa fa-edit"></i></a>
                                                 <a onclick="return confirm('Are you sure want to delete this data?');" title="Delete" href="<?php echo base_url() . $this->controllerPath ?>/delete/<?php echo $v['id']; ?>" class="btn btn-danger"><i class="fa fa-trash"></i>
                                                 </a>
                                             </td>
@@ -194,12 +143,10 @@
 <script type="text/javascript">
     $(document).ready(function() {
         // $("#li-account").addClass('active');
-        $("#link-Transaction").removeClass('collapsed');
-        $("#link-Transaction").attr("aria-expanded", true);
-        $("#ui-basic").addClass('show');
-        $("#Cash_management").addClass('active');
-
-
+        // $("#link-Transaction").removeClass('collapsed');
+        // $("#link-Transaction").attr("aria-expanded", true);
+        // $("#ui-basic").addClass('show');
+        $("#li-bank_master").addClass('active');
     });
 
     function selectAllRecord(params) {
@@ -221,13 +168,14 @@
         var wrapper1 = $('.field_wrapper1'); // Input field wrapper
         var addedFieldsContainer = $('.added_fields_container'); // Container for dynamically added fields
 
-        // var x = $('#voucher_no').val(); // Initial field counter is 1
-        var x = 1;
+        var x = 1; // Initial field counter is 1
+
 
         // Once add button is clicked
         $(addButton1).click(function() {
             var voucher_no_last = $('#voucher_no').val();
             var voucher_no = parseInt(voucher_no_last) + x;
+
             var fieldHTML1 = '<div class="added_fields">' +
                 '<div class="card-body row">' +
 
@@ -240,8 +188,9 @@
                 '</div>' +
 
                 '<div class="form-group col-md-2">' +
-                '<label for="cash_date">Cash Date</label>' +
-                '<input type="text" class="form-control" name="row[' + x + '][cash_date]" id="datepicker' +
+                '<label for="bank_date">Bank Date</label>' +
+                '<input type="text" class="form-control datepicker" name="row[' + x +
+                '][bank_date]" id="datepicker' +
                 x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
@@ -270,18 +219,18 @@
                 '<label for = "Transaction" >Transaction </label>' +
                 '<div class = "radio" >' +
                 '<label>' +
-                '<input type = "radio" name ="row[' + x + '][transaction]" id ="transaction_' + x +
-                '_recipt" value = "1" <?php if ($transaction == 1) {
-                                            echo "checked";
-                                        }  ?>>' +
+                '<input type = "radio"name = "row[' + x + '][transaction]" id ="transaction' + x +
+                '" value = "1" <?php if ($transaction == 1) {
+                                    echo "checked";
+                                }  ?> >' +
                 'Recipt' +
                 '</label>' +
                 '<label>' +
-                '<input type = "radio" class="ml-1" name ="row[' + x +
-                '][transaction]" id = "transaction_' + x +
-                '_payment" value = "0" <?php if ($transaction == 0) {
-                                            echo "checked";
-                                        }  ?>>' +
+                '<input type = "radio" class="ml-1" name = "row[' + x +
+                '][transaction]" id = "transaction' + x +
+                '" value = "0" <?php if ($transaction == 0) {
+                                    echo "checked";
+                                }  ?> >' +
                 'Payment' +
                 '</label>' +
                 '</div>' +
@@ -304,13 +253,9 @@
                 var newField = fieldHTML1;
                 $(addedFieldsContainer).append(newField);
 
-                // if ($("#member_name_" + x).length) {
-                //     $("#member_name_" + x).select2();
-                // };
                 if ($("#member_name_" + x).length) {
                     jQuery("#member_name_" + x).select2();
                 }
-
                 $('#datepicker' + x).datepicker({
                     dateFormat: 'dd-mm-yy'
                 });
@@ -319,6 +264,8 @@
             }
 
         });
+
+
 
         $(wrapper1).on('click', '.remove_button1', function(e) {
             e.preventDefault();
@@ -379,16 +326,12 @@
                             '[' + newIndex + ']');
                         $(this).attr('name', newName);
                     });
-                    $('.member_name').select2();
-
                 }
             });
 
             // Reinitialize Select2
             $('.member_name').select2();
         });
-
-
     });
 </script>
 <script>
@@ -424,8 +367,9 @@
                     $("#member_name").val(data.account_no).trigger("change");
                     $("#add_button").removeAttr("href").css("pointer-events", "none").addClass("disabled");
                     $('#amount').val(data.amountno);
-                    $('input[name="row[0][transaction]"]').prop('checked', false); // Uncheck all radio buttons
-                    $('input[name="row[0][transaction]"][value="' + data.transaction + '"]').prop('checked', true); // Check the appropriate radio button
+                    $('input[name="transaction[]"]').prop('checked', false); // Uncheck all radio buttons
+                    $('input[name="transaction[]"][value="' + data.transaction + '"]').prop('checked',
+                        true); // Check the appropriate radio button
                 } else {
                     var currentDate = new Date();
 

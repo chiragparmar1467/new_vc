@@ -65,7 +65,8 @@
 
                             <div class="form-group col-md-1">
                                 <label for="amount"></label>
-                                <a href="javascript:void(0);" class="add_button1 btn btn-primary" style="margin-left:10px; margin-top:25px" title="Add field" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-plus ms-2 fs-2"></i></a>
+                                <a href="javascript:void(0);" id="add_button" disabled class="add_button1 btn btn-primary" style="margin-left:10px; margin-top:25px" title="Add field" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-plus ms-2 fs-2"></i></a>
+
                             </div>
                         </div>
                         <div class="added_fields_container"></div>
@@ -190,7 +191,7 @@
     }
 </script>
 <script>
-    $(document).ready(function() {
+    jQuery(document).ready(function($) {
         var maxField = 100; // Input fields increment limitation
         var addButton1 = $('.add_button1'); // Add button selector
         var wrapper1 = $('.field_wrapper1'); // Input field wrapper
@@ -218,7 +219,7 @@
 
                 '<div class="form-group col-md-3">' +
                 '<label for="cash_date">Sell Date</label>' +
-                '<input type="date" class="form-control datepicker" name="row[' + x + '][sell_date]" id="dateInput' +
+                '<input type="text" class="form-control datepicker" name="row[' + x + '][sell_date]" id="datepicker' +
                 x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
@@ -258,12 +259,11 @@
                 $(addedFieldsContainer).append(newField);
 
                 if ($("#member_name_" + x).length) {
-                    $("#member_name_" + x).select2();
-                };
-                document.getElementById("dateInput" + x).addEventListener("change", function() {
-                    var inputDate = new Date(this.value);
-                    var formattedDate = ("0" + inputDate.getDate()).slice(-2) + "-" + ("0" + (inputDate.getMonth() + 1)).slice(-2) + "-" + inputDate.getFullYear();
-                    this.value = formattedDate;
+                    jQuery("#member_name_" + x).select2();
+                }
+
+                $('#datepicker' + x).datepicker({
+                    dateFormat: 'dd-mm-yy'
                 });
                 x++; // Increment field counter
             }
@@ -344,23 +344,18 @@
             dateFormat: 'dd-mm-yy'
         });
     })(jQuery);
-    // $('.datepicker').datepicker({
-    //     format: 'dd-mm-yyyy',
-    //     autoclose: true
-    // });
 </script>
 <script>
     $(document).ready(function() {
         $('#voucher_no').on('keyup', function() {
             voucher_no();
         });
-
     });
 
     function voucher_no() {
 
         var voucherno = $('#voucher_no').val();
-        // alert(voucherno);
+
         $.ajax({
             url: '<?= base_url() . $this->controllerPath ?>/ajax_voucher_no/' + voucherno,
             method: "POST",
@@ -368,18 +363,38 @@
             dataType: 'json',
             success: function(data) {
                 // Handle the response data here
-                console.log(data);
-                $('#datepicker').val(data.date);
-                $('#is_exist').val('1');
-                $("#member_name").val(data.account_no).trigger("change");
-                // $('#member_name').val(data.membername);
-                $('#amount').val(data.amountno);
-                $('input[name="transaction[]"]').prop('checked', false); // Uncheck all radio buttons
-                $('input[name="transaction[]"][value="' + data.transaction + '"]').prop('checked',
-                    true); // Check the appropriate radio button
+                if (data != null) {
+                    console.log(data);
+                    $('#datepicker').val(data.date);
+                    $('#is_exist').val('1');
+                    $("#member_name").val(data.account_no).trigger("change");
+                    $("#add_button").removeAttr("href").css("pointer-events", "none").addClass("disabled");
+                    $('#amount').val(data.amountno);
+                    $('input[name="transaction[]"]').prop('checked', false); // Uncheck all radio buttons
+                    $('input[name="transaction[]"][value="' + data.transaction + '"]').prop('checked',
+                        true); // Check the appropriate radio button
+                } else {
+                    var currentDate = new Date();
+
+                    // Format the date as 'dd-mm-yyyy'
+                    var formattedDate = currentDate.getDate() + '-' + (currentDate.getMonth() + 1) + '-' +
+                        currentDate.getFullYear();
+                    $('#datepicker').val(formattedDate);
+                    $('#is_exist').val('0');
+
+                    $('#member_name option:not(:first)').removeAttr('selected');
+
+                    $('#member_name option[data-select2-id="4"]').prop('selected', true);
+
+                    $('#member_name').trigger('change');
+
+                    $("#add_button").attr("href", "javascript:void(0);").css("pointer-events", "auto")
+                        .removeClass("disabled");
+                    $('#amount').val('');
+
+                }
             },
             error: function(xhr, status, error) {
-                // Handle errors here
                 console.error(xhr.responseText);
             }
         });

@@ -47,6 +47,12 @@
                 <span class="menu-title">Accounts</span>
             </a>
         </li>
+        <li class="nav-item" id="li-bank_master">
+            <a class="nav-link" href="<?php echo base_url('backend_admin/bank_master/Bank_master'); ?>" id="link-bank">
+                <i class="fa fa-book menu-icon"></i>
+                <span class="menu-title">Bank Master</span>
+            </a>
+        </li>
 
         <li class="nav-item has-treeview" id="li-Transaction">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" id="link-Transaction" aria-expanded="false" aria-controls="ui-basic">

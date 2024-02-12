@@ -109,7 +109,8 @@
                     <!-- <td width="15%">Sr.No</td> -->
                     <td width="15%">DATE</td>
                     <td width="15%">Voucher No</td>
-                    <td width="40%">NAME & NARRATION</td>
+                    <td width="20%">NAME & NARRATION</td>
+                    <td width="20%">BANK NAME</td>
                     <td width="15%">CREDIT DEBIT</td>
                     <td width="15%">DEBIT DEBIT</td>
                 </tr>
@@ -117,13 +118,13 @@
                     <td colspan="7" style="border-bottom: 2px solid black;"></td>
                 </tr>
                 <?php if ($opening_balance == true) { ?>
-                    <tr>
+                    <!-- <tr>
                         <td><?php echo $created_at_date; ?></td>
                         <td>Open Bal.</td>
                         <td></td>
                         <td></td>
                         <td><?php echo $opening_balance; ?></td>
-                    </tr>
+                    </tr> -->
                 <?php }
                 $i = 1; ?>
                 <?php if (!empty($table_data)) { ?>
@@ -138,6 +139,7 @@
                             <?php } else { ?>
                                 <td>CASH</td>
                             <?php } ?>
+                            <td><?php echo $v['bank_name']; ?></td>
                             <td><?php echo $v['credit']; ?></td>
                             <td><?php echo $v['debit']; ?></td>
                         </tr>
@@ -150,10 +152,10 @@
                     </tr>
                 <?php } ?>
                 <tr>
-                    <td colspan="5" style="border-bottom: 2px solid black; "></td>
+                    <td colspan="6" style="border-bottom: 2px solid black; "></td>
                 </tr>
                 <tr class="">
-                    <td colspan="3" style="text-align:left; font-size:medium"><b>Total</b></td>
+                    <td colspan="4" style="text-align:left; font-size:medium"><b>Total</b></td>
                     <?php
                     foreach ($table_data as $row) {
                         $credit += $row['credit'];
@@ -169,10 +171,10 @@
                     foreach ($table_data as $row) {
                         $debit += $row['debit'];
                     }
-                    $debitopnbal =  $debit + $opening_balance;
-                    if (!empty($debitopnbal)) {
+                    // $debitopnbal =  $debit + $opening_balance;
+                    if (!empty($debit)) {
                     ?>
-                        <td><b><?php echo $debitopnbal; ?></b></td>
+                        <td><b><?php echo $debit; ?></b></td>
                     <?php } else { ?>
                         <td><b>0</b></td>
                     <?php } ?>
@@ -181,7 +183,7 @@
             <table class="table text-center styled-table w-100">
                 <tr>
                     <th style="text-align: left; width:70%">Net Baki... </b></th>
-                    <th style="text-align: center; width:15%"><?php echo $total = $debitopnbal - $credit; ?>
+                    <th style="text-align: center; width:15%"><?php echo $total = $debit - $credit; ?>
                         </b></th>
                     <th style="text-align: left; width:15%"></th>
                 </tr>

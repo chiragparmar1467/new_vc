@@ -97,14 +97,16 @@ class Bank_Report extends Admin_Controller
                              BM.voucher_no,
                              BM.amount credit,
                              NULL AS debit,
-                             BM.transaction 
+                             BM.transaction,
+                             MB.bank_name as bank_name
                          FROM bank_management BM
                        LEFT JOIN account_master AM ON AM.account_no = BM.fk_account_member_id
+                       JOIN bank_master as MB ON MB.id = BM.fk_bank_id
                             WHERE BM.status = 1
                                    AND BM.deleted = 0
                                    AND BM.transaction = 1
                                    AND AM.status = 1
-                                   AND AM.deleted = 0" . $filter_date . $member . $voucher . $year . "
+                                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . "
                     )
                            UNION ALL
                     (
@@ -114,14 +116,16 @@ class Bank_Report extends Admin_Controller
                              BM.voucher_no,
                              NULL AS credit,
                              BM.amount debit,
-                             BM.transaction
+                             BM.transaction,
+                             MB.bank_name as bank_name
                          FROM bank_management BM
-                        JOIN account_master AM ON AM.account_no = BM.fk_account_member_id
+                        LEFT JOIN account_master AM ON AM.account_no = BM.fk_account_member_id
+                        JOIN bank_master as MB ON MB.id = BM.fk_bank_id
                             WHERE BM.status = 1
                                    AND BM.deleted = 0
                                    AND BM.transaction = 0
                                    AND AM.status = 1
-                                   AND AM.deleted = 0" . $filter_date . $member . $voucher . $year . ")")->result_array();
+                                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . ")")->result_array();
 
                 $data['from'] = $from_date;
                 $data['to'] = $to_date;
@@ -129,7 +133,7 @@ class Bank_Report extends Admin_Controller
                 $data['opening_balance'] = $opening_balance;
                 $formatted_date = date("d-m-Y", strtotime($created_at_date));
                 $data['created_at_date'] = $formatted_date;
-                
+
                 $mpdf =  new \Mpdf\Mpdf(['format' => 'A5']);
                 //  $mpdf = new \Mpdf\Mpdf();
 

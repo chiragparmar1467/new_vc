@@ -116,11 +116,11 @@
                     <td colspan="7" style="border-bottom: 2px solid black;"></td>
                 </tr>
                 <?php if($opening_balance == true){ ?>
-                <tr>
+                <!-- <tr>
                     <td><?php echo $created_at_date; ?></td>
                     <td>Open Bal.</td>
                     <td><?php echo $opening_balance; ?></td>
-                </tr>
+                </tr> -->
                 <?php }
                 $i = 1; ?>
                 <?php if (!empty($table_data)) { ?>
@@ -167,11 +167,11 @@
                     foreach ($table_data as $row) {
                         $debit += $row['amount'];
                     }
-                    $debitopnbal =  $debit + $opening_balance;
-                    if (!empty($debitopnbal)) {
+                    // $debitopnbal =  $debit + $opening_balance;
+                    if (!empty($debit)) {
                     ?>
 
-                        <td><b><?php echo $debitopnbal; ?></b></td>
+                        <td><b><?php echo $debit; ?></b></td>
                     <?php } else { ?>
                         <td><b>0</b></td>
                     <?php } ?>
