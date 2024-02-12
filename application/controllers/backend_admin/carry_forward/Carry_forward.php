@@ -129,13 +129,14 @@ class Carry_forward extends Admin_Controller
                                                         AM.address,
                                                         AM.mobile_number,
                                                         SUM(CASE WHEN CM.transaction = 1 THEN CM.amount ELSE 0 END) AS credit,
-                                                        SUM(CASE WHEN CM.transaction = 0 THEN CM.amount ELSE 0 END) AS debit
+                                                        SUM(CASE WHEN CM.transaction = 0 THEN CM.amount + AM.opening_balance ELSE 0 END) AS debit
                                                     FROM cash_management CM
-                                                    JOIN account_master AM ON AM.account_no = CM.fk_account_member_id
+                                                    JOIN account_master AM ON AM.account_no = CM.fk_account_member_id 
+                                                    AND AM.fk_financial_year_id = ' . $closing_year . '
                                                     WHERE CM.status = 1
                                                         AND CM.deleted = 0
                                                         AND AM.status = 1
-                                                        AND AM.deleted = 0 AND cm.fk_financial_year_id = ' . $closing_year . '
+                                                        AND AM.deleted = 0 AND CM.fk_financial_year_id = ' . $closing_year . '
                                                     GROUP BY AM.account_no, AM.member_name
                                                     ) AS subquery
                                                     GROUP BY member_name, account_no;')->result_array();

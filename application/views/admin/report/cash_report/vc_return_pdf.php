@@ -126,7 +126,7 @@
                     </tr>
                 <?php }
                 $i = 1; ?>
-                <?php if (!empty($table_data)) { ?>
+                <?php if (!empty($table_data) || !empty($opening_balance)) { ?>
                     <?php foreach ($table_data as $k => $v) :   ?>
                         <tr class="border-0">
                             <!-- <td> <?php echo $i; ?></td> -->
