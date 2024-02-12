@@ -74,7 +74,6 @@
                                     } ?>
                                 </select>
                             </div>
-
                             <div class="form-group col-md-3">
                                 <label>Select Voucher No</label>
                                 <select class="js-example-basic-single w-100 voucher_no" name="voucher_no" id="voucher_no" required>

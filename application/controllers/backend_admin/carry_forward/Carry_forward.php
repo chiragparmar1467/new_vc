@@ -131,6 +131,8 @@ class Carry_forward extends Admin_Controller
 
                     $data = array(
                         'opening_balance' => $acc['balance'],
+                        'fk_financial_year_id' => $carry_forward,
+
                     );
 
                     $create = $this->Crud_model->update('account_master', array('account_no'=>$acc['account_no'], 'fk_financial_year_id'=>$carry_forward),$data);
