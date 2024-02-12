@@ -30,9 +30,9 @@ class Cash_management extends Admin_Controller
         $this->data['page_title'] = 'Cash';
 
         $table_data = $this->db->query('select * from account_master as AM
-        JOIN cash_management as CM ON CM.fk_account_member_id = AM.id
+        JOIN cash_management as CM ON CM.fk_account_member_id = AM.account_no
         where CM.deleted = 0 AND CM.status= 1 AND CM.fk_financial_year_id=' . $_SESSION['year'] . ' AND AM.fk_financial_year_id = ' . $_SESSION['year'] . ' ORDER BY CM.voucher_no ASC ')->result_array();
-
+             
         $this->data['voucher_no'] = end($table_data)['voucher_no'];
 
 
@@ -82,8 +82,8 @@ class Cash_management extends Admin_Controller
     {
 
         $data = $this->db->query("select CM.id as id,CM.cash_date as date,CM.voucher_no as voucherno,CM.amount as amountno,CM.fk_account_member_id as membername, AM.account_no as account_no, CM.transaction as transaction from account_master as AM
-        JOIN cash_management as CM ON CM.fk_account_member_id = AM.id
-        where AM.deleted = 0 AND AM.status= 1 AND CM.voucher_no =" . $voucherno . " AND CM.fk_financial_year_id =" . $_SESSION['year'] . "AND AM.fk_financial_year_id = " . $_SESSION['year'])->row_array();
+        JOIN cash_management as CM ON CM.fk_account_member_id = AM.account_no
+        where AM.deleted = 0 AND AM.status= 1 AND CM.voucher_no =" . $voucherno . " AND CM.fk_financial_year_id =" . $_SESSION['year'] . " AND AM.fk_financial_year_id = " . $_SESSION['year'])->row_array();
 
         echo json_encode($data);
     }

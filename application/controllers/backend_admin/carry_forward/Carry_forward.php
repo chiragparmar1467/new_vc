@@ -71,7 +71,27 @@ class Carry_forward extends Admin_Controller
 
             $closing_year =  $this->input->post('closing_year');
             $carry_forward = $this->input->post('cary_forward');
-            
+
+            $bankmaster_data = $this->db->query('SELECT bank_name,bank_ifsc,bank_account_no,fk_financial_year_id
+            FROM bank_master
+            WHERE status = 1
+                  AND deleted = 0
+                  AND fk_financial_year_id =' . $closing_year)->result_array();
+
+            if ($bankmaster_data != null) {
+                foreach ($bankmaster_data as $bank_master) {
+                    $data = array(
+                        'bank_account_no' => $bank_master['bank_account_no'],
+                        'bank_name' => $bank_master['bank_name'],
+                        'bank_ifsc' => $bank_master['bank_ifsc'],
+                        'status' => 1,
+                        'fk_financial_year_id' => $carry_forward,
+
+                    );
+                    $create = $this->Crud_model->save('bank_master', $data);
+                }
+            }
+
             $cashaccount_data = $this->db->query('SELECT member_name,
                                                     account_no,
                                                     address,
@@ -181,7 +201,8 @@ class Carry_forward extends Admin_Controller
                          NULL AS debit,
                          BM.transaction,
                          BM.amount as amount,
-                         MB.bank_name as bank_name
+                         MB.bank_name as bank_name,
+                         MB.id as bank_id
                      FROM bank_management BM
                    LEFT JOIN account_master AM ON AM.account_no = BM.fk_account_member_id
                    JOIN bank_master as MB ON MB.id = BM.fk_bank_id
@@ -201,7 +222,8 @@ class Carry_forward extends Admin_Controller
                          BM.amount debit,
                          BM.transaction,
                          BM.amount as amount,
-                         MB.bank_name as bank_name
+                         MB.bank_name as bank_name,
+                         MB.id as bank_id
                      FROM bank_management BM
                     LEFT JOIN account_master AM ON AM.account_no = BM.fk_account_member_id
                     JOIN bank_master as MB ON MB.id = BM.fk_bank_id
@@ -211,6 +233,7 @@ class Carry_forward extends Admin_Controller
                                AND AM.status = 1
                                AND AM.deleted = 0 AND AM.fk_financial_year_id =' . $closing_year . ' )')->result_array();
 
+                         
             if ($bank_data != null) {
                 foreach ($bank_data as $bank) {
 
@@ -219,7 +242,7 @@ class Carry_forward extends Admin_Controller
                         'bank_date' => $bank['bank_date'],
                         'fk_account_member_id' => $bank['account_no'],
                         'amount' => $bank['amount'],
-                        'fk_bank_id' => $bank['bank_name'],
+                        'fk_bank_id' => $bank['bank_id'],
                         'transaction' => $bank['transaction'],
                         'fk_financial_year_id' => $carry_forward,
                         'status' => 1

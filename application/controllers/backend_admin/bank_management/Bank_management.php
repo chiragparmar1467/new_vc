@@ -30,10 +30,13 @@ class Bank_management extends Admin_Controller
         $this->data['page_title'] = 'Bank';
 
         $table_data = $this->db->query('select * from account_master as AM
-        JOIN bank_management as BM ON BM.fk_account_member_id = AM.id
+        JOIN bank_management as BM ON BM.fk_account_member_id = AM.account_no
         JOIN bank_master as MB ON MB.id = BM.fk_bank_id
         where BM.deleted = 0 AND BM.status= 1 AND BM.fk_financial_year_id=' . $_SESSION['year'] . " AND AM.fk_financial_year_id = " . $_SESSION['year'])->result_array();
-
+                     print_r('<pre>');
+                     print_r($table_data);
+                     print_r($this->db->last_query());
+                        exit();
         $this->data['voucher_no'] = end($table_data)['voucher_no'];
 
 
@@ -89,7 +92,7 @@ class Bank_management extends Admin_Controller
     {
 
         $data = $this->db->query("select MB.id as Bank_id,BM.id as id,BM.bank_date as date,BM.voucher_no as voucherno,BM.amount as amountno,BM.fk_account_member_id as membername, AM.account_no as account_no, BM.transaction as transaction from account_master as AM
-        JOIN bank_management as BM ON BM.fk_account_member_id = AM.id
+        JOIN bank_management as BM ON BM.fk_account_member_id = AM.account_no
         JOIN bank_master as MB ON MB.id = BM.fk_bank_id
         where AM.deleted = 0 AND AM.status= 1 AND BM.voucher_no =" . $voucherno . " AND BM.fk_financial_year_id=" . $_SESSION['year'] . " AND AM.fk_financial_year_id = " . $_SESSION['year'])->row_array();
 

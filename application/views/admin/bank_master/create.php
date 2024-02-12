@@ -41,17 +41,14 @@
                             <div class="form-group col-md-4">
                                 <label for="bank_date">Bank IFSC</label>
                                 <input type="text" class="form-control" name="bank_ifsc" id="bank_ifsc" placeholder="Enter Bank IFSC" required>
-
                             </div>
-
                         </div>
                         <div class="added_fields_container"></div>
                     </div>
 
                     <div class="card-footer">
-
                         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                        <!-- <a href="<?php echo base_url() . $this->controllerPath ?>" class="btn btn-warning">Back</a> -->
+                      
                     </div>
                 </form>
             </div>

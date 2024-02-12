@@ -30,7 +30,7 @@ class Purchase_management extends Admin_Controller
         $this->data['page_title'] = 'Cash';
 
         $table_data = $this->db->query('select * from account_master as AM
-        JOIN purchase_management as PM ON PM.fk_account_member_id = AM.id
+        JOIN purchase_management as PM ON PM.fk_account_member_id = AM.account_no
         where PM.deleted = 0 AND PM.status= 1 AND PM.fk_financial_year_id=' . $_SESSION['year'] . ' AND AM.fk_financial_year_id = ' . $_SESSION['year'])->result_array();
 
         $this->data['voucher_no'] = end($table_data)['voucher_no'];
@@ -83,7 +83,7 @@ class Purchase_management extends Admin_Controller
     {
 
         $data = $this->db->query("select PM.id as id,PM.purchase_date as date,PM.voucher_no as voucherno,PM.amount as amountno,PM.fk_account_member_id as membername, AM.account_no as account_no, PM.transaction as transaction from account_master as AM
-        JOIN purchase_management as PM ON PM.fk_account_member_id = AM.id
+        JOIN purchase_management as PM ON PM.fk_account_member_id = AM.account_no
         where AM.deleted = 0 AND AM.status= 1 AND PM.voucher_no =" . $voucherno . " AND PM.fk_financial_year_id=" . $_SESSION['year'])->row_array();
 
         echo json_encode($data);

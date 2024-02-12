@@ -46,7 +46,7 @@
                                 <select class="js-example-basic-single w-100 member_name" name="row[0][member_name]" id="member_name" required>
                                     <option disabled selected hidden>Select Members</option>
                                     <?php
-                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
+                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id = ' . $_SESSION['year'])->result_array();
                                     foreach ($member as $row) {
                                     ?>
                                         <option value="<?= $row['account_no'] ?>" <?php if ($accountno == $row['account_no']) { ?> selected<?php } ?>>
@@ -251,7 +251,7 @@
                 '][member_name]" id="member_name_' +
                 x + '" required>' +
                 '<option disabled selected hidden>Select Members</option>' +
-                '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
+                '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id = ' . $_SESSION['year'])->result_array();
                     foreach ($member as $row) { ?>' +
                 '<option value="<?= $row["account_no"] ?>">' +
                 '<?php echo "(" . $row['account_no'] . ")" . $row['member_name']; ?>' +
