@@ -44,27 +44,12 @@ class Carry_forward extends Admin_Controller
         $this->render_template($this->viewPath . 'create', $this->data);
     }
 
-    public function view_loan($id)
-    {
-
-        $this->data['page_title'] = 'Loan Master';
-        // $table_data = $this->db->query('SELECT * FROM vc_master where status = 1 AND deleted=0 AND is_carry_forward =1 AND fk_financial_year_id ='.$id)->result_array();
-        // $table_data = $this->db->query('SELECT  * FROM loan_master where status = 1 AND deleted=0 AND fk_financial_year_id = '.$_SESSION['year'].' AND fk_party_id ='.$id)->result_array();
-
-        // $table_data = $this->db->query('SELECT carry.fk_loan_id, carry.fk_financial_year_id, loan.account_no, loan.month,loan.loan_amount,loan.interest_amount,loan.fk_party_id ,loan.fk_loan_category_id,loan.acc_opening_date,loan.acc_closing_date,loan.per_month_interest,loan.total_interest_amount,loan.final_amount,carry.total_collection,loan.bank_name,loan.cheque_no FROM loan_master as loan inner join carry_forward as carry on loan.id = carry.fk_loan_id where loan.status = 1 AND loan.deleted=0 AND carry.fk_financial_year_id ='.$_SESSION['year'].' ')->result_array();
-
-        // print_r('<pre>');
-        //     print_r($table_data);
-        //     print_r($this->db->last_query());
-        //     exit();
-        $this->data['table_data'] = $table_data;
-        $this->render_template($this->viewPath . 'loan_index', $this->data);
-    }
 
     public function create($account_number = null)
     {
 
-        $this->data['page_title'] = 'Add Account';
+        $this->data['page_title'] = 'Add Carry forward';
+        // $this->form_validation->set_rules('party_name', 'Party Name', 'required');
         $this->load->library('upload');
         if (isset($_POST['submit'])) {
 
@@ -147,6 +132,8 @@ class Carry_forward extends Admin_Controller
 
                     $data = array(
                         'opening_balance' => $acc['balance'],
+                        'fk_financial_year_id' => $carry_forward,
+
                     );
 
                     $create = $this->Crud_model->update('account_master', array('account_no'=>$acc['account_no'], 'fk_financial_year_id'=>$carry_forward),$data);
@@ -250,7 +237,7 @@ class Carry_forward extends Admin_Controller
                                AND AM.status = 1
                                AND AM.deleted = 0 AND AM.fk_financial_year_id =' . $closing_year . ' )')->result_array();
 
-                         
+
             if ($bank_data != null) {
                 foreach ($bank_data as $bank) {
 

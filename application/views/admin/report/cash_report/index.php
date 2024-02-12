@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"><?php echo $this->data['name']; ?> Manage</h1>
+                <h1 class="m-0 text-dark"><?php echo $this->data['name']; ?> Report</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -74,7 +74,6 @@
                                     } ?>
                                 </select>
                             </div>
-
                             <div class="form-group col-md-3">
                                 <label>Select Voucher No</label>
                                 <select class="js-example-basic-single w-100 voucher_no" name="voucher_no" id="voucher_no" required>

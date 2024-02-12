@@ -44,7 +44,7 @@ class Sell_management extends Admin_Controller
     public function create($acc_no = NULL)
     {
 
-        $this->data['page_title'] = 'Add Cash';
+        $this->data['page_title'] = 'Add Sell';
 
         if (isset($_POST['submit'])) {
             foreach ($_POST['row'] as $v) {
@@ -93,7 +93,7 @@ class Sell_management extends Admin_Controller
     {
 
 
-        $this->data['page_title'] = 'Edit Purchase';
+        $this->data['page_title'] = 'Edit Sell';
 
 
         if ($acc_no) {

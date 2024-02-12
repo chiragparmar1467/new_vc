@@ -26,7 +26,7 @@ class Sell_Report extends Admin_Controller
 
     public function index()
     {
-        $this->data['page_title'] = 'Sell';
+        $this->data['page_title'] = 'Sell Report';
 
         $data['table_data'] = '';
 
@@ -35,7 +35,7 @@ class Sell_Report extends Admin_Controller
 
     public function create()
     {
-        $this->data['page_title'] = 'Sell';
+        $this->data['page_title'] = 'Sell Report';
 
         if (isset($_POST['submit'])) {
 
@@ -72,7 +72,7 @@ class Sell_Report extends Admin_Controller
 
                     $member = " AND SM.fk_account_member_id	 = $member_name";
                     $member_id = " AND AM.account_no = $member_name";
-                    $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name))->row();
+                    $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name,'fk_financial_year_id' =>$_SESSION['year']))->row();
                     $mem = "Name : " . $mem_name->member_name . "<br>";
                     $opening_balance =  $mem_name->opening_balance;
                     $created_at_date =  $mem_name->created_at;
