@@ -76,6 +76,29 @@ class Carry_forward extends Admin_Controller
                 }
             }
 
+            $accmaster_data = $this->db->query('SELECT account_no,member_name,
+                                                address,mobile_number,opening_balance
+                                                            FROM account_master
+            WHERE status = 1
+                  AND deleted = 0
+                  AND fk_financial_year_id =' . $closing_year)->result_array();
+
+            if ($accmaster_data != null) {
+                foreach ($accmaster_data as $acc_master) {
+                    $data = array(
+                        'account_no' => $acc_master['account_no'],
+                        'member_name' => $acc_master['member_name'],
+                        'address' => $acc_master['address'],
+                        'opening_balance' => $acc_master['opening_balance'],
+                        'mobile_number' => $acc_master['mobile_number'],
+                        'status' => 1,
+                        'fk_financial_year_id' => $carry_forward,
+                        'deleted' =>0,
+                    );
+                    $create = $this->Crud_model->save('account_master', $data);
+                }
+            }
+
             $cashaccount_data = $this->db->query('SELECT member_name,
                                                     account_no,
                                                     address,
@@ -102,21 +125,15 @@ class Carry_forward extends Admin_Controller
                                                     ) AS subquery
                                                     GROUP BY member_name, account_no;')->result_array();
 
+                                                   
             if ($cashaccount_data != null) {
                 foreach ($cashaccount_data as $acc) {
 
                     $data = array(
-                        'member_name' => $acc['member_name'],
-                        'address' => $acc['address'],
-                        'mobile_number' => $acc['mobile_number'],
-                        // 'email' => $this->input->post('email'),
-                        'status' => 1,
                         'opening_balance' => $acc['balance'],
-                        'fk_financial_year_id' => $carry_forward,
-                        'account_no' =>  $acc['account_no'],
                     );
 
-                    $create = $this->Crud_model->save('account_master', $data);
+                    $create = $this->Crud_model->update('account_master', array('account_no'=>$acc['account_no'], 'fk_financial_year_id'=>$carry_forward),$data);
                 }
             }
 

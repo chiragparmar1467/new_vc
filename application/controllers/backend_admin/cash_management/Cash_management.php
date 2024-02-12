@@ -32,8 +32,12 @@ class Cash_management extends Admin_Controller
         $table_data = $this->db->query('select * from account_master as AM
         JOIN cash_management as CM ON CM.fk_account_member_id = AM.account_no
         where CM.deleted = 0 AND CM.status= 1 AND CM.fk_financial_year_id=' . $_SESSION['year'] . ' AND AM.fk_financial_year_id = ' . $_SESSION['year'] . ' ORDER BY CM.voucher_no ASC ')->result_array();
+      
+        $voucher_no = $this->db->query('select * from account_master as AM
+        JOIN cash_management as CM ON CM.fk_account_member_id = AM.account_no
+        where CM.deleted = 0 AND CM.status= 1 ORDER BY CM.voucher_no ASC ')->result_array();
              
-        $this->data['voucher_no'] = end($table_data)['voucher_no'];
+        $this->data['voucher_no'] = end($voucher_no)['voucher_no'];
 
 
         $this->data['table_data'] = $table_data;

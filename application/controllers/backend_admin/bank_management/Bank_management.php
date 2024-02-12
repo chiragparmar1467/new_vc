@@ -33,7 +33,10 @@ class Bank_management extends Admin_Controller
         JOIN bank_management as BM ON BM.fk_account_member_id = AM.account_no
         JOIN bank_master as MB ON MB.id = BM.fk_bank_id
         where BM.deleted = 0 AND BM.status= 1 AND BM.fk_financial_year_id=' . $_SESSION['year'] . " AND AM.fk_financial_year_id = " . $_SESSION['year'])->result_array();
-                     
+                    //  print_r('<pre>');
+                    //  print_r($table_data);
+                    //  print_r($this->db->last_query());
+                    //     exit();
         $this->data['voucher_no'] = end($table_data)['voucher_no'];
 
 
