@@ -34,7 +34,7 @@
                             <label for="department">Select Closing Year</label>
                             <select class="js-example-basic-single w-100" id="closing_year" name="closing_year">
                                 <option value="" disabled selected hidden>Select Closing Year</option>
-                                <?php $q = $this->db->get('financial_year_master');
+                                <?php $q = $this->db->get_where('financial_year_master',array('id'=>$_SESSION['year']));
                                 foreach ($q->result_array() as $k => $v) : ?>
                                     <option value="<?php echo $v['id'] ?>">
                                         <?php if ($financial_year->id == $v['id']) {
@@ -52,7 +52,7 @@
                                 <option value="" disabled selected hidden>Select Carry Forward</option>
 
 
-                                <?php $q = $this->db->get('financial_year_master');
+                                <?php $q = $this->db->get_where('financial_year_master',array('id >'=>$_SESSION['year']));
                                 foreach ($q->result_array() as $k => $v) : ?>
                                     <option value="<?php echo $v['id'] ?>" <?php if ($financial_year->id == $v['id']) {
                                                                                 echo "";
