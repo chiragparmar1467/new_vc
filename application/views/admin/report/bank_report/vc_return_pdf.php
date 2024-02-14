@@ -111,8 +111,8 @@
                     <td width="10%">Voucher No</td>
                     <td width="20%">NAME & NARRATION</td>
                     <td width="20%">BANK NAME</td>
-                    <td width="15%">CREDIT DEBIT</td>
-                    <td width="15%">DEBIT DEBIT</td>
+                    <td width="15%">CREDIT</td>
+                    <td width="15%">DEBIT</td>
                 </tr>
                 <tr>
                     <td colspan="7" style="border-bottom: 2px solid black;"></td>

@@ -53,6 +53,12 @@
                 <span class="menu-title">Bank Master</span>
             </a>
         </li>
+        <li class="nav-item" id="li-item_master">
+            <a class="nav-link" href="<?php echo base_url('backend_admin/item_master/Item_master'); ?>" id="link-item">
+                <i class="fa fa-shopping-cart menu-icon"></i>
+                <span class="menu-title">Item Master</span>
+            </a>
+        </li>
 
         <li class="nav-item has-treeview" id="li-Transaction">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" id="link-Transaction" aria-expanded="false" aria-controls="ui-basic">
@@ -123,6 +129,12 @@
                         </a>
                     </li>
 
+                    <li class="nav-item" id="li-report-rojmer">
+                        <a class="nav-link" href="<?php echo base_url('backend_admin/report_master/Rojgar_Report/'); ?>" id="link-report-rojmer">
+                            <i class="fa fa-file menu-icon"></i>
+                            <span class="menu-title">Rojmer Report</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </li>

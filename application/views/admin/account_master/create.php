@@ -216,21 +216,6 @@
 
 
     });
-
-    function selectAllRecord(params) {
-        // $("#view_payment_btn").show();
-
-        if (params.checked) {
-            $('.item').prop('checked', true);
-        } else {
-            $('.item').prop('checked', false);
-            // $("#view_payment_btn").hide();
-        }
-    }
-
-    function is_checked() {
-
-    }
 </script>
 <script>
     $(function() {
@@ -242,53 +227,4 @@
     $(function() {
         $("#datepicker1").datepicker();
     });
-</script>
-<script>
-    function totalamount() {
-        var loan_amount = parseInt(document.getElementById("enter_loan_amount").value);
-        var interest_amount = parseInt(document.getElementById("interest_amount").value);
-        var monthly_amount = parseInt(document.getElementById("month").value);
-        var category_id = parseInt(document.getElementById("category_name").value);
-        // alert(category_id);
-
-        // var interest = (loan_amount * interest_amount)/100;
-        if (category_id == 1) {
-            var total = (loan_amount * interest_amount) / 100;
-            var monthly = (total * monthly_amount);
-            var fullamount = (loan_amount + monthly);
-        } else {
-            var total = (loan_amount * interest_amount) / 100;
-            var monthly = (total * monthly_amount);
-            var fullamount = (loan_amount + monthly);
-        }
-        if (category_id == 2) {
-            var total = (loan_amount * interest_amount) / 100;
-            var monthly = (total * monthly_amount);
-            var fullamount = (loan_amount - monthly);
-        }
-
-
-
-        // alert(total);
-        document.getElementById("total").innerHTML =
-            '<label for="total_amount">Interest On Loan Amount</label><input type="text" class="form-control" id="total_amount" name="total_amount" value="' +
-            total + '" autocomplete="off" disabled>';
-        document.getElementById("monthly").innerHTML =
-            '<label for="total_amount">Interest Amount * Month Amount</label><input type="text" class="form-control" id="monthly_amount" name="monthly_amount" value="' +
-            monthly + '" autocomplete="off" disabled>';
-        document.getElementById("fullamount").innerHTML =
-            '<label for="total_amount">Final Amount</label><input type="text" class="form-control" id="total_amount" name="total_amount" value="' +
-            fullamount + '" autocomplete="off" disabled>';
-
-    }
-
-    function cat() {
-        $('#enter_loan_amount').val(0);
-        $('#interest_amount').val(0);
-        $('#month').val(0);
-        $('#total').val(0);
-        $('#monthly').val(0);
-        $('#fullamount').val(0);
-
-    }
 </script>

@@ -90,9 +90,12 @@ class Sell_Report extends Admin_Controller
                 AM.account_no,
                 SM.sell_date,
                 SM.voucher_no,
-                SM.amount
+                SM.amount,
+                IM.item_name,
+                SM.narration
                 FROM sell_management AS SM
                 LEFT JOIN account_master AM ON AM.account_no = SM.fk_account_member_id
+                JOIN item_master as IM ON IM.item_code = SM.fk_item_code
                 WHERE SM.status = 1
                       AND SM.deleted = 0
                       AND AM.status = 1
@@ -165,8 +168,7 @@ class Sell_Report extends Admin_Controller
         echo '<option selected disabled hidden>Select Voucher No</option>';
         $query = $this->db->query("
         SELECT DISTINCT * FROM purchase_management as PM JOIN account_master as AM ON AM.account_no = PM.fk_account_member_id
-        WHERE PM.fk_account_member_id = '" . $member_id . "'
-        ")->result_array();
+        WHERE PM.fk_account_member_id = " . $member_id . " AND AM.fk_financial_year_id = " .$_SESSION['year'])->result_array();
         foreach ($query as $k => $v) {
             echo "<option value='" . $v['voucher_no'] . "'>" . $v['voucher_no'] . "</option>";
         }

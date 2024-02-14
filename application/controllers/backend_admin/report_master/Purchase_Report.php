@@ -73,7 +73,7 @@ class Purchase_Report extends Admin_Controller
 
                     $member = " AND PM.fk_account_member_id	 = $member_name";
                     $member_id = " AND AM.account_no = $member_name";
-                    $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name,'fk_financial_year_id' =>$_SESSION['year']))->row();
+                    $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name, 'fk_financial_year_id' => $_SESSION['year']))->row();
                     $mem = "Name : " . $mem_name->member_name . "<br>";
                     $opening_balance =  $mem_name->opening_balance;
                     $created_at_date =  $mem_name->created_at;
@@ -91,9 +91,12 @@ class Purchase_Report extends Admin_Controller
                 AM.account_no,
                 PM.purchase_date,
                 PM.voucher_no,
-                PM.amount
+                PM.amount,
+                IM.item_name,
+                PM.narration
                 FROM purchase_management AS PM
                 LEFT JOIN account_master AM ON AM.account_no = PM.fk_account_member_id
+                JOIN item_master as IM ON IM.item_code = PM.fk_item_code
                 WHERE PM.status = 1
                       AND PM.deleted = 0
                       AND AM.status = 1
@@ -145,7 +148,6 @@ class Purchase_Report extends Admin_Controller
         }
     }
 
-
     public function get_vc()
     {
         $group_id = $this->input->post('group_id');
@@ -164,10 +166,9 @@ class Purchase_Report extends Admin_Controller
         $member_id = $this->input->post('member_id');
 
         echo '<option selected disabled hidden>Select Voucher No</option>';
-        $query = $this->db->query("
-        SELECT DISTINCT * FROM purchase_management as PM JOIN account_master as AM ON AM.account_no = PM.fk_account_member_id
-        WHERE PM.fk_account_member_id = '" . $member_id . "'
-        ")->result_array();
+        $q = "SELECT DISTINCT * FROM purchase_management as PM JOIN account_master as AM ON AM.account_no = PM.fk_account_member_id
+        WHERE PM.fk_account_member_id =" . $member_id . " AND AM.fk_financial_year_id = " . $_SESSION['year'];
+        $query = $this->db->query($q)->result_array();
         foreach ($query as $k => $v) {
             echo "<option value='" . $v['voucher_no'] . "'>" . $v['voucher_no'] . "</option>";
         }

@@ -14,6 +14,7 @@
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
+<!-- Main content -->
 <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
@@ -23,49 +24,26 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><?php echo validation_errors(); ?>
                 </div>
             <?php } ?>
-
             <div class="card card-primary" style="margin: 20px;">
-                <div class="card-header">
-                    <h3 class="card-title"><?php echo $this->data['name']; ?></h3>
-                </div>
-                <form role="form" action="<?php echo base_url() . $this->controllerPath ?>create/<?php echo $this->data['table_data']['id'] + 1 ?>" method="post" enctype="multipart/form-data">
-                    <div class="card-body row">
-                        <div class="form-group col-md-6">
-                            <label for="closing_year">Select Closing Year</label>
-                            <select class="js-example-basic-single w-100" id="closing_year" name="closing_year">
-                                <option value="" disabled selected hidden>Select Closing Year</option>
-                                <?php $q = $this->db->get_where('financial_year_master',array('id'=>$_SESSION['year']));
-                                foreach ($q->result_array() as $k => $v) : ?>
-                                    <option value="<?php echo $v['id'] ?>">
-                                        <?php if ($financial_year->id == $v['id']) {
-                                            echo "";
-                                        } ?>
-                                        <?php echo $v['title'] ?></option>
-                                <?php endforeach ?>
-                            </select>
+
+                <form role="form" id="cash_form" action="<?php echo base_url() . $this->controllerPath ?>/create" method="post" enctype="multipart/form-data">
+                    <div class="field_wrapper1">
+                        <div class="card-body row">
+                            <div class="form-group col-md-6">
+                                <label for="Item Code">Item Code</label>
+                                <input type="text" class="form-control" id="item_code" name="item_code" placeholder="Enter Item Code" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Item Name">Item Name</label>
+                                <input type="text" class="form-control" id="item_name" name="item_name" placeholder="Enter Item Name" required>
+                            </div>
                         </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="cary_forward">Select Carry Forward To</label>
-                            <select class="js-example-basic-single w-100" id="cary_forward" name="cary_forward">
-
-                                <option value="" disabled selected hidden>Select Carry Forward</option>
-
-
-                                <?php $q = $this->db->get_where('financial_year_master',array('id >'=>$_SESSION['year']));
-                                foreach ($q->result_array() as $k => $v) : ?>
-                                    <option value="<?php echo $v['id'] ?>" <?php if ($financial_year->id == $v['id']) {
-                                                                                echo "";
-                                                                            } ?>>
-                                        <?php echo $v['title'] ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
+                        <div class="added_fields_container"></div>
                     </div>
 
                     <div class="card-footer">
                         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                        <a href="<?php echo base_url() . $this->controllerPath ?>" class="btn btn-warning">Back</a>
+
                     </div>
                 </form>
             </div>
@@ -74,15 +52,10 @@
         <!-- col-md-12 -->
     </div>
     <!-- /.row -->
-
-
 </section>
-<!-- /.content -->
-<!-- </div> -->
 
-
-<!-- <div class="content-wrapper"> -->
 <section class="content">
+    <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-12">
             <?php if ($this->session->flashdata('success')) { ?>
@@ -113,24 +86,31 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>Sr. No.</th>
-                                    <th>Closing year</th>
-                                    <th>Carry Forward Year</th>
+                                    <th>Item Code</th>
+                                    <th>Item Name</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $i = 1; ?>
                                 <?php if ($table_data) : ?>
-                                    <?php foreach ($table_data as $k => $v) : ?>
+                                    <?php foreach ($table_data as $k => $v) :
+
+                                    ?>
                                         <tr>
                                             <td><?php echo $i; ?>
                                             </td>
-                                            <td class="text-center"><?php
-                                                                    echo $v['old_fin_year'];
-                                                                    ?>
+                                            <td class="text-center"><?php echo $v['item_code']; ?>
                                             </td>
                                             <td class="text-center"><?php
-                                                                    echo $v['new_fin_year'];
+                                                                    echo  $v['item_name'];
                                                                     ?>
+                                            </td>
+
+                                            <td>
+                                                <a href="<?php echo base_url() . $this->controllerPath ?>/edit/<?php echo $v['id'];  ?>" title="Edit" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                                                <a onclick="return confirm('Are you sure want to delete this data?');" title="Delete" href="<?php echo base_url() . $this->controllerPath ?>/delete/<?php echo $v['id']; ?>" class="btn btn-danger"><i class="fa fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                         <?php $i++; ?>
@@ -147,37 +127,17 @@
     </div>
     <!-- /.row -->
 </section>
-<!-- /.content -->
-<!-- </div> -->
-<!-- /.content-wrapper -->
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#carry_forward").addClass('active');
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-
-        // $("#loan").addClass('menu-open');
-        // $("#li-loan").addClass('active');
-        // $("#loan-list").addClass('menu-open');
-        // $("#loan-master").addClass('active');
-        // $("#addloanaccounts").addClass('active');
-        // $("#manage-loan_master").addClass('active');
-        $("#carry_forward").addClass('active');
-
-
+        $("#li-item_master").addClass('active');
     });
 </script>
 <script>
-    $(function() {
-        $("#datepicker").datepicker();
-        // $( "#datepicker" ).datepicker({ dateFormat: 'dd/mm/yy' });
-    });
-</script>
-<script>
-    $(function() {
-        $("#datepicker1").datepicker();
-    });
+    (function($) {
+        // $("#datepicker").datepicker();
+        $("#datepicker").datepicker({
+            dateFormat: 'dd-mm-yy'
+        });
+    })(jQuery);
 </script>

@@ -48,23 +48,23 @@
                     <form role="form" action="<?php echo base_url() . $this->controllerPath ?>create" method="post" enctype="multipart/form-data">
                         <div class="card-body row">
 
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="from_date">From Date</label>
                                 <!-- <input type="text" class="form-control" id="datepicker" name="from_date" value="Select From Date" autocomplete="off"> -->
                                 <input type="text" class="form-control" id="datepicker" name="from_date" value="dd-mm-yyyy" autocomplete=" off">
                             </div>
 
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="to_date">To Date</label>
                                 <!-- <input type="text" class="form-control" id="datepicker1" name="to_date" value="Select To Date" autocomplete="off"> -->
                                 <input type="text" class="form-control" id="datepicker1" name="to_date" value="dd-mm-yyyy" autocomplete="off">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label>Select Member Name</label>
                                 <select class="js-example-basic-single w-100 member_name" name="member_name" id="member_name" required>
                                     <option disabled selected hidden>Select Members</option>
                                     <?php
-                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id =' . $_SESSION['year'])->result_array();
+                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1  AND fk_financial_year_id =' . $_SESSION['year'])->result_array();
                                     foreach ($member as $row) {
                                     ?>
                                         <option value=" <?php echo $row['account_no']; ?>">
@@ -74,38 +74,6 @@
                                     } ?>
                                 </select>
                             </div>
-
-                            <div class="form-group col-md-3">
-                                <label>Select Voucher No</label>
-                                <select class="js-example-basic-single w-100 voucher_no" name="voucher_no" id="voucher_no" required>
-                                    <option disabled selected hidden>Select Voucher No</option>
-                                    <?php
-                                    $voucher_no = $this->db->query('select * from cash_management where deleted = 0 AND status = 1 AND fk_financial_year_id =' . $_SESSION['year'])->result_array();
-                                    foreach ($voucher_no as $row) {
-                                    ?>
-                                        <option value="<?= $row['voucher_no'] ?>">
-                                            <?php echo $row['voucher_no']; ?>
-                                        </option>
-                                    <?php
-                                    } ?>
-                                </select>
-                            </div>
-
-                            <!-- <div class="form-group col-md-3">
-                                <label>Select Account No</label>
-                                <select class="js-example-basic-single w-100 account_no" name="account_no" id="account_no" required>
-                                    <option disabled selected hidden>Select Account No</option>
-                                    <?php
-                                    $account_no = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
-                                    foreach ($account_no as $row) {
-                                    ?>
-                                        <option value="<?= $row['account_no'] ?>">
-                                            <?php echo $row['account_no']; ?>
-                                        </option>
-                                    <?php
-                                    } ?>
-                                </select>
-                            </div> -->
                         </div>
 
                         <div class="card-footer">
@@ -115,9 +83,6 @@
                     </form>
                 </div>
                 <!-- /.card-body -->
-
-
-
             </div>
             <!-- /.card -->
         </div>
@@ -125,13 +90,14 @@
     <!-- /.row -->
 </section>
 
+
 <script type="text/javascript">
     $(document).ready(function() {
         // $("#li-account").addClass('active');
         $("#link-Reports").removeClass('collapsed');
         $("#link-Reports").attr("aria-expanded", true);
         $("#ui-basi").addClass('show');
-        $("#li-report-bank").addClass('active');
+        $("#li-report-rojmer").addClass('active');
     });
 </script>
 
@@ -175,50 +141,5 @@
                 console.log(data);
             }
         });
-        // $.ajax({
-        //     type: "POST",
-        //     url: "<?php echo base_url() . $this->controllerPath ?>get_member",
-        //     data: {
-        //         group_id: group_id
-        //     },
-        //     success: function(data) {
-        //         $('#member_name').html(data);
-
-        //         console.log(data);
-        //     }
-        // });
-        // $.ajax({
-        //     type: "POST",
-        //     url: "<?php echo base_url() . $this->controllerPath ?>get_acc",
-        //     data: {
-        //         group_id: group_id
-        //     },
-        //     success: function(data) {
-        //         $('#acc_no').html(data);
-
-        //         console.log(data);
-        //     }
-        // });
     };
-</script>
-<script>
-    function get_account() {
-        var group_id = $("#group_name").val();
-        var member_id = $("#member_name").val();
-        // alert(group_id);
-        // alert(member_id);
-        $.ajax({
-            type: "POST",
-            url: "<?php echo base_url() . $this->controllerPath ?>get_acc",
-            data: {
-                group_id: group_id,
-                member_id: member_id
-            },
-            success: function(data) {
-                $('#acc_no').html(data);
-
-                console.log(data);
-            }
-        });
-    }
 </script>

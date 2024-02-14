@@ -29,15 +29,10 @@ class Bank_management extends Admin_Controller
         // $this->data['js'] = 'application/views/groups/index-js.php';
         $this->data['page_title'] = 'Bank';
 
-        $table_data = $this->db->query('select BM.id as id,BM.voucher_no,BM.bank_date,MB.bank_name, AM.account_no, AM.member_name, BM.amount,MB.bank_account_no from account_master as AM
+        $table_data = $this->db->query('select BM.id as id,BM.voucher_no,BM.bank_date,MB.bank_name, AM.account_no, AM.member_name, BM.amount,MB.bank_account_no, BM.transaction from account_master as AM
         JOIN bank_management as BM ON BM.fk_account_member_id = AM.account_no
         JOIN bank_master as MB ON MB.id = BM.fk_bank_id
         where BM.deleted = 0 AND BM.status= 1 AND BM.fk_financial_year_id=' . $_SESSION['year'] . " AND AM.fk_financial_year_id = " . $_SESSION['year'])->result_array();
-    
-                    //  print_r('<pre>');
-                    //  print_r($this->db->last_query());
-                    //  print_r($table_data);
-                    //     exit();
 
         $voucher_no = $this->db->query('select * from account_master as AM
         JOIN bank_management as BM ON BM.fk_account_member_id = AM.account_no

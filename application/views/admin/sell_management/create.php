@@ -30,18 +30,34 @@
                 <form role="form" id="cash_form" action="<?php echo base_url() . $this->controllerPath ?>/create" method="post" enctype="multipart/form-data">
                     <div class="field_wrapper1">
                         <div class="card-body row">
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-4">
                                 <label for="voucher_number">Bill No.</label>
                                 <input type="text" class="form-control voucher_no" id="voucher_no" name="row[0][voucher_no]" value="<?php echo $this->data['voucher_no'] + 1;  ?>" placeholder="Enter Voucher Number" required>
                                 <input type="hidden" class="form-control" id="is_exist" name="row[0][is_exist]" value="0">
                             </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="sell_date">Sell Date</label>
+                            <div class="form-group col-md-4">
+                                <label for="sell_date">Transaction Date</label>
                                 <input type="text" class="form-control datepicker" name="row[0][sell_date]" id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
 
                             </div>
-                            <div class="form-group col-md-3">
+
+                            <div class="form-group col-md-4">
+                                <label>Select Item Name</label>
+                                <select class="js-example-basic-single w-100 fk_item_code" name="row[0][fk_item_code]" id="fk_item_code" required>
+                                    <option disabled selected hidden>Select Item Name</option>
+                                    <?php
+                                    $member = $this->db->query('select * from item_master where deleted = 0 AND status = 1 AND fk_financial_year_id = ' . $_SESSION['year'])->result_array();
+                                    foreach ($member as $row) { ?>
+                                        <option value="<?= $row['item_code'] ?>" <?php if ($fk_item_code == $row['item_code']) { ?> selected<?php } ?>>
+                                            <?php echo "(" . $row['item_code'] . ")" . $row['item_name']; ?>
+                                        </option>
+                                    <?php
+                                    } ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-4">
                                 <label>Select Member Name</label>
                                 <select class="js-example-basic-single w-100 member_name" name="row[0][member_name]" id="member_name" required>
                                     <option disabled selected hidden>Select Members</option>
@@ -56,12 +72,16 @@
                                     } ?>
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
+
+                            <div class="form-group col-md-4">
                                 <label for="amount">Amount</label>
                                 <input type="number" class="form-control" id="amount" name="row[0][amount]" placeholder="Enter Amount">
                             </div>
 
-                            <!-- <input type="text" id="datepicker"> -->
+                            <div class="form-group col-md-3">
+                                <label for="Narration">Narration</label>
+                                <input type="text" class="form-control" id="Narration" name="row[0][narration]" placeholder="Enter Narration">
+                            </div>
 
                             <div class="form-group col-md-1">
                                 <label for="amount"></label>
@@ -118,10 +138,11 @@
                                 <tr class="text-center">
                                     <th>Sr. No.</th>
                                     <th>Bill Number </th>
+                                    <th>Item Name</th>
                                     <th>Sell Date</th>
                                     <th>Member Name</th>
                                     <th>Amount</th>
-
+                                    <th>Narration</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -141,12 +162,17 @@
                                                                     ?>
                                             </td>
                                             <td class="text-center"><?php
+                                                                    echo  $v['item_name'];
+                                                                    ?>
+                                            </td>
+                                            <td class="text-center"><?php
                                                                     echo  $v['member_name'];
                                                                     ?>
                                             </td>
                                             <td class="text-center"><?php echo $v['amount']; ?>
                                             </td>
-
+                                            <td class="text-center"><?php echo $v['narration']; ?>
+                                            </td>
 
                                             <td>
                                                 <a onclick="return confirm('Are you sure want to delete this data?');" title="Delete" href="<?php echo base_url() . $this->controllerPath ?>/delete/<?php echo $v['id']; ?>" class="btn btn-danger"><i class="fa fa-trash"></i>
@@ -209,25 +235,33 @@
             var fieldHTML1 = '<div class="added_fields">' +
                 '<div class="card-body row">' +
 
-                '<div class="form-group col-md-2">' +
+                '<div class="form-group col-md-4">' +
                 '<label for="voucher_number">Voucher No.</label>' +
-                '<input type="text" class="form-control" id="voucher_no" value="' + voucher_no +
-                '" name="row[' + x + '][voucher_no]" placeholder="Enter Voucher Number" required>' +
-                '<input type="hidden" class="form-control" id="is_exist" name="row[' + x +
-                '][is_exist]" value="0">' +
+                '<input type="text" class="form-control" id="voucher_no" value="' + voucher_no + '" name="row[' + x + '][voucher_no]" placeholder="Enter Voucher Number" required>' +
+                '<input type="hidden" class="form-control" id="is_exist" name="row[' + x + '][is_exist]" value="0">' +
                 '</div>' +
 
-                '<div class="form-group col-md-3">' +
-                '<label for="cash_date">Sell Date</label>' +
-                '<input type="text" class="form-control datepicker" name="row[' + x + '][sell_date]" id="datepicker' +
-                x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
+                '<div class="form-group col-md-4">' +
+                '<label for="sell_date">Transaction Date</label>' +
+                '<input type="text" class="form-control datepicker" name="row[' + x + '][sell_date]" id="datepicker' +  x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
-                '<div class="form-group col-md-3">' +
+                '<div class = "form-group col-md-4">' +
+                '<label> Select Item Name </label>' +
+                '<select class = "js-example-basic-single w-100 fk_item_code" name = "row[' + x + '][fk_item_code]" id = "fk_item_code_' + x + '" required >' +
+                '<option disabled selected hidden > Select Item Name </option>' +
+                '<?php $member = $this->db->query('select * from item_master where deleted = 0 AND status = 1 AND fk_financial_year_id = ' . $_SESSION['year'])->result_array();
+                    foreach ($member as $row) { ?>' +
+                '<option value = "<?= $row['item_code'] ?>"' +
+                '<?php if ($accountno == $row['item_code']) { ?> selected<?php } ?> >' +
+                '<?php echo "(" . $row['item_code'] . ")" . $row['item_name']; ?> </option>' +
+                '<?php } ?>' +
+                '</select>' +
+                '</div>' +
+
+                '<div class="form-group col-md-4">' +
                 '<label>Select Member Name</label>' +
-                '<select class="js-example-basic-single w-100 member_name" name="row[' + x +
-                '][member_name]" id="member_name_' +
-                x + '" required>' +
+                '<select class="js-example-basic-single w-100 member_name" name="row[' + x +'][member_name]" id="member_name_' + x + '" required>' +
                 '<option disabled selected hidden>Select Members</option>' +
                 '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id = ' . $_SESSION['year'])->result_array();
                     foreach ($member as $row) { ?>' +
@@ -238,18 +272,22 @@
                 '</select>' +
                 '</div>' +
 
-                '<div class="form-group col-md-3">' +
+                '<div class="form-group col-md-4">' +
                 '<label for="amount">Amount</label>' +
-                '<input type="number" class="form-control" id="amount" name="row[' + x +
-                '][amount]" placeholder="Enter Amount" required>' +
+                '<input type="number" class="form-control" id="amount" name="row[' + x +'][amount]" placeholder="Enter Amount" required>' +
                 '</div>' +
+
+                '<div class = "form-group col-md-3" >' +
+                '<label for = "Narration"> Narration </label>' +
+                '<input type = "text" class = "form-control" id = "Narration" name = "row[' + x + '][narration]" placeholder = "Enter Narration" >' +
+                '</div>' +
+
                 '<div class="form-group col-md-1">' +
                 '<label for="sdf"></label>' +
                 '<a href="javascript:void(0);" id="remove_button_' + x +
                 '" class="remove_button1 btn btn-danger btn-md mt-4" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-times ms-2 fs-1"></i></a>' +
                 '</div>' +
                 '</div>' +
-
                 '</div>';
             // Check maximum number of input fields
 
@@ -260,6 +298,10 @@
 
                 if ($("#member_name_" + x).length) {
                     jQuery("#member_name_" + x).select2();
+                }
+
+                if ($("#fk_item_code_" + x).length) {
+                    jQuery("#fk_item_code_" + x).select2();
                 }
 
                 $('#datepicker' + x).datepicker({
@@ -368,8 +410,10 @@
                     $('#datepicker').val(data.date);
                     $('#is_exist').val('1');
                     $("#member_name").val(data.account_no).trigger("change");
+                    $("#fk_item_code").val(data.fk_item_code).trigger("change");
                     $("#add_button").removeAttr("href").css("pointer-events", "none").addClass("disabled");
                     $('#amount').val(data.amountno);
+                    $('#Narration').val(data.narration);
                     $('input[name="transaction[]"]').prop('checked', false); // Uncheck all radio buttons
                     $('input[name="transaction[]"][value="' + data.transaction + '"]').prop('checked',
                         true); // Check the appropriate radio button
@@ -387,6 +431,12 @@
                     $('#member_name option[data-select2-id="4"]').prop('selected', true);
 
                     $('#member_name').trigger('change');
+
+                    $('#fk_item_code option:not(:first)').removeAttr('selected');
+
+                    $('#fk_item_code option[data-select2-id="4"]').prop('selected', true);
+
+                    $('#fk_item_code').trigger('change');
 
                     $("#add_button").attr("href", "javascript:void(0);").css("pointer-events", "auto")
                         .removeClass("disabled");

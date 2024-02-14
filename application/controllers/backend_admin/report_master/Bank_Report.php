@@ -193,8 +193,7 @@ class Bank_Report extends Admin_Controller
         echo '<option selected disabled hidden>Select Voucher No</option>';
         $query = $this->db->query("
         SELECT DISTINCT * FROM cash_management as CM JOIN account_master as AM ON AM.account_no = CM.fk_account_member_id
-        WHERE CM.fk_account_member_id = '" . $member_id . "'
-        ")->result_array();
+        WHERE CM.fk_account_member_id = " . $member_id . " AND AM.fk_financial_year_id = " .$_SESSION['year'])->result_array();
         foreach ($query as $k => $v) {
             echo "<option value='" . $v['voucher_no'] . "'>" . $v['voucher_no'] . "</option>";
         }

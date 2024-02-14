@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label for="bank_date">Bank Date</label>
+                                <label for="bank_date">Transaction Date</label>
                                 <input type="text" class="form-control datepicker" name="row[0][bank_date]" id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
 
                             </div>
@@ -94,7 +94,7 @@
                             </div>
 
                             <div class="form-group col-md-1">
-                                <label for="amount"></label>
+                                <label></label>
                                 <a href="javascript:void(0);" class="add_button1 btn btn-primary" disabled style="margin-left:10px; margin-top:25px" title="Add field" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-plus ms-2 fs-2"></i></a>
                             </div>
                         </div>
@@ -254,27 +254,20 @@
 
                 '<div class="form-group col-md-4">' +
                 '<label for="voucher_number">Voucher No.</label>' +
-                '<input type="text" class="form-control" id="voucher_no" value="' + voucher_no +
-                '" name="row[' + x + '][voucher_no]" placeholder="Enter Voucher Number" required>' +
-                '<input type="hidden" class="form-control" id="is_exist" name="row[' + x +
-                '][is_exist]" value="0">' +
+                '<input type="text" class="form-control" id="voucher_no" value="' + voucher_no + '" name="row[' + x + '][voucher_no]" placeholder="Enter Voucher Number" required>' +
+                '<input type="hidden" class="form-control" id="is_exist" name="row[' + x + '][is_exist]" value="0">' +
                 '</div>' +
 
                 '<div class="form-group col-md-4">' +
                 '<label for="bank_date">Transaction Date</label>' +
-                '<input type="text" class="form-control datepicker" name="row[' + x +
-                '][bank_date]" id="datepicker' +
-                x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
+                '<input type="text" class="form-control datepicker" name="row[' + x + '][bank_date]" id="datepicker' + x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
                 '<div class="form-group col-md-4">' +
                 '<label>Select Member Name</label>' +
-                '<select class="js-example-basic-single w-100 member_name" name="row[' + x +
-                '][member_name]" id="member_name_' +
-                x + '" required>' +
+                '<select class="js-example-basic-single w-100 member_name" name="row[' + x + '][member_name]" id="member_name_' +  x + '" required>' +
                 '<option disabled selected hidden>Select Members</option>' +
-                '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id=' . $_SESSION['year'])->result_array();
-                    foreach ($member as $row) { ?>' +
+                '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id=' . $_SESSION['year'])->result_array(); foreach ($member as $row) { ?>' +
                 '<option value="<?= $row["account_no"] ?>">' +
                 '<?php echo "(" . $row['account_no'] . ")" . $row['member_name']; ?>' +
                 '</option>' +
@@ -284,9 +277,7 @@
 
                 '<div class="form-group col-md-4">' +
                 '<label>Select Bank Name</label>' +
-                '<select class="js-example-basic-single w-100 bank_name" name="row[' + x +
-                '][bank_name]" id="bank_name_' +
-                x + '" required>' +
+                '<select class="js-example-basic-single w-100 bank_name" name="row[' + x + '][bank_name]" id="bank_name_' + x + '" required>' +
                 '<option disabled selected hidden>Select Bank Name</option>' +
                 '<?php $member = $this->db->query('select * from bank_master where deleted = 0 AND status = 1 AND fk_financial_year_id=' . $_SESSION['year'])->result_array();
                     foreach ($member as $row) { ?>' +
@@ -299,35 +290,26 @@
 
                 '<div class="form-group col-md-4">' +
                 '<label for="amount">Amount</label>' +
-                '<input type="number" class="form-control" id="amount" name="row[' + x +
-                '][amount]" placeholder="Enter Amount" required>' +
+                '<input type="number" class="form-control" id="amount" name="row[' + x + '][amount]" placeholder="Enter Amount" required>' +
                 '</div>' +
 
                 '<div class = "form-group col-md-3">' +
                 '<label for = "Transaction" >Transaction </label>' +
                 '<div class = "radio" >' +
                 '<label>' +
-                '<input type = "radio"name = "row[' + x + '][transaction]" id ="transaction' + x +
-                '" value = "1" <?php if ($transaction == 1) {
-                                    echo "checked";
-                                }  ?> >' +
+                '<input type = "radio"name = "row[' + x + '][transaction]" id ="transaction' + x + '" value = "1" <?php if ($transaction == 1) { echo "checked"; }  ?> >' +
                 'Recipt' +
                 '</label>' +
                 '<label>' +
-                '<input type = "radio" class="ml-1" name = "row[' + x +
-                '][transaction]" id = "transaction' + x +
-                '" value = "0" <?php if ($transaction == 0) {
-                                    echo "checked";
-                                }  ?> >' +
+                '<input type = "radio" class="ml-1" name = "row[' + x + '][transaction]" id = "transaction' + x + '" value = "0" <?php if ($transaction == 0) { echo "checked";}  ?> >' +
                 'Payment' +
                 '</label>' +
                 '</div>' +
                 '</div>' +
 
                 '<div class="form-group col-md-1">' +
-                '<label for="sdf"></label>' +
-                '<a href="javascript:void(0);" id="remove_button_' + x +
-                '" class="remove_button1 btn btn-danger btn-md mt-4" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-times ms-2 fs-1"></i></a>' +
+                '<label for=""></label>' +
+                '<a href="javascript:void(0);" id="remove_button_' + x + '" class="remove_button1 btn btn-danger btn-md mt-4" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-times ms-2 fs-1"></i></a>' +
                 '</div>' +
                 '</div>' +
 

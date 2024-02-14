@@ -30,23 +30,39 @@
                 <form role="form" id="cash_form" action="<?php echo base_url() . $this->controllerPath ?>/create" method="post" enctype="multipart/form-data">
                     <div class="field_wrapper1">
                         <div class="card-body row">
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-4">
                                 <label for="voucher_number">Bill No.</label>
                                 <input type="text" class="form-control voucher_no" id="voucher_no" name="row[0][voucher_no]" value="<?php echo $this->data['voucher_no'] + 1;  ?>" placeholder="Enter Voucher Number" required>
                                 <input type="hidden" class="form-control" id="is_exist" name="row[0][is_exist]" value="0">
                             </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="purchase_date">Purchase Date</label>
+                            <div class="form-group col-md-4">
+                                <label for="purchase_date">Transaction Date</label>
                                 <input type="text" class="form-control" name="row[0][purchase_date]" id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
 
                             </div>
-                            <div class="form-group col-md-3">
+
+                            <div class="form-group col-md-4">
+                                <label>Select Item Name</label>
+                                <select class="js-example-basic-single w-100 fk_item_code" name="row[0][fk_item_code]" id="fk_item_code" required>
+                                    <option disabled selected hidden>Select Item Name</option>
+                                    <?php
+                                    $member = $this->db->query('select * from item_master where deleted = 0 AND status = 1 AND fk_financial_year_id = ' . $_SESSION['year'])->result_array();
+                                    foreach ($member as $row) { ?>
+                                        <option value="<?= $row['item_code'] ?>" <?php if ($fk_item_code == $row['item_code']) { ?> selected<?php } ?>>
+                                            <?php echo "(" . $row['item_code'] . ")" . $row['item_name']; ?>
+                                        </option>
+                                    <?php
+                                    } ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-4">
                                 <label>Select Member Name</label>
                                 <select class="js-example-basic-single w-100 member_name" name="row[0][member_name]" id="member_name" required>
                                     <option disabled selected hidden>Select Members</option>
                                     <?php
-                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
+                                    $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id = ' . $_SESSION['year'])->result_array();
                                     foreach ($member as $row) {
                                     ?>
                                         <option value="<?= $row['account_no'] ?>" <?php if ($accountno == $row['account_no']) { ?> selected<?php } ?>>
@@ -56,15 +72,22 @@
                                     } ?>
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
+
+                            <div class="form-group col-md-4">
                                 <label for="amount">Amount</label>
                                 <input type="number" class="form-control" id="amount" name="row[0][amount]" placeholder="Enter Amount" required>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="Narration">Narration</label>
+                                <input type="text" class="form-control" id="Narration" name="row[0][narration]" placeholder="Enter Narration">
                             </div>
 
                             <div class="form-group col-md-1">
                                 <label for="amount"></label>
                                 <a href="javascript:void(0);" id="add_button" disabled class="add_button1 btn btn-primary" style="margin-left:10px; margin-top:25px" title="Add field" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-plus ms-2 fs-2"></i></a>
                             </div>
+
                         </div>
                         <div class="added_fields_container"></div>
                     </div>
@@ -116,8 +139,10 @@
                                     <th>Sr. No.</th>
                                     <th>Bill Number </th>
                                     <th>Purchase Date</th>
+                                    <th>Item Name</th>
                                     <th>Member Name</th>
                                     <th>Amount</th>
+                                    <th>Narration</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -137,10 +162,16 @@
                                                                     ?>
                                             </td>
                                             <td class="text-center"><?php
+                                                                    echo  $v['item_name'];
+                                                                    ?>
+                                            </td>
+                                            <td class="text-center"><?php
                                                                     echo  $v['member_name'];
                                                                     ?>
                                             </td>
                                             <td class="text-center"><?php echo $v['amount']; ?>
+                                            </td>
+                                            <td class="text-center"><?php echo $v['narration']; ?>
                                             </td>
 
 
@@ -202,22 +233,34 @@
             var fieldHTML1 = '<div class="added_fields">' +
                 '<div class="card-body row">' +
 
-                '<div class="form-group col-md-2">' +
+                '<div class="form-group col-md-4">' +
                 '<label for="voucher_number">Voucher No.</label>' +
-                '<input type="text" class="form-control" id="voucher_no" value="' + voucher_no +
-                '" name="row[' + x + '][voucher_no]" placeholder="Enter Voucher Number" required>' +
+                '<input type="text" class="form-control" id="voucher_no" value="' + voucher_no + '" name="row[' + x + '][voucher_no]" placeholder="Enter Voucher Number" required>' +
                 '<input type="hidden" class="form-control" id="is_exist" name="row[' + x + '][is_exist]" value="0">' +
                 '</div>' +
 
-                '<div class="form-group col-md-3">' +
-                '<label for="purchase_date">Purchase Date</label>' +
-                '<input type="text" class="form-control" name="row[' + x + '][purchase_date]" id="datepicker' + x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
+                '<div class="form-group col-md-4">' +
+                '<label for="purchase_date">Transaction Date</label>' +
+                '<input type="text" class="form-control" name="row[' + x + '][purchase_date]" id="datepicker' + x +
+                '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
-                '<div class="form-group col-md-3">' +
+                '<div class = "form-group col-md-4">' +
+                '<label> Select Item Name </label>' +
+                '<select class = "js-example-basic-single w-100 fk_item_code" name = "row[' + x + '][fk_item_code]" id = "fk_item_code_' + x + '" required >' +
+                '<option disabled selected hidden > Select Item Name </option>' +
+                '<?php $member = $this->db->query('select * from item_master where deleted = 0 AND status = 1 AND fk_financial_year_id = ' . $_SESSION['year'])->result_array();
+                    foreach ($member as $row) { ?>' +
+                '<option value = "<?= $row['item_code'] ?>"' +
+                '<?php if ($accountno == $row['item_code']) { ?> selected<?php } ?> >' +
+                '<?php echo "(" . $row['item_code'] . ")" . $row['item_name']; ?> </option>' +
+                '<?php } ?>' +
+                '</select>' +
+                '</div>' +
+
+                '<div class="form-group col-md-4">' +
                 '<label>Select Member Name</label>' +
-                '<select class="js-example-basic-single w-100 member_name" name="row[' + x + '][member_name]" id="member_name_' +
-                x + '" required>' +
+                '<select class="js-example-basic-single w-100 member_name" name="row[' + x + '][member_name]" id="member_name_' + x + '" required>' +
                 '<option disabled selected hidden>Select Members</option>' +
                 '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1')->result_array();
                     foreach ($member as $row) { ?>' +
@@ -228,13 +271,20 @@
                 '</select>' +
                 '</div>' +
 
-                '<div class="form-group col-md-3">' +
+                '<div class="form-group col-md-4">' +
                 '<label for="amount">Amount</label>' +
                 '<input type="number" class="form-control" id="amount" name="row[' + x + '][amount]" placeholder="Enter Amount" required>' +
                 '</div>' +
+
+                '<div class = "form-group col-md-3" >' +
+                '<label for = "Narration" > Narration </label>' +
+                '<input type = "text" class = "form-control" id = "Narration" name = "row[' + x + '][narration]" placeholder = "Enter Narration" >' +
+                '</div>' +
+
                 '<div class="form-group col-md-1">' +
                 '<label for="sdf"></label>' +
-                '<a href="javascript:void(0);" id="remove_button_' + x + '" class="remove_button1 btn btn-danger btn-md mt-4" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-times ms-2 fs-1"></i></a>' +
+                '<a href="javascript:void(0);" id="remove_button_' + x +
+                '" class="remove_button1 btn btn-danger btn-md mt-4" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-times ms-2 fs-1"></i></a>' +
                 '</div>' +
                 '</div>' +
 
@@ -250,6 +300,9 @@
 
                 if ($("#member_name_" + x).length) {
                     jQuery("#member_name_" + x).select2();
+                }
+                if ($("#fk_item_code_" + x).length) {
+                    jQuery("#fk_item_code_" + x).select2();
                 }
                 $('#datepicker' + x).datepicker({
                     dateFormat: 'dd-mm-yy'
@@ -283,11 +336,13 @@
             // Get the values of fields after the removed ID
             var values = [];
             $('.added_fields').each(function() {
-                var currentId = parseInt($(this).find('.remove_button1').attr('id').split('_').pop());
+                var currentId = parseInt($(this).find('.remove_button1').attr('id').split('_')
+                    .pop());
                 if (currentId > index) {
-                    var fieldValue = $(this).find('[name^="row[' + currentId + ']"]').map(function() {
-                        return $(this).val();
-                    }).get();
+                    var fieldValue = $(this).find('[name^="row[' + currentId + ']"]').map(
+                        function() {
+                            return $(this).val();
+                        }).get();
                     values.push(fieldValue);
                 }
             });
@@ -302,23 +357,28 @@
 
             // Adjust subsequent field IDs, voucher numbers, and other values
             $('.added_fields').each(function() {
-                var currentId = parseInt($(this).find('.remove_button1').attr('id').split('_').pop());
+                var currentId = parseInt($(this).find('.remove_button1').attr('id').split('_')
+                    .pop());
                 if (currentId > index) {
                     var newIndex = currentId - 1;
-                    var newId = $(this).find('.remove_button1').attr('id').replace('_' + currentId, '_' + newIndex);
+                    var newId = $(this).find('.remove_button1').attr('id').replace('_' + currentId,
+                        '_' + newIndex);
                     $(this).find('.remove_button1').attr('id', newId);
                     $(this).find('#voucher_no').val(voucherNumber++);
                     $(this).find('[name^="row[' + currentId + ']"]').each(function() {
-                        var newName = $(this).attr('name').replace('[' + currentId + ']', '[' + newIndex + ']');
+                        var newName = $(this).attr('name').replace('[' + currentId + ']',
+                            '[' + newIndex + ']');
                         $(this).attr('name', newName);
                     });
                     $('.member_name').select2();
+                    $('.fk_item_code').select2();
 
                 }
             });
 
             // Reinitialize Select2
             $('.member_name').select2();
+            $('.fk_item_code').select2();
         });
     });
 </script>
@@ -338,8 +398,8 @@
     });
 
     function voucher_no() {
-
         var voucherno = $('#voucher_no').val();
+        // alert(voucherno);
 
         $.ajax({
             url: '<?= base_url() . $this->controllerPath ?>/ajax_voucher_no/' + voucherno,
@@ -353,8 +413,10 @@
                     $('#datepicker').val(data.date);
                     $('#is_exist').val('1');
                     $("#member_name").val(data.account_no).trigger("change");
+                    $("#fk_item_code").val(data.fk_item_code).trigger("change");
                     $("#add_button").removeAttr("href").css("pointer-events", "none").addClass("disabled");
                     $('#amount').val(data.amountno);
+                    $('#Narration').val(data.narration);
                     $('input[name="transaction[]"]').prop('checked', false); // Uncheck all radio buttons
                     $('input[name="transaction[]"][value="' + data.transaction + '"]').prop('checked',
                         true); // Check the appropriate radio button
@@ -372,6 +434,12 @@
                     $('#member_name option[data-select2-id="4"]').prop('selected', true);
 
                     $('#member_name').trigger('change');
+
+                    $('#fk_item_code option:not(:first)').removeAttr('selected');
+
+                    $('#fk_item_code option[data-select2-id="4"]').prop('selected', true);
+
+                    $('#fk_item_code').trigger('change');
 
                     $("#add_button").attr("href", "javascript:void(0);").css("pointer-events", "auto")
                         .removeClass("disabled");

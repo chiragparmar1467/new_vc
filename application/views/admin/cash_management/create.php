@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="form-group col-md-2">
-                                <label for="cash_date">Cash Date</label>
+                                <label for="cash_date">Transaction Date</label>
                                 <input type="text" class="form-control datepicker" name="row[0][cash_date]" id="datepicker" value="<?php echo date('d-m-Y') ?>" autocomplete="off" required>
 
                             </div>
@@ -79,7 +79,7 @@
                             </div>
 
                             <div class="form-group col-md-1">
-                                <label for="amount"></label>
+                                <label for=""></label>
                                 <a href="javascript:void(0);" id="add_button" disabled class="add_button1 btn btn-primary" style="margin-left:10px; margin-top:25px" title="Add field" style="margin-left:10px; border-radius: 10px;"><i class="fa fa-plus ms-2 fs-2"></i></a>
                             </div>
                         </div>
@@ -233,23 +233,18 @@
 
                 '<div class="form-group col-md-2">' +
                 '<label for="voucher_number">Voucher No.</label>' +
-                '<input type="text" class="form-control" id="voucher_no" value="' + voucher_no +
-                '" name="row[' + x + '][voucher_no]" placeholder="Enter Voucher Number" required>' +
-                '<input type="hidden" class="form-control" id="is_exist" name="row[' + x +
-                '][is_exist]" value="0">' +
+                '<input type="text" class="form-control" id="voucher_no" value="' + voucher_no + '" name="row[' + x + '][voucher_no]" placeholder="Enter Voucher Number" required>' +
+                '<input type="hidden" class="form-control" id="is_exist" name="row[' + x + '][is_exist]" value="0">' +
                 '</div>' +
 
                 '<div class="form-group col-md-2">' +
-                '<label for="cash_date">Cash Date</label>' +
-                '<input type="text" class="form-control" name="row[' + x + '][cash_date]" id="datepicker' +
-                x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
+                '<label for="cash_date">Transaction Date</label>' +
+                '<input type="text" class="form-control" name="row[' + x + '][cash_date]" id="datepicker' + x + '" value="<?= date("d-m-Y") ?>" autocomplete="off" required>' +
                 '</div>' +
 
                 '<div class="form-group col-md-3">' +
                 '<label>Select Member Name</label>' +
-                '<select class="js-example-basic-single w-100 member_name" name="row[' + x +
-                '][member_name]" id="member_name_' +
-                x + '" required>' +
+                '<select class="js-example-basic-single w-100 member_name" name="row[' + x + '][member_name]" id="member_name_' + x + '" required>' +
                 '<option disabled selected hidden>Select Members</option>' +
                 '<?php $member = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id = ' . $_SESSION['year'])->result_array();
                     foreach ($member as $row) { ?>' +
@@ -262,26 +257,18 @@
 
                 '<div class="form-group col-md-2">' +
                 '<label for="amount">Amount</label>' +
-                '<input type="number" class="form-control" id="amount" name="row[' + x +
-                '][amount]" placeholder="Enter Amount" required>' +
+                '<input type="number" class="form-control" id="amount" name="row[' + x + '][amount]" placeholder="Enter Amount" required>' +
                 '</div>' +
 
                 '<div class = "form-group col-md-2">' +
                 '<label for = "Transaction" >Transaction </label>' +
                 '<div class = "radio" >' +
                 '<label>' +
-                '<input type = "radio" name ="row[' + x + '][transaction]" id ="transaction_' + x +
-                '_recipt" value = "1" <?php if ($transaction == 1) {
-                                            echo "checked";
-                                        }  ?>>' +
+                '<input type = "radio" name ="row[' + x + '][transaction]" id ="transaction_' + x + '_recipt" value = "1" <?php if ($transaction == 1) { echo "checked"; }  ?>>' +
                 'Recipt' +
                 '</label>' +
                 '<label>' +
-                '<input type = "radio" class="ml-1" name ="row[' + x +
-                '][transaction]" id = "transaction_' + x +
-                '_payment" value = "0" <?php if ($transaction == 0) {
-                                            echo "checked";
-                                        }  ?>>' +
+                '<input type = "radio" class="ml-1" name ="row[' + x + '][transaction]" id = "transaction_' + x + '_payment" value = "0" <?php if ($transaction == 0) { echo "checked";  }  ?>>' +
                 'Payment' +
                 '</label>' +
                 '</div>' +
@@ -304,9 +291,6 @@
                 var newField = fieldHTML1;
                 $(addedFieldsContainer).append(newField);
 
-                // if ($("#member_name_" + x).length) {
-                //     $("#member_name_" + x).select2();
-                // };
                 if ($("#member_name_" + x).length) {
                     jQuery("#member_name_" + x).select2();
                 }

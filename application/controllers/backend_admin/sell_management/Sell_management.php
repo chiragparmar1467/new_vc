@@ -29,12 +29,17 @@ class Sell_management extends Admin_Controller
         // $this->data['js'] = 'application/views/groups/index-js.php';
         $this->data['page_title'] = 'Sell';
 
-        $table_data = $this->db->query('select * from account_master as AM
+        $table_data = $this->db->query('select SM.voucher_no, SM.sell_date, IM.item_name, AM.member_name,SM.amount,SM.narration, IM.item_code from account_master as AM
         JOIN sell_management as SM ON SM.fk_account_member_id = AM.account_no
+        JOIN item_master as IM ON IM.item_code = SM.fk_item_code
         where SM.deleted = 0 AND SM.status= 1 AND SM.fk_financial_year_id=' . $_SESSION['year'] . ' AND AM.fk_financial_year_id = ' . $_SESSION['year'])->result_array();
 
-        $this->data['voucher_no'] = end($table_data)['voucher_no'];
+        $voucher_no = $this->db->query('select * from account_master as AM
+        JOIN sell_management as SM ON SM.fk_account_member_id = AM.account_no
+        JOIN item_master as IM ON IM.item_code = SM.fk_item_code
+        where SM.deleted = 0 AND SM.status= 1 ORDER BY SM.voucher_no ASC ')->result_array();
 
+        $this->data['voucher_no'] = end($voucher_no)['voucher_no'];
 
         $this->data['table_data'] = $table_data;
 
@@ -52,9 +57,11 @@ class Sell_management extends Admin_Controller
                 $data = array(
                     'voucher_no' => $v['voucher_no'],
                     'sell_date' => $v['sell_date'],
+                    'fk_item_code' => $v['fk_item_code'],
                     'fk_account_member_id' => $v['member_name'],
                     'amount' => $v['amount'],
                     'fk_financial_year_id' => $_SESSION['year'],
+                    'narration' => $v['narration'],
                     'status' => 1
                 );
                 if ($v['is_exist'] == '0') {
@@ -82,8 +89,9 @@ class Sell_management extends Admin_Controller
     public function ajax_voucher_no($voucherno)
     {
 
-        $data = $this->db->query("select SM.id as id,SM.sell_date as date,SM.voucher_no as voucherno,SM.amount as amountno,SM.fk_account_member_id as membername, AM.account_no as account_no from account_master as AM
+        $data = $this->db->query("select SM.id as id,SM.sell_date as date,SM.voucher_no as voucherno,SM.amount as amountno,SM.fk_account_member_id as membername, AM.account_no as account_no, SM.fk_item_code, IM.item_name, SM.narration from account_master as AM
         JOIN sell_management as SM ON SM.fk_account_member_id = AM.account_no
+        JOIN item_master as IM ON IM.item_code = SM.fk_item_code
         where AM.deleted = 0 AND AM.status= 1 AND SM.voucher_no =" . $voucherno . " AND SM.fk_financial_year_id=" . $_SESSION['year'] . ' AND AM.fk_financial_year_id = ' . $_SESSION['year'])->row_array();
 
         echo json_encode($data);

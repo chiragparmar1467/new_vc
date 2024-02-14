@@ -104,18 +104,22 @@
 
             <table class="table text-center styled-table" style="margin-top:10px;text-align: center;">
                 <tr>
-                    <!-- <td width="15%">Sr.No</td> -->
                     <td width="">DATE</td>
+                    <?php if (!empty($member)) { 
+                        }else {?>
+
+                    <td width="">Name</td>
+                    <?php } ?>
                     <td width="">Voucher No</td>
-                    <!-- <td width="40%">NAME & NARRATION</td> -->
-                    <!-- <td width="15%">CREDIT DEBIT</td> -->
-                    <td width="">DEBIT DEBIT</td>
+                    <td width="">Item Name</td>
+                    <td width="">Narration</td>
+                    <td width="">DEBIT</td>
                 </tr>
                 <tr>
                     <td colspan="7" style="border-bottom: 2px solid black;"></td>
                 </tr>
-                <?php if($opening_balance == true){ ?>
-                <!-- <tr>
+                <?php if ($opening_balance == true) { ?>
+                    <!-- <tr>
                     <td><?php echo $created_at_date; ?></td>
                     <td>Open Bal.</td>
                     <td><?php echo $opening_balance; ?></td>
@@ -126,7 +130,15 @@
                     <?php foreach ($table_data as $k => $v) :   ?>
                         <tr class="border-0">
                             <td><?php echo $v['purchase_date']; ?></td>
+
+                            <?php if (!empty($member)) { 
+                        }else {?>
+                            <td><?php echo $v['member_name']; ?></td>
+                            <?php } ?>
                             <td><?php echo $v['voucher_no']; ?></td>
+                            <td><?php echo $v['item_name']; ?></td>
+
+                            <td><?php echo $v['narration']; ?></td>
 
                             <!-- <?php if ($v['transaction'] == 0) { ?>
                                 <td>SALE</td>
@@ -147,10 +159,10 @@
                     </tr>
                 <?php } ?>
                 <tr>
-                    <td colspan="5" style="border-bottom: 2px solid black; "></td>
+                    <td colspan="6" style="border-bottom: 2px solid black; "></td>
                 </tr>
                 <tr class="">
-                    <td colspan="2" style="text-align:left; font-size:medium"><b>Total</b></td>
+                    <td colspan="5" style="text-align:left; font-size:medium"><b>Total</b></td>
                     <!-- <?php
                             foreach ($table_data as $row) {
                                 $credit += $row['credit'];

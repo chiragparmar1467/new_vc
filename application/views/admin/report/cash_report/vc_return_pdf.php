@@ -106,12 +106,11 @@
 
             <table class="table text-center styled-table" style="margin-top:10px;text-align: center;">
                 <tr>
-                    <!-- <td width="15%">Sr.No</td> -->
                     <td width="15%">DATE</td>
                     <td width="15%">Voucher No</td>
                     <td width="40%">NAME & NARRATION</td>
-                    <td width="15%">CREDIT DEBIT</td>
-                    <td width="15%">DEBIT DEBIT</td>
+                    <td width="15%">CREDIT</td>
+                    <td width="15%">DEBIT</td>
                 </tr>
                 <tr>
                     <td colspan="7" style="border-bottom: 2px solid black;"></td>
@@ -129,7 +128,6 @@
                 <?php if (!empty($table_data) || !empty($opening_balance)) { ?>
                     <?php foreach ($table_data as $k => $v) :   ?>
                         <tr class="border-0">
-                            <!-- <td> <?php echo $i; ?></td> -->
                             <td><?php echo $v['cash_date']; ?></td>
                             <td><?php echo $v['voucher_no']; ?></td>
 
@@ -158,9 +156,7 @@
                     foreach ($table_data as $row) {
                         $credit += $row['credit'];
                     }
-                    if (!empty($credit)) {
-                    ?>
-
+                    if (!empty($credit)) { ?>
                         <td><b><?php echo $credit; ?></b></td>
                     <?php } else { ?>
                         <td><b>0</b></td>

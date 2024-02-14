@@ -2,10 +2,10 @@
 require_once 'vendor/autoload.php';
 
 
-class Cash_Report extends Admin_Controller
+class Rojgar_Report extends Admin_Controller
 {
     // Specify the primary table name for whole controller
-    public $tableName = 'collection_master';
+    public $tableName = '';
     public $controllerPath = '';
     public $viewPath = '';
     public $uploadFolder = '';
@@ -17,17 +17,17 @@ class Cash_Report extends Admin_Controller
 
         // $this->data['page_title'] = 'Sliders';
         $this->load->model('Crud_model');
-        $this->controllerPath = 'backend_admin/report_master/Cash_Report/';
-        $this->viewPath = 'admin/report/cash_report/';
+        $this->controllerPath = 'backend_admin/report_master/Rojgar_Report/';
+        $this->viewPath = 'admin/report/rojgar_report/';
         $this->uploadFolder = '';
         $this->data['company_data'] = $this->db->get('company')->row_array();
-        $this->data['name'] = 'Cash';
+        $this->data['name'] = 'Rojmer';
     }
 
     public function index()
     {
 
-        $this->data['page_title'] = 'Cash Report';
+        $this->data['page_title'] = 'Rojmer Report';
 
         $data['table_data'] = '';
 
@@ -36,23 +36,21 @@ class Cash_Report extends Admin_Controller
 
     public function create()
     {
-        $this->data['page_title'] = 'Cash Report';
+        $this->data['page_title'] = 'Rojmer Report';
 
         if (isset($_POST['submit'])) {
 
-            $voucher_no =  $this->input->post('voucher_no');
+            // $voucher_no =  $this->input->post('voucher_no');
             $from_date =  $this->input->post('from_date');
             $to_date =  $this->input->post('to_date');
             $member_name =  $this->input->post('member_name');
             $data['isAccountSelected'] = 0;
 
-            if (!empty($from_date) || !empty($to_date) || !empty($member_name) || !empty($voucher_no)) {
-
+            if (!empty($from_date) || !empty($to_date) || !empty($member_name)) {
 
                 $filter_date = "";
                 // $voucher_no = "";
                 $member = "";
-
 
                 if (!empty($from_date) && $from_date !=  'dd-mm-yyyy') {
                     $filter_date = " AND CM.cash_date = '$from_date'";
@@ -81,49 +79,78 @@ class Cash_Report extends Admin_Controller
                 }
 
 
-                if (!empty($voucher_no)) {
-                    $voucher = " AND CM.voucher_no = $voucher_no";
+                // if (!empty($voucher_no)) {
+                //     $voucher = " AND CM.voucher_no = $voucher_no";
 
                     // $member_id = " AND AM.account_no = $member_name";
                     // $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name))->row();
                     // $mem = " Member Name = " . $mem_name->member_name . "<br>";
-                }
+                // }
 
                 $year = " AND CM.fk_financial_year_id =" . $_SESSION['year'];
 
-                $data['table_data'] = $this->db->query("(
-                    SELECT AM.member_name,
-                             AM.account_no,
-                             CM.cash_date,
-                             CM.voucher_no,
-                             CM.amount credit,
-                             NULL AS debit,
-                             CM.transaction 
-                         FROM cash_management CM
-                       LEFT JOIN account_master AM ON AM.account_no = CM.fk_account_member_id
-                            WHERE CM.status = 1
-                                   AND CM.deleted = 0
-                                   AND CM.transaction = 1
-                                   AND AM.status = 1
-                                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher  . $year . " 
-                    )
-                           UNION ALL
-                    (
-                    SELECT AM.member_name,
-                             AM.account_no,
-                             CM.cash_date,
-                             CM.voucher_no,
-                             NULL AS credit,
-                             CM.amount debit,
-                             CM.transaction
-                         FROM cash_management CM
-                        JOIN account_master AM ON AM.account_no = CM.fk_account_member_id
-                            WHERE CM.status = 1
-                                   AND CM.deleted = 0
-                                  AND CM.transaction = 0
-                                   AND AM.status = 1
-                                  AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . " )ORDER BY voucher_no ASC;")->result_array();
-             
+                // $data['table_data'] = $this->db->query("(
+                //     SELECT AM.member_name,
+                //              AM.account_no,
+                //              CM.cash_date,
+                //              CM.voucher_no,
+                //              CM.amount credit,
+                //              NULL AS debit,
+                //              CM.transaction 
+                //          FROM cash_management CM
+                //        LEFT JOIN account_master AM ON AM.account_no = CM.fk_account_member_id
+                //             WHERE CM.status = 1
+                //                    AND CM.deleted = 0
+                //                    AND CM.transaction = 1
+                //                    AND AM.status = 1
+                //                    AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher  . $year . " 
+                //     )
+                //            UNION ALL
+                //     (
+                //     SELECT AM.member_name,
+                //              AM.account_no,
+                //              CM.cash_date,
+                //              CM.voucher_no,
+                //              NULL AS credit,
+                //              CM.amount debit,
+                //              CM.transaction
+                //          FROM cash_management CM
+                //         JOIN account_master AM ON AM.account_no = CM.fk_account_member_id
+                //             WHERE CM.status = 1
+                //                    AND CM.deleted = 0
+                //                   AND CM.transaction = 0
+                //                    AND AM.status = 1
+                //                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . " )ORDER BY voucher_no ASC;")->result_array();
+
+                $data['table_data'] = $this->db->query("SELECT member_name,
+                                  account_no,
+                                  address,
+                                  mobile_number,
+                                  date,
+                                  fk_financial_year_id,
+                                  SUM(credit) AS credit,
+                                  SUM(debit) AS debit,
+                                  SUM(debit) -  SUM(credit) AS balance
+                                  FROM (
+                                  SELECT AM.member_name as member_name,
+                                      AM.account_no,
+                                      CM.fk_financial_year_id,
+                                      CM.cash_date as date,
+                                      AM.address,
+                                      AM.mobile_number,
+                                      SUM(CASE WHEN CM.transaction = 1 THEN CM.amount ELSE 0 END) AS credit,
+                                      SUM(CASE WHEN CM.transaction = 0 THEN CM.amount + AM.opening_balance ELSE 0 END) AS debit
+                                  FROM cash_management CM
+                                  JOIN account_master AM ON AM.account_no = CM.fk_account_member_id 
+                                  AND AM.fk_financial_year_id = " . $_SESSION['year'] . "
+                                  WHERE CM.status = 1
+                                      AND CM.deleted = 0
+                                      AND AM.status = 1
+                                      AND AM.deleted = 0 
+                                     " . $filter_date . $member . $year . "
+                                  GROUP BY AM.account_no, AM.member_name
+                                  ) AS subquery
+                                  GROUP BY member_name, account_no ORDER BY account_no ASC;")->result_array();
 
                 $data['from'] = $from_date;
                 $data['to'] = $to_date;

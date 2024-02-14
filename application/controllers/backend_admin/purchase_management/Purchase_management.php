@@ -29,12 +29,14 @@ class Purchase_management extends Admin_Controller
         // $this->data['js'] = 'application/views/groups/index-js.php';
         $this->data['page_title'] = 'Purchase';
 
-        $table_data = $this->db->query('select * from account_master as AM
+        $table_data = $this->db->query('select PM.voucher_no, PM.purchase_date, IM.item_name, AM.member_name,PM.amount,PM.narration, IM.item_code from account_master as AM
         JOIN purchase_management as PM ON PM.fk_account_member_id = AM.account_no
+        JOIN item_master as IM ON IM.item_code = PM.fk_item_code
         where PM.deleted = 0 AND PM.status= 1 AND PM.fk_financial_year_id=' . $_SESSION['year'] . ' AND AM.fk_financial_year_id = ' . $_SESSION['year'])->result_array();
-
+     
         $voucher_no = $this->db->query('select * from account_master as AM
         JOIN purchase_management as PM ON PM.fk_account_member_id = AM.account_no
+        JOIN item_master as IM ON IM.item_code = PM.fk_item_code
         where PM.deleted = 0 AND PM.status= 1 ORDER BY PM.voucher_no ASC ')->result_array();
 
         $this->data['voucher_no'] = end($voucher_no)['voucher_no'];
@@ -57,9 +59,11 @@ class Purchase_management extends Admin_Controller
 
                 $data = array(
                     'voucher_no' => $v['voucher_no'],
+                    'fk_item_code' => $v['fk_item_code'],
                     'purchase_date' => $v['purchase_date'],
                     'fk_account_member_id' => $v['member_name'],
                     'amount' => $v['amount'],
+                    'narration' => $v['narration'],
                     'fk_financial_year_id' => $_SESSION['year'],
                     'status' => 1
                 );
@@ -88,8 +92,9 @@ class Purchase_management extends Admin_Controller
     public function ajax_voucher_no($voucherno)
     {
 
-        $data = $this->db->query("select PM.id as id,PM.purchase_date as date,PM.voucher_no as voucherno,PM.amount as amountno,PM.fk_account_member_id as membername, AM.account_no as account_no, PM.transaction as transaction from account_master as AM
+        $data = $this->db->query("select PM.id as id,PM.purchase_date as date,PM.voucher_no as voucherno,PM.amount as amountno,PM.fk_account_member_id as membername, AM.account_no as account_no, PM.transaction as transaction, PM.fk_item_code, IM.item_name, PM.narration from account_master as AM
         JOIN purchase_management as PM ON PM.fk_account_member_id = AM.account_no
+        JOIN item_master as IM ON IM.item_code = PM.fk_item_code
         where AM.deleted = 0 AND AM.status= 1 AND PM.voucher_no =" . $voucherno . " AND PM.fk_financial_year_id=" . $_SESSION['year'])->row_array();
 
         echo json_encode($data);
