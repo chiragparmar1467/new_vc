@@ -88,17 +88,17 @@
                     if ($from != 'dd-mm-yyyy') {
                 ?>
                         <tr>
-                            <td style="font-size: 1em;">From : <?php echo $from; ?></td>
+                            <td style="font-size: 1em;" width="60%">From : <?php echo $from; ?></td>
                             <?php if ($to != 'dd-mm-yyyy') { ?>
-                                <td style="font-size: 1em;">To : <?php echo $to; ?></td>
+                                <td style="font-size: 1em;" width="40%">To : <?php echo $to; ?></td>
                             <?php } ?>
                         </tr>
                 <?php }
                 } ?>
-                <?php if (!empty($member)) { ?>
+                <?php if (!empty($member) || !empty($opening_balance)) { ?>
                     <tr>
-                        <td style="font-size: 1em;"><?php echo $member; ?></td>
-                        <td class="right" style="font-size: 1em;"><?php echo $table_data['account_no']; ?></td>
+                        <td style="font-size: 1em;" width="60%"><?php echo $member; ?></td>
+                        <td class="" style="font-size: 1em;" width="40%">Opening Balance: <?php echo $opening_balance; ?></td>
                     </tr>
                 <?php } ?>
             </table>
@@ -107,11 +107,13 @@
             <table class="table text-center styled-table" style="margin-top:10px;text-align: center;">
                 <tr>
                     <td width="">DATE</td>
-                    <td width="">Account NO</td>
-                    <td width="">Member Name</td>
+                    <td width="">Transaction Type</td>
+                    <td width="">Voucher NO & Bill</td>
+                    <!-- <td width="">Item</td> -->
+                    <!-- <td width="">Narration</td> -->
                     <td width="">CREDIT</td>
-                    <td width="">DEBIT + Open bal</td>
-                    <td width="">Net Baki</td>
+                    <td width="">DEBIT</td>
+                    <!-- <td width="">Net Baki</td> -->
                 </tr>
                 <tr>
                     <td colspan="7" style="border-bottom: 2px solid black;"></td>
@@ -120,12 +122,17 @@
                 <?php if (!empty($table_data)) { ?>
                     <?php foreach ($table_data as $k => $v) :   ?>
                         <tr class="border-0">
-                            <td><?php echo $v['date']; ?></td>
-                            <td><?php echo $v['account_no']; ?></td>
-                            <td><?php echo $v['member_name']; ?></td>
+                            <td><?php echo $v['transaction_date']; ?></td>
+                            <td><?php echo $v['name']; ?></td>
+                            <td><?php echo $v['voucher_no'];
+                                if (!empty($v['narration'])) { ?>
+                                  <br><?php echo $v['narration'];  ?>
+                               <?php } ?></td>
+                            <!-- <td><?php echo $v['item'];  ?></td> -->
+                            <!-- <td><?php echo $v['narration'];  ?></td> -->
                             <td><?php echo $v['credit']; ?></td>
                             <td><?php echo $v['debit']; ?></td>
-                            <td><?php echo $v['balance']; ?></td>
+                            <!-- <td><?php echo $v['balance']; ?></td> -->
                         </tr>
                         <?php $i++; ?>
                     <?php endforeach ?>
@@ -161,16 +168,16 @@
                     <?php } else { ?>
                         <td><b>0</b></td>
                     <?php } ?>
-                    <?php
-                    foreach ($table_data as $row) {
-                        $balance += $row['balance'];
-                    }
-                    if (!empty($balance)) {
-                    ?>
+                    <!-- <?php
+                            foreach ($table_data as $row) {
+                                $balance += $row['balance'];
+                            }
+                            if (!empty($balance)) {
+                            ?>
                         <td><b><?php echo $balance; ?></b></td>
                     <?php } else { ?>
                         <td><b>0</b></td>
-                    <?php } ?>
+                    <?php } ?> -->
                 </tr>
             </table>
             <table class="table text-center styled-table w-100">
@@ -178,7 +185,7 @@
                     <td colspan="5" style="border-bottom: 4px double #333"></td>
                 </tr>
                 <tr>
-                    <td><b>Net Receivable : <?php echo $balance; ?></b></td>
+                    <td><b>Net Receivable : <?php echo $total = $debit - $credit; ?></b></td>
                     <td><b>
                         </b></td>
                 </tr>

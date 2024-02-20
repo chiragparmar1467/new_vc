@@ -53,7 +53,10 @@ class Rojgar_Report extends Admin_Controller
                 $member = "";
 
                 if (!empty($from_date) && $from_date !=  'dd-mm-yyyy') {
-                    $filter_date = " AND CM.cash_date = '$from_date'";
+                    $filter_date_cash = " AND CM.cash_date = '$from_date'";
+                    $filter_date_sell = " AND SM.sell_date = '$from_date'";
+                    $filter_date_purchase = " AND PM.purchase_date = '$from_date'";
+                    $filter_date_bank = " AND BM.bank_date = '$from_date'";
                 };
 
                 if (!empty($to_date) && $to_date !=  'dd-mm-yyyy') {
@@ -62,16 +65,22 @@ class Rojgar_Report extends Admin_Controller
                     $to = date('Ymd', $t_date);
 
                     if (!empty($from_date) && $from_date !=  'dd-mm-yyyy') {
-                        $filter_date = " AND CM.cash_date BETWEEN '$from_date' AND '$to_date'";
+                        $filter_date_cash = " AND CM.cash_date BETWEEN '$from_date' AND '$to_date'";
+                        $filter_date_sell = " AND SM.sell_date BETWEEN '$from_date' AND '$to_date'";
+                        $filter_date_purchase = " AND PM.purchase_date BETWEEN '$from_date' AND '$to_date'";
+                        $filter_date_bank = " AND BM.bank_date BETWEEN '$from_date' AND '$to_date'";
                     } else {
-                        $filter_date = " AND CM.Cash_date = $to_date";
+                        $filter_date_cash = " AND CM.Cash_date = $to_date";
+                        $filter_date_sell = " AND SM.sell_date = $to_date";
+                        $filter_date_purchase = " AND PM.purchase_date = $to_date";
+                        $filter_date_bank = " AND BM.bank_date = $to_date";
                     }
                 }
 
                 if (!empty($member_name)) {
 
                     $member = " AND CM.fk_account_member_id	 = $member_name";
-                    $member_id = " AND AM.account_no = $member_name";
+                    $member_id = "AND AM.account_no = $member_name";
                     $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name, 'fk_financial_year_id' => $_SESSION['year']))->row();
                     $mem = "Name : " . $mem_name->member_name . "<br>";
                     $opening_balance =  $mem_name->opening_balance;
@@ -82,9 +91,9 @@ class Rojgar_Report extends Admin_Controller
                 // if (!empty($voucher_no)) {
                 //     $voucher = " AND CM.voucher_no = $voucher_no";
 
-                    // $member_id = " AND AM.account_no = $member_name";
-                    // $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name))->row();
-                    // $mem = " Member Name = " . $mem_name->member_name . "<br>";
+                // $member_id = " AND AM.account_no = $member_name";
+                // $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name))->row();
+                // $mem = " Member Name = " . $mem_name->member_name . "<br>";
                 // }
 
                 $year = " AND CM.fk_financial_year_id =" . $_SESSION['year'];
@@ -122,36 +131,98 @@ class Rojgar_Report extends Admin_Controller
                 //                    AND AM.status = 1
                 //                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . " )ORDER BY voucher_no ASC;")->result_array();
 
-                $data['table_data'] = $this->db->query("SELECT member_name,
-                                  account_no,
-                                  address,
-                                  mobile_number,
-                                  date,
-                                  fk_financial_year_id,
-                                  SUM(credit) AS credit,
-                                  SUM(debit) AS debit,
-                                  SUM(debit) -  SUM(credit) AS balance
-                                  FROM (
-                                  SELECT AM.member_name as member_name,
-                                      AM.account_no,
-                                      CM.fk_financial_year_id,
-                                      CM.cash_date as date,
-                                      AM.address,
-                                      AM.mobile_number,
-                                      SUM(CASE WHEN CM.transaction = 1 THEN CM.amount ELSE 0 END) AS credit,
-                                      SUM(CASE WHEN CM.transaction = 0 THEN CM.amount + AM.opening_balance ELSE 0 END) AS debit
-                                  FROM cash_management CM
-                                  JOIN account_master AM ON AM.account_no = CM.fk_account_member_id 
-                                  AND AM.fk_financial_year_id = " . $_SESSION['year'] . "
-                                  WHERE CM.status = 1
-                                      AND CM.deleted = 0
-                                      AND AM.status = 1
-                                      AND AM.deleted = 0 
-                                     " . $filter_date . $member . $year . "
-                                  GROUP BY AM.account_no, AM.member_name
-                                  ) AS subquery
-                                  GROUP BY member_name, account_no ORDER BY account_no ASC;")->result_array();
+                // $data['table_data'] = $this->db->query("SELECT member_name,
+                //                   account_no,
+                //                   address,
+                //                   mobile_number,
+                //                   date,
+                //                   fk_financial_year_id,
+                //                   SUM(credit) AS credit,
+                //                   SUM(debit) AS debit,
+                //                   SUM(debit) -  SUM(credit) AS balance
+                //                   FROM (
+                //                   SELECT AM.member_name as member_name,
+                //                       AM.account_no,
+                //                       CM.fk_financial_year_id,
+                //                       CM.cash_date as date,
+                //                       AM.address,
+                //                       AM.mobile_number,
+                //                       SUM(CASE WHEN CM.transaction = 1 THEN CM.amount ELSE 0 END) AS credit,
+                //                       SUM(CASE WHEN CM.transaction = 0 THEN CM.amount + AM.opening_balance ELSE 0 END) AS debit
+                //                   FROM cash_management CM
+                //                   JOIN account_master AM ON AM.account_no = CM.fk_account_member_id 
+                //                   AND AM.fk_financial_year_id = " . $_SESSION['year'] . "
+                //                   WHERE CM.status = 1
+                //                       AND CM.deleted = 0
+                //                       AND AM.status = 1
+                //                       AND AM.deleted = 0 
+                //                      " . $filter_date . $member . $year . "
+                //                   GROUP BY AM.account_no, AM.member_name
+                //                   ) AS subquery
+                //                   GROUP BY member_name, account_no ORDER BY account_no ASC;")->result_array();
 
+                $data['table_data'] = $this->db->query("SELECT AM.account_no, 
+                CM.amount,
+                CM.cash_date as transaction_date, 
+                CM.voucher_no,
+                'cash' as name,
+                NULL as item,
+                NULL as narration,
+                CASE WHEN CM.transaction = 1 THEN CM.amount ELSE NULL END as credit, 
+                CASE WHEN CM.transaction = 0 THEN CM.amount ELSE NULL END as debit
+                    FROM account_master AM
+                    JOIN cash_management CM ON AM.account_no = CM.fk_account_member_id 
+                    where CM.deleted = 0  
+                    AND CM.status = 1 
+                    " . $member_id . $filter_date_cash . "
+                 UNION ALL  
+                SELECT AM.account_no, 
+                SM.amount,
+                SM.sell_date as transaction_date, 
+                SM.voucher_no, 
+                'Sell' as name,
+                SM.fk_item_code as item,
+                SM.narration as narration,
+                SM.amount as credit, 
+                NULL as debit
+                    FROM account_master AM
+                    JOIN sell_management SM ON AM.account_no = SM.fk_account_member_id 
+                    where SM.deleted = 0 
+                    AND SM.status = 1
+                    " . $member_id .  $filter_date_sell . "
+                UNION ALL 
+                SELECT AM.account_no, 
+                PM.amount,
+                PM.purchase_date as transaction_date, 
+                PM.voucher_no, 
+                'Purchase' as name,
+                PM.fk_item_code as item,
+                PM.narration as narration,
+                NULL as credit,
+                PM.amount as debit
+                    FROM account_master AM
+                    JOIN purchase_management PM ON AM.account_no = PM.fk_account_member_id 
+                    where PM.deleted = 0 
+                    AND PM.status = 1 " . $member_id .  $filter_date_purchase . "
+                UNION ALL 
+                SELECT AM.account_no,
+                BM.amount, 
+                BM.bank_date as transaction_date, 
+                BM.voucher_no, 
+                'Bank' as name,
+                NULL as item,
+                NUll as narration,
+                CASE WHEN BM.transaction = 1 THEN BM.amount ELSE NULL END as credit, 
+                CASE WHEN BM.transaction = 0 THEN BM.amount ELSE NULL END as debit
+                    FROM account_master AM
+                    JOIN bank_management BM ON AM.account_no = BM.fk_account_member_id 
+                    where BM.deleted = 0 
+                    AND BM.status = 1 " . $member_id .  $filter_date_bank . "
+                  ORDER BY transaction_date ASC;")->result_array();
+
+                // print_r('<pre>');
+                // print_r($this->db->last_query());
+                // exit();
                 $data['from'] = $from_date;
                 $data['to'] = $to_date;
                 $data['member'] = $mem;
