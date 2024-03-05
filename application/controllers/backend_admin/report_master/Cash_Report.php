@@ -74,7 +74,7 @@ class Cash_Report extends Admin_Controller
 
                     $member = " AND CM.fk_account_member_id	 = $member_name";
                     $member_id = " AND AM.account_no = $member_name";
-                    $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name, 'fk_financial_year_id' => $_SESSION['year']))->row();
+                    $mem_name = $this->db->get_where('account_master', array('account_no' => $member_name, 'deleted' => 0, 'fk_financial_year_id' => $_SESSION['year']))->row();
                     $mem = "Name : " . $mem_name->member_name . "<br>";
                     $opening_balance =  $mem_name->opening_balance;
                     $created_at_date =  $mem_name->created_at;
@@ -123,11 +123,11 @@ class Cash_Report extends Admin_Controller
                                   AND CM.transaction = 0
                                    AND AM.status = 1
                                   AND AM.deleted = 0 AND AM.fk_financial_year_id = " . $_SESSION['year'] . $filter_date . $member . $voucher . $year . " )ORDER BY voucher_no ASC;")->result_array();
-             
 
                 $data['from'] = $from_date;
                 $data['to'] = $to_date;
                 $data['member'] = $mem;
+                $data['mem_name'] = $mem_name;
                 $data['opening_balance'] = $opening_balance;
                 $formatted_date = date("d-m-Y", strtotime($created_at_date));
                 $data['created_at_date'] = $formatted_date;
@@ -135,10 +135,12 @@ class Cash_Report extends Admin_Controller
                 $mpdf =  new \Mpdf\Mpdf(['format' => 'A5']);
                 //  $mpdf = new \Mpdf\Mpdf();
 
+                $name = $data['mem_name']->member_name . '.pdf';
+
                 $html = $this->load->view($this->viewPath . 'vc_return_pdf', $data, true);
 
                 $mpdf->WriteHTML($html);
-                $mpdf->Output();
+                $mpdf->Output($name, 'I');
             } else {
                 $this->data['page_title'] = 'Report';
 

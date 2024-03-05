@@ -29,10 +29,10 @@
                           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                           <?php echo $this->session->flashdata('success'); ?>
                       </div>
-                  <?php elseif ($this->session->flashdata('error')) : ?>
+                  <?php elseif ($this->session->flashdata('errors')) : ?>
                       <div class="alert alert-error alert-dismissible" role="alert">
                           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                          <?php echo $this->session->flashdata('error'); ?>
+                          <?php echo $this->session->flashdata('errors'); ?>
                       </div>
                   <?php endif; ?>
 
@@ -62,7 +62,7 @@
                                   <label for="mobile_no">Mobile No.</label>
                                   <input type="number" class="form-control" id="mobile_no" name="mobile_no" value="<?= $edit_data['mobile_number'] ?>" placeholder="Enter member number">
                               </div>
-<!-- 
+                              <!-- 
                               <div class="form-group col-md-6">
                                   <label for="email">Email</label>
                                   <input type="email" class="form-control" id="email" name="email" value="<?= $edit_data['email'] ?>" placeholder="Enter member email">
@@ -72,6 +72,23 @@
                                   <label for="opening_balance">Enter Opening Balance</label>
 
                                   <input type="text" class="form-control " id="opening_balance" name="opening_balance" value="<?= $edit_data['opening_balance']; ?>" placeholder="Enter Opening Balance" autocomplete="off">
+                              </div>
+                              <div class="form-group col-md-2">
+                                  <label for="Transaction">Transaction</label>
+                                  <div class="radio">
+                                      <label>
+                                          <input type="radio" class="transaction" name="transaction" id="transaction" value="1" <?php if ($edit_data['transaction'] == 1) {
+                                                                                                                                    echo "checked";
+                                                                                                                                }  ?> checked required>
+                                          Recipt
+                                      </label>
+                                      <label>
+                                          <input type="radio" class="transaction" name="transaction" id="transaction" value="0" <?php if ($edit_data['transactionḍ'] == 0) {
+                                                                                                                                    echo "checked";
+                                                                                                                                }  ?> required>
+                                          Payment
+                                      </label>
+                                  </div>
                               </div>
                           </div>
 

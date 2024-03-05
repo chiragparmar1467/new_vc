@@ -12,21 +12,25 @@
             margin-bottom: 0;
             font-family: "Courier New", monospace;
         }
+
         .styled-table {
             border-collapse: separate;
             width: 100%;
             /* margin-bottom: 5px; */
         }
+
         .styled-table thead tr {
             background-color: #0275D8;
             color: #FFFFFF;
             text-align: left;
         }
+
         .styled-table th,
         .styled-table td {
             padding: 5px;
             font-size: 12px;
         }
+
         .right {
             text-align: right;
 
@@ -102,43 +106,24 @@
 
             <table class="table text-center styled-table" style="margin-top:10px;text-align: center;">
                 <tr>
-                    <td>DATE</td>
-                    <td>Voucher No</td>
-                    <td>NAME & NARRATION</td>
-                    <td>CREDIT</td>
-                    <td>DEBIT</td>
+                    <td width="15%">DATE</td>
+                    <td width="15%">Voucher No</td>
+                    <td width="40%">NAME & NARRATION</td>
+                    <td width="15%">CREDIT</td>
+                    <td width="15%">DEBIT</td>
                 </tr>
                 <tr>
                     <td colspan="7" style="border-bottom: 2px solid black;"></td>
                 </tr>
-
-                <tr>
-                    <td><?php echo $mem_name->created_at; ?></td>
-
-                    <!-- <td>
-                        Open Bal.<?php if ($mem_name < 0) {
-                                        echo "(JAMA)";
-                                    } else {
-                                        echo "(Net Baki)";
-                                    } ?>
-                    </td> -->
-                    <td>
-                        Open Bal.<?php if ($mem_name < 0) {
-                                        // echo "(JAMA)";
-                                    } else {
-                                        // echo "(Net Baki)";
-                                    } ?>
-                    </td>
-                    <td></td>
-                    <td><?php if ($mem_name->transaction == 1) {
-                            echo ($mem_name->opening_balance);
-                        } ?></td>
-                    <td><?php if ($mem_name->transaction == 0) {
-                            echo ($mem_name->opening_balance);
-                        }
-                        ?></td>
-                </tr>
-                <?php
+                <?php if ($opening_balance == true) { ?>
+                    <tr>
+                        <td><?php echo $created_at_date; ?></td>
+                        <td>Open Bal.</td>
+                        <td></td>
+                        <td></td>
+                        <td><?php echo $opening_balance; ?></td>
+                    </tr>
+                <?php }
                 $i = 1; ?>
                 <?php if (!empty($table_data) || !empty($opening_balance)) { ?>
                     <?php foreach ($table_data as $k => $v) :   ?>
@@ -171,14 +156,8 @@
                     foreach ($table_data as $row) {
                         $credit += $row['credit'];
                     }
-                    if (!empty($credit)) {
-                        if ($mem_name->transaction == 1) {
-                            $creditopen = $credit + $mem_name->opening_balance;
-                        } else {
-                            $creditopen =  $credit;
-                        }
-                    ?>
-                        <td><b><?php echo $creditopen; ?></b></td>
+                    if (!empty($credit)) { ?>
+                        <td><b><?php echo $credit; ?></b></td>
                     <?php } else { ?>
                         <td><b>0</b></td>
                     <?php } ?>
@@ -186,12 +165,7 @@
                     foreach ($table_data as $row) {
                         $debit += $row['debit'];
                     }
-                    if ($mem_name->transaction == 1) {
-                        $debitopnbal = $debit;
-                    } else {
-                        $debitopnbal =  $debit + $mem_name->opening_balance;
-                    }
-                    // $debitopnbal =  ($debit) + ($opening_balance);
+                    $debitopnbal =  $debit + $opening_balance;
                     if (!empty($debitopnbal)) {
                     ?>
                         <td><b><?php echo $debitopnbal; ?></b></td>
@@ -199,16 +173,16 @@
                         <td><b>0</b></td>
                     <?php } ?>
                 </tr>
+            </table>
+            <table class="table text-center styled-table w-100">
                 <tr>
-                    <th style="text-align: left;">Net Baki... </b></th>
-                    <td></td>
-                    <td></td>
-                    <th style="text-align: center;">
-                        <?php echo $total = $debitopnbal - $creditopen; ?>
-                        </b>
-                    </th>
-                    <th style="text-align: left;"></th>
+                    <th style="text-align: left; width:70%">Net Baki... </b></th>
+                    <th style="text-align: center; width:15%"><?php echo $total = $debitopnbal - $credit; ?>
+                        </b></th>
+                    <th style="text-align: left; width:15%"></th>
                 </tr>
+
+
             </table>
             <table class="table text-center styled-table w-100">
                 <tr>

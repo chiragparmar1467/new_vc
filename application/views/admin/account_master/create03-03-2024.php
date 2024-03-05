@@ -3,6 +3,7 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Add <?php
+
                                                 echo $this->data['name']; ?></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
@@ -31,6 +32,8 @@
 
                 <form role="form" action="<?php echo base_url() . $this->controllerPath ?>/create/<?php echo $this->data['account_no'] + 1  ?>" method="post" enctype="multipart/form-data">
                     <div class="card-body row">
+
+
                         <div class="form-group col-md-6 ">
                             <label for="account_no">Account Number</label>
                             <input type="text" class="form-control" id="account_no" name="account_no" readonly value="<?php echo $this->data['account_no'] + 1  ?>" placeholder="Select party name account number is auto increment">
@@ -49,6 +52,7 @@
                             <label for="mobile_no">Mobile No.</label>
                             <input type="number" class="form-control" id="mobile_no" name="mobile_no" value="" placeholder="Enter member number">
                         </div>
+
                         <!-- <div class="form-group col-md-6">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="" placeholder="Enter member email">
@@ -58,19 +62,7 @@
 
                             <input type="text" class="form-control " id="opening_balance" name="opening_balance" value="0" placeholder="Enter Opening Balance" autocomplete="off" required>
                         </div>
-                        <div class="form-group col-md-2">
-                            <label for="Transaction">Transaction</label>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" class="transaction" name="transaction" id="transaction" value="1" required>
-                                    Recipt
-                                </label>
-                                <label>
-                                    <input type="radio" class="transaction" name="transaction" id="transaction" value="0" checked required>
-                                    Payment
-                                </label>
-                            </div>
-                        </div>
+
                     </div>
 
                     <div class="card-footer">
@@ -96,10 +88,10 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
-            <?php } elseif ($this->session->flashdata('errors')) { ?>
+            <?php } elseif ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-error alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <?php echo $this->session->flashdata('errors'); ?>
+                    <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
 
@@ -135,7 +127,6 @@
                                     <th>Mobile Number</th>
                                     <!-- <th>Email</th> -->
                                     <th>Opening Balance</th>
-                                    <th>Transaction</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -163,17 +154,9 @@
                                             </td>
 
                                             <td>
-                                                <?php if ($v['transaction'] == 1) { ?>
-                                                    <a href="#" style="color:#009100">Recipt</a>
-
-                                                <?php   } else { ?>
-                                                    <a href="#" class="text-danger">Payment</a>
-                                                <?php       } ?>
-                                            </td>
-                                            <td>
                                                 <?php
                                                 $hide = '';
-                                                if ($v['status'] == 0) {
+                                                if ($v['member_status'] == 0) {
 
                                                     $hide = "style='color:red;pointer-events: none; opacity: 0.5;'";
                                                 }

@@ -51,7 +51,7 @@
                                         <div class="field_wrapper1">
 
                                             <div class="card-body row">
-                                                <div class="form-group col-md-4">
+                                                <div class="form-group col-md-4 ">
                                                     <label for="account_no">Account Number</label>
                                                     <input type="text" class="form-control" id="account_no" name="account_no" readonly value="<?php echo $this->data['account_no'] + 1  ?>" placeholder="Select party name account number is auto increment">
                                                 </div>
@@ -90,18 +90,19 @@
                                                 </div> -->
 
                                                 <!-- <div class="form-group col-md-3">
-                                                    <label for="gender">Status</label>
-                                                    <div class="radio">
-                                                        <label>
-                                                            <input type="radio" name="status" id="active" value="1" checked>
-                                                            Active
-                                                        </label>
-                                                        <label>
-                                                            <input type="radio" name="status" id="inactive" value="0">
-                                                            Inactive
-                                                        </label>
-                                                    </div>
-                                                </div> -->
+                                                <label for="gender">Status</label>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="status" id="active" value="1" checked>
+                                                        Active
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="status" id="inactive" value="0">
+                                                        Inactive
+                                                    </label>
+                                                </div>
+                                            </div> -->
+
                                             </div>
                                             <div class="added_fields_container"></div>
                                         </div>
@@ -111,7 +112,7 @@
                                             <a href="<?php echo base_url() . $this->controllerPath ?>" class="btn btn-warning">Back</a>
                                         </div>
                                     </form>
-                                </div> 
+                                </div>
                                 <!-- /.box -->
                             </div>
                         </div>

@@ -28,10 +28,10 @@ class Account extends Admin_Controller
         // $this->data['js'] = 'application/views/groups/index-js.php';
         $this->data['page_title'] = 'Account';
 
-        $table_data = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id =' . $_SESSION['year'])->result_array();
+        $table_data = $this->db->query('select * from account_master where deleted = 0 AND status = 1 AND fk_financial_year_id ='.$_SESSION['year'])->result_array();
 
         $this->data['account_no'] = end($table_data)['account_no'];
-
+        
         $this->data['table_data'] = $table_data;
 
         $this->render_template($this->viewPath . 'create', $this->data);
@@ -44,21 +44,22 @@ class Account extends Admin_Controller
         $this->data['page_title'] = 'Add Account';
 
         $this->form_validation->set_rules('member_name', 'Member Name', 'required');
-
+        
         if ($this->form_validation->run() == TRUE) {
-
+                
 
             $data = array(
                 'member_name' => $this->input->post('member_name'),
                 'address' => $this->input->post('address'),
                 'mobile_number' => $this->input->post('mobile_no'),
-                'transaction' => $this->input->post('transaction'),
                 // 'email' => $this->input->post('email'),
+                'status' => $this->input->post('status'),
                 'opening_balance' => $this->input->post('opening_balance'),
                 'fk_financial_year_id' => $_SESSION['year'],
                 'account_no' =>  $this->input->post('account_no'),
                 'status' => 1
             );
+               
 
             $create = $this->Crud_model->save($this->tableName, $data);
             if ($create == true) {
@@ -78,34 +79,27 @@ class Account extends Admin_Controller
 
     public function edit($acc_no = null)
     {
+
+
         $this->data['page_title'] = 'Edit Account Details';
+
+
         if ($acc_no) {
 
             $this->form_validation->set_rules('member_name', 'Member Name', 'required');
 
             if ($this->form_validation->run() == TRUE) {
-                // $data = array(
-                //     'member_name' => $this->input->post('member_name'),
-                //     'address' => $this->input->post('address'),
-                //     'mobile_number' => $this->input->post('mobile_no'),
-                //     'transaction' => $this->input->post('transaction'),
-                //     // 'email' => $this->input->post('email'),
-                //     'status' => 1,
-                //     'opening_balance' => $this->input->post('opening_balance'),
-                //     'fk_financial_year_id' => $_SESSION['year'],
-                //     'account_no' =>  $acc_no,
-                // );
+
 
                 $data = array(
                     'member_name' => $this->input->post('member_name'),
                     'address' => $this->input->post('address'),
                     'mobile_number' => $this->input->post('mobile_no'),
-                    'transaction' => $this->input->post('transaction'),
                     // 'email' => $this->input->post('email'),
+                    'status' => $this->input->post('status'),
                     'opening_balance' => $this->input->post('opening_balance'),
                     'fk_financial_year_id' => $_SESSION['year'],
                     'account_no' =>  $acc_no,
-                    'status' => 1
                 );
 
                 // $data['acc_closing_date'] = date('Y-m-d',$closing_date);
@@ -116,7 +110,7 @@ class Account extends Admin_Controller
                     redirect($this->controllerPath, 'refresh');
                 } else {
                     $this->session->set_flashdata('errors', 'Error occurred!!');
-                    redirect($this->controllerPath . '/index' . $acc_no, 'refresh');
+                    redirect($this->controllerPath . '/index' . $id, 'refresh');
                 }
             } else {
 

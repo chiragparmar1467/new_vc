@@ -264,11 +264,15 @@
                 '<label for = "Transaction" >Transaction </label>' +
                 '<div class = "radio" >' +
                 '<label>' +
-                '<input type = "radio" name ="row[' + x + '][transaction]" id ="transaction_' + x + '_recipt" value = "1" <?php if ($transaction == 1) { echo "checked"; }  ?>>' +
+                '<input type = "radio" name ="row[' + x + '][transaction]" id ="transaction_' + x + '_recipt" value = "1" <?php if ($transaction == 1) {
+                                                                                                                                echo "checked";
+                                                                                                                            }  ?>>' +
                 'Recipt' +
                 '</label>' +
                 '<label>' +
-                '<input type = "radio" class="ml-1" name ="row[' + x + '][transaction]" id = "transaction_' + x + '_payment" value = "0" <?php if ($transaction == 0) { echo "checked";  }  ?>>' +
+                '<input type = "radio" class="ml-1" name ="row[' + x + '][transaction]" id = "transaction_' + x + '_payment" value = "0" <?php if ($transaction == 0) {
+                                                                                                                                                echo "checked";
+                                                                                                                                            }  ?>>' +
                 'Payment' +
                 '</label>' +
                 '</div>' +
